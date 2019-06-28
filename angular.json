@@ -119,6 +119,41 @@
           }
         }
       }
+    },
+    "openapi-viewer": {
+      "projectType": "library",
+      "root": "projects/openapi-viewer",
+      "sourceRoot": "projects/openapi-viewer/src",
+      "prefix": "oav",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/openapi-viewer/tsconfig.lib.json",
+            "project": "projects/openapi-viewer/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/openapi-viewer/src/test.ts",
+            "tsConfig": "projects/openapi-viewer/tsconfig.spec.json",
+            "karmaConfig": "projects/openapi-viewer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/openapi-viewer/tsconfig.lib.json",
+              "projects/openapi-viewer/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "openapi-ui"
 }

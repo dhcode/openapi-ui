@@ -1,0 +1,13 @@
+<div *ngFor="let req of requests" [className]="'oav-request method-'+req.request.method.toLowerCase()">
+  <h3 (click)="toggleRequest(req)">
+    <a href="javascript:" class="mainlink" (click)="toggleRequest(req); $event.stopPropagation()">
+      <span [className]="'method method-'+req.request.method.toLowerCase()">{{req.request.method.toUpperCase()}}</span>
+      <span class="path">{{getShortUrl(req)}}</span>
+    </a>
+    <span class="status" *ngIf="!req.running && req.response">{{req.response.status}}</span>
+    <button type="button" class="toggle-button" [class.open]="openRequests.has(req)"></button>
+  </h3>
+
+  <oav-request-view [request]="req" [hidden]="!openRequests.has(req)"></oav-request-view>
+
+</div>

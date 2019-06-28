@@ -1,0 +1,11 @@
+<ng-container [formGroup]="formGroup">
+  <div [formArrayName]="name">
+    <div class="multi-item-entry" *ngFor="let control of controls; let i=index">
+      <input type="text" [formControlName]="i.toString()" (blur)="onTouched()">
+      <button type="button" (click)="removeValue(i)" [disabled]="disabled">-</button>
+    </div>
+  </div>
+  <div class="oav-btn-container">
+    <button type="button" (click)="addControl()" class="oav-add-btn" [disabled]="disabled">+</button>
+  </div>
+</ng-container>

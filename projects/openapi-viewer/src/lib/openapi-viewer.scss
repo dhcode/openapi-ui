@@ -1,0 +1,440 @@
+$method-colors: (
+  "get": #2681ac,
+  "post": #25ac20,
+  "put": #ac700e,
+  "delete": #ac0003,
+  "options": #ac03a6,
+  "head": #87aaac,
+  "trace": #87ac89,
+);
+
+.oav-layout {
+  display: flex;
+
+  .oav-spec {
+    flex: 1;
+
+  }
+
+  .oav-requests {
+    display: none;
+    padding: 1rem;
+  }
+
+  &.open {
+    .oav-requests {
+      display: block;
+      min-width: 30rem;
+    }
+  }
+}
+
+
+.openapi-tag {
+
+  oav-group {
+    display: none;
+  }
+
+  &.open {
+    oav-group {
+      display: block;
+    }
+  }
+
+  h2 {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: #ccc solid 1px;
+
+    &:hover {
+      background-color: #eeeeee;
+    }
+
+    .mainlink {
+      text-decoration: inherit;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    small {
+      padding: 0 10px;
+      font-size: 1rem;
+      font-weight: 400;
+      flex: 1;
+
+      &.extra-link {
+        flex: none;
+      }
+    }
+
+  }
+
+}
+
+
+.openapi-operation {
+
+  background: #f1f1f1;
+  margin: 0.5rem 0;
+
+  @each $method, $color in $method-colors {
+    &.method-#{$method} {
+      background-color: rgba($color, 0.1);
+
+      h3:hover {
+        background-color: rgba($color, 0.2);
+      }
+    }
+  }
+
+  oav-operation {
+    display: none;
+  }
+
+  &.open {
+    oav-operation {
+      display: block;
+    }
+
+    padding-bottom: 1rem;
+  }
+
+  h3 {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 0;
+
+    .mainlink {
+      text-decoration: inherit;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .method {
+      width: 5em;
+      display: inline-block;
+      color: #fff;
+      text-align: center;
+      padding: 0.2em;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+    @each $method, $color in $method-colors {
+      .method-#{$method} {
+        background-color: $color;
+      }
+    }
+
+    .path {
+      font-family: monospace;
+      font-size: 1.2rem;
+    }
+
+    small {
+      padding: 0 10px;
+      font-size: 0.8rem;
+      font-weight: 400;
+      flex: 1;
+
+      &.extra-link {
+        flex: none;
+      }
+    }
+
+  }
+
+  &.deprecated h3 .mainlink {
+    text-decoration: line-through;
+  }
+
+
+}
+
+.openapi-operation-details {
+  padding: 0 2rem;
+
+  .send-btn {
+    color: #fff;
+    background-color: #2681ac;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: 0;
+    margin: 0.2rem 0;
+  }
+
+  .send-btn:hover {
+    background-color: #269ed0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+  }
+
+  h4 {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 0.5rem 2rem;
+    margin: 0.5rem -2rem;
+  }
+}
+
+.toggle-button {
+  border: none;
+  background: none;
+  outline: none;
+
+  &:before {
+    font-size: 1rem;
+    font-weight: 600;
+    content: '〉';
+    display: inline-block;
+    transform-origin: 25% 50%;
+    transition: 200ms transform ease-out;
+  }
+
+  &.open:before {
+    transform: rotate(90deg);
+  }
+}
+
+
+.openapi-parameter {
+  border-bottom: 1px solid #cccccc;
+  padding: 0.2rem 0;
+  box-sizing: border-box;
+
+  .name {
+    margin: 0.2rem 0;
+    padding-right: 0.5rem;
+  }
+
+  .input {
+    margin: 0.2rem 0;
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.2rem;
+      font-size: 1rem;
+      font-family: monospace;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      min-height: 10em;
+    }
+
+    padding-right: 0.5rem;
+  }
+
+  .description {
+    margin: 0.2rem 0;
+  }
+
+  .required {
+    color: #ac0003;
+  }
+
+  .param-in {
+    color: #828282;
+    font-size: 0.8rem;
+  }
+
+  .type {
+
+  }
+
+  .format {
+    color: #828282;
+    font-size: 0.8rem;
+  }
+
+}
+
+.multi-item-entry {
+  display: flex;
+  margin-bottom: 0.2rem;
+
+  input {
+    padding: 0.2rem;
+    font-size: 1rem;
+    font-family: monospace;
+    box-sizing: border-box;
+  }
+
+  button {
+    color: #fff;
+    background-color: #a7a7ac;
+    font-size: 1rem;
+    padding: 0.2rem 1rem;
+    border: 0;
+    min-width: 2.6rem;
+    margin-left: 0.2rem;
+  }
+
+  button:hover {
+    background-color: #d4d4d9;
+  }
+}
+
+.oav-add-btn {
+  color: #fff;
+  background-color: #a7a7ac;
+  font-size: 1rem;
+  padding: 0.2rem 1rem;
+  border: 0;
+  min-width: 2.6rem;
+}
+
+.oav-add-btn:hover {
+  background-color: #d4d4d9;
+}
+
+.oav-btn-container {
+  text-align: right;
+}
+
+.oav-divided-container {
+  display: flex;
+
+  .main {
+    flex: 1;
+  }
+}
+
+.oav-request {
+
+  background: #f1f1f1;
+  margin: 0.5rem 0;
+
+  @each $method, $color in $method-colors {
+    &.method-#{$method} {
+      background-color: rgba($color, 0.1);
+
+      h3:hover {
+        background-color: rgba($color, 0.2);
+      }
+    }
+  }
+
+  h3 {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 0;
+
+    .mainlink {
+      text-decoration: inherit;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .method {
+      width: 5em;
+      display: inline-block;
+      color: #fff;
+      text-align: center;
+      padding: 0.2em;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+    @each $method, $color in $method-colors {
+      .method-#{$method} {
+        background-color: $color;
+      }
+    }
+
+    .path {
+      font-family: monospace;
+      font-size: 1.2rem;
+    }
+
+    .status {
+      padding: 0 10px;
+      font-size: 0.8rem;
+      font-weight: 400;
+      flex: 1;
+    }
+
+  }
+
+  .oav-request-details {
+
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  textarea {
+    font-family: monospace;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+    background: #ffffff;
+    width: 100%;
+    min-height: 5rem;
+  }
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+
+@media (min-width: 60rem) {
+  .openapi-parameter {
+    display: flex;
+
+    .name {
+      width: 15rem;
+    }
+
+    .input {
+      min-width: 30rem;
+    }
+
+    .description {
+      min-width: 15rem;
+    }
+  }
+}
+
+
+.openapi-response {
+  border-bottom: 1px solid #cccccc;
+  padding: 0.2rem 0;
+  box-sizing: border-box;
+
+  .status-code {
+    margin: 0.2rem 0;
+    padding-right: 0.5rem;
+  }
+
+  .description {
+    margin: 0.2rem 0;
+  }
+
+}
+
+@media (min-width: 60rem) {
+  .openapi-response {
+    display: flex;
+
+    .status-code {
+      width: 15rem;
+    }
+
+    .description {
+      min-width: 30rem;
+    }
+  }
+}

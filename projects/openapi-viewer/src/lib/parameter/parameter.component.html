@@ -1,0 +1,55 @@
+<div class="openapi-parameter" [formGroup]="controlContainer.control">
+  <div class="name">
+    <div>
+      <strong>{{parameter.name}}</strong><span class="required" *ngIf="parameter.required" title="required">*</span>:
+      <span class="type">{{parameter.type}}</span>
+
+    </div>
+    <div class="param-in">
+      {{parameter.in}} <span class="format" *ngIf="parameter.format">({{parameter.format}})</span>
+    </div>
+
+  </div>
+  <div class="input">
+
+    <ng-container *ngIf="displayMode === 'text'">
+      <input [formControlName]="parameter.name" [placeholder]="parameter.name">
+    </ng-container>
+
+    <ng-container *ngIf="displayMode === 'integer'">
+      <input type="number" [formControlName]="parameter.name" [placeholder]="parameter.name">
+    </ng-container>
+
+    <ng-container *ngIf="displayMode === 'number'">
+      <input type="number" [formControlName]="parameter.name" [placeholder]="parameter.name">
+    </ng-container>
+
+    <ng-container *ngIf="displayMode === 'file'">
+      <input type="file" [formControlName]="parameter.name" [placeholder]="parameter.name" >
+    </ng-container>
+
+    <ng-container *ngIf="displayMode === 'object'">
+      <textarea [formControlName]="parameter.name" [placeholder]="parameter.name"></textarea>
+    </ng-container>
+
+    <ng-container *ngIf="displayMode === 'array'">
+      <textarea [formControlName]="parameter.name" [placeholder]="parameter.name"></textarea>
+    </ng-container>
+
+    <ng-container *ngIf="displayMode === 'arrayWithSelection'">
+      <select [formControlName]="parameter.name" multiple>
+        <option *ngFor="let opt of (parameter.items?.enum || parameter.schema?.enum)" [value]="opt">{{opt}}</option>
+      </select>
+    </ng-container>
+
+    <ng-container *ngIf="displayMode === 'arrayWithPrimitive'">
+      <oav-multi-items-input [formControlName]="parameter.name"></oav-multi-items-input>
+    </ng-container>
+
+
+  </div>
+  <div class="description">
+    {{parameter.description}}
+  </div>
+
+</div>

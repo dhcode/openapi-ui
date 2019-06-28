@@ -1,0 +1,16 @@
+<div class="oav-request-details">
+  <ng-container *ngIf="!request.running">
+
+
+    <div class="content">
+      <p class="mt-0">
+        Status: {{request.response.status}} {{request.response.statusText}}
+        | Duration: {{getDuration()}}ms
+      </p>
+
+      <textarea>{{body}}</textarea>
+    </div>
+
+  </ng-container>
+
+</div>
