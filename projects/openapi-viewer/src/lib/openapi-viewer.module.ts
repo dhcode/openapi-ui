@@ -10,9 +10,10 @@ import { ResponsesComponent } from './responses/responses.component';
 import { MultiItemsInputComponent } from './parameter/multi-items-input/multi-items-input.component';
 import { RequestsListComponent } from './requests-list/requests-list.component';
 import { RequestViewComponent } from './requests-list/request-view/request-view.component';
+import { OpenableDirective } from './directives/openable.directive';
 
 @NgModule({
-  declarations: [OpenapiViewerComponent, GroupComponent, OperationComponent, ParameterComponent, ResponsesComponent, MultiItemsInputComponent, RequestsListComponent, RequestViewComponent],
+  declarations: [OpenapiViewerComponent, GroupComponent, OperationComponent, ParameterComponent, ResponsesComponent, MultiItemsInputComponent, RequestsListComponent, RequestViewComponent, OpenableDirective],
   imports: [
     CommonModule,
     RouterModule,

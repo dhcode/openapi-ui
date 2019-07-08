@@ -18,7 +18,11 @@ $method-colors: (
 
   .oav-requests {
     display: none;
-    padding: 1rem;
+
+    .oav-requests-container {
+      padding: 1rem;
+    }
+
   }
 
   &.open {
@@ -356,6 +360,7 @@ $method-colors: (
     .path {
       font-family: monospace;
       font-size: 1.2rem;
+      word-break: break-all;
     }
 
     .status {
@@ -369,6 +374,12 @@ $method-colors: (
 
   .oav-request-details {
 
+  }
+
+  h4 {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 0.5rem 2rem;
+    margin: 0.5rem -2rem;
   }
 
   .content {
@@ -389,6 +400,28 @@ $method-colors: (
   margin-top: 0;
 }
 
+.d-flex {
+  display: flex;
+}
+
+.flex-grow-1 {
+  flex: 1;
+}
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.loading:before {
+  content: '↻';
+  display: inline-block;
+  animation: spin-loader 2s linear infinite;
+}
+
+@keyframes spin-loader {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @media (min-width: 60rem) {
   .openapi-parameter {

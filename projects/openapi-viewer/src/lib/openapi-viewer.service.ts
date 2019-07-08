@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OpenAPIObject, PathItemObject, ResponseObject, TagObject } from 'openapi3-ts';
-import { OperationObject, ParameterObject, ReferenceObject, ServerObject } from 'openapi3-ts/src/model/OpenApi';
+import { OperationObject, ParameterObject, ServerObject } from 'openapi3-ts/src/model/OpenApi';
 import { pointer } from 'jsonref';
 import Swagger from 'swagger-client';
 
@@ -35,7 +35,7 @@ export interface OavRequest {
   error?: string;
   startTs: Date;
   endTs: Date;
-  response: any;
+  response: Response;
 }
 
 @Injectable()

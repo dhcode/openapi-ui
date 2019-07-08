@@ -12,7 +12,10 @@ export class RequestViewComponent implements OnInit, DoCheck {
   readBody = false;
   body: string;
 
-  constructor() { }
+  headers: string;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -20,6 +23,10 @@ export class RequestViewComponent implements OnInit, DoCheck {
   ngDoCheck(): void {
     if (!this.readBody && this.request.response) {
       this.readBody = true;
+      this.headers = '';
+      this.request.response.headers.forEach((value, key) => {
+        this.headers += key + ': ' + value + '\n';
+      });
       this.request.response.text().then(text => {
         this.body = text;
       });

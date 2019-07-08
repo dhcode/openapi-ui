@@ -5,6 +5,7 @@
       <span class="path">{{getShortUrl(req)}}</span>
     </a>
     <span class="status" *ngIf="!req.running && req.response">{{req.response.status}}</span>
+    <span class="loading" *ngIf="req.running"></span>
     <button type="button" class="toggle-button" [class.open]="openRequests.has(req)"></button>
   </h3>
 

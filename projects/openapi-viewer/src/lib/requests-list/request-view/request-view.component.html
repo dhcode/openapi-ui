@@ -3,11 +3,15 @@
 
 
     <div class="content">
-      <p class="mt-0">
-        Status: {{request.response.status}} {{request.response.statusText}}
-        | Duration: {{getDuration()}}ms
-      </p>
+      <div class="d-flex justify-content-between">
+        <div>Status: {{request.response.status}} {{request.response.statusText}}</div>
+        <div>{{getDuration()}}ms</div>
+      </div>
 
+      <h4 class="toggle-button" oavOpenable #openable="openable">Response headers</h4>
+      <textarea [hidden]="!openable.open">{{headers}}</textarea>
+
+      <h4>Response body</h4>
       <textarea>{{body}}</textarea>
     </div>
 
