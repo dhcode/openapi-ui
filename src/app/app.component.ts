@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { OpenAPIObject } from 'openapi3-ts';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +21,7 @@ export class AppComponent implements OnInit {
   }
 
   loadSpec() {
+    this.spec = null;
     this.http.get<OpenAPIObject>(this.url).subscribe(s => {
       this.spec = s;
     });

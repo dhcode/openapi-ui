@@ -38,6 +38,7 @@ export class OpenapiViewerComponent implements OnInit, OnChanges {
     if (changes.spec) {
       if (changes.spec.currentValue) {
         this.loading = true;
+        this.tags = [];
         this.openApiService.loadSpec(changes.spec.currentValue).then(() => {
           this.loading = false;
           this.loadTags();

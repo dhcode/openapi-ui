@@ -1,3 +1,12 @@
+<form class="d-flex align-items-center" (submit)="loadSpec()">
+  <span>Specification URL: </span>
+  <div class="flex-grow-1">
+    <input class="spec-url" name="url" type="text" [(ngModel)]="url">
+  </div>
+  <div>
+    <button class="send-btn">Load</button>
+  </div>
+</form>
 <ng-container *ngIf="spec">
   <oav-openapi-viewer [spec]="spec"></oav-openapi-viewer>
 </ng-container>
