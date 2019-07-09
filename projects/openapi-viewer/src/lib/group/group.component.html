@@ -1,19 +1,10 @@
 <ng-container *ngFor="let path of paths">
 
-  <div *ngFor="let op of path.operations" [className]="'openapi-operation method-'+op.method" [class.deprecated]="op.operation.deprecated"
-       [class.open]="openOperations.has(op.operation.operationId)" [id]="tag +'/'+ op.operation.operationId">
-    <h3 (click)="toggleOp(op)">
-      <a routerLink [fragment]="getFragment(op)" class="mainlink" (click)="toggleOp(op); $event.stopPropagation()">
-        <span [className]="'method method-'+op.method">{{op.method.toUpperCase()}}</span>
-        <span class="path">{{path.path}}</span>
-      </a>
-      <small>{{op.operation.summary}}</small>
-      <button type="button" class="toggle-button" [class.open]="openOperations.has(op.operation.operationId)"></button>
-    </h3>
+  <ng-container *ngFor="let op of path.operations">
 
     <oav-operation [tag]="tag" [pathItem]="path" [operationItem]="op"></oav-operation>
 
-  </div>
+  </ng-container>
 
 </ng-container>
 

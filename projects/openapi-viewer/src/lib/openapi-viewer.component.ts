@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   providers: [OpenapiViewerService],
   encapsulation: ViewEncapsulation.None
 })
-export class OpenapiViewerComponent implements OnInit, OnChanges, DoCheck {
+export class OpenapiViewerComponent implements OnInit, OnChanges {
 
   @Input() spec: OpenAPIObject;
 
@@ -19,10 +19,6 @@ export class OpenapiViewerComponent implements OnInit, OnChanges, DoCheck {
   loading = false;
 
   openFragments = new Set();
-
-  requestOpen = false;
-
-  private lastRequestsCount = 0;
 
   constructor(private openApiService: OpenapiViewerService,
               private router: Router,
@@ -37,12 +33,6 @@ export class OpenapiViewerComponent implements OnInit, OnChanges, DoCheck {
     });
   }
 
-  ngDoCheck(): void {
-    if (!this.requestOpen && this.lastRequestsCount < this.openApiService.requests.length) {
-      this.requestOpen = true;
-    }
-    this.lastRequestsCount = this.openApiService.requests.length;
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.spec) {
@@ -73,10 +63,6 @@ export class OpenapiViewerComponent implements OnInit, OnChanges, DoCheck {
     } else {
       this.router.navigate([], {fragment: tag});
     }
-  }
-
-  toggleRequests() {
-    this.requestOpen = !this.requestOpen;
   }
 
 }

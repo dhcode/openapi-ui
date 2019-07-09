@@ -28,6 +28,7 @@ export interface ResponseItem extends ResponseObject {
 }
 
 export interface OavRequest {
+  id: string;
   pathItem: PathItem;
   operationsItem: OperationsItem;
   request: any;
@@ -99,8 +100,9 @@ export class OpenapiViewerService {
     return Swagger.buildRequest(params);
   }
 
-  runRequest(pathItem: PathItem, operationsItem: OperationsItem, request: any) {
+  runRequest(pathItem: PathItem, operationsItem: OperationsItem, request: any): OavRequest {
     const reqInfo: OavRequest = {
+      id: Math.floor(0x100000000 + Math.random() * 0x100000000).toString(16),
       pathItem,
       operationsItem,
       request,
@@ -121,7 +123,7 @@ export class OpenapiViewerService {
       console.log('request error', err);
     });
 
-
+    return reqInfo;
   }
 
   resetSpec() {

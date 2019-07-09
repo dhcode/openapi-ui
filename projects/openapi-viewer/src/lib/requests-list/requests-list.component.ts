@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OavRequest, OpenapiViewerService } from '../openapi-viewer.service';
 
 @Component({
@@ -9,16 +9,12 @@ export class RequestsListComponent implements OnInit {
 
   openRequests = new Set();
 
-  body: string = null;
+  @Input() requests: OavRequest[] = [];
 
   constructor(private openApiService: OpenapiViewerService) {
   }
 
   ngOnInit() {
-  }
-
-  get requests(): OavRequest[] {
-    return this.openApiService.requests;
   }
 
   toggleRequest(req: OavRequest) {

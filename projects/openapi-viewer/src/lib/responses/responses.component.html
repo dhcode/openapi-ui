@@ -1,8 +1,15 @@
-<div *ngFor="let res of responses" class="openapi-response">
-  <div class="status-code">
-    {{res.status}}
+<ng-container *ngFor="let res of responses">
+  <div class="openapi-response" [oavOpenable]="!!res.example" #openable="openable">
+    <div class="status-code">
+      {{res.status}}
+    </div>
+    <div class="description">
+      {{res.description}}
+    </div>
+    <div class="ml-auto" [class.toggle-button]="res.example" [class.open]="openable.open"></div>
   </div>
-  <div class="description">
-    {{res.description}}
+  <div class="openapi-response-example" *ngIf="openable.open">
+    <textarea>{{res.example}}</textarea>
   </div>
-</div>
+
+</ng-container>

@@ -8,32 +8,6 @@ $method-colors: (
   "trace": #87ac89,
 );
 
-.oav-layout {
-  display: flex;
-
-  .oav-spec {
-    flex: 1;
-
-  }
-
-  .oav-requests {
-    display: none;
-
-    .oav-requests-container {
-      padding: 1rem;
-    }
-
-  }
-
-  &.open {
-    .oav-requests {
-      display: block;
-      min-width: 30rem;
-    }
-  }
-}
-
-
 .openapi-tag {
 
   oav-group {
@@ -95,12 +69,12 @@ $method-colors: (
     }
   }
 
-  oav-operation {
+  .oav-operation-details {
     display: none;
   }
 
   &.open {
-    oav-operation {
+    .oav-operation-details {
       display: block;
     }
 
@@ -162,7 +136,7 @@ $method-colors: (
 
 }
 
-.openapi-operation-details {
+.oav-operation-details {
   padding: 0 2rem;
 
   .send-btn {
@@ -186,6 +160,27 @@ $method-colors: (
     background-color: rgba(255, 255, 255, 0.6);
     padding: 0.5rem 2rem;
     margin: 0.5rem -2rem;
+  }
+}
+
+.oav-operation-layout {
+  display:flex;
+  .openapi-operation {
+    flex: 1;
+  }
+  .oav-operation-requests {
+    min-width: 30rem;
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 80rem) {
+  .oav-operation-layout {
+    display: block;
+
+    .oav-operation-requests {
+      margin-left: 0;
+    }
   }
 }
 
@@ -259,6 +254,17 @@ $method-colors: (
     font-size: 0.8rem;
   }
 
+}
+
+.openapi-response-example {
+  textarea {
+    width: 100%;
+    padding: 0.2rem;
+    font-size: 1rem;
+    font-family: monospace;
+    box-sizing: border-box;
+    min-height: 10em;
+  }
 }
 
 .multi-item-entry {
@@ -399,6 +405,9 @@ $method-colors: (
 .mt-0 {
   margin-top: 0;
 }
+.ml-auto {
+  margin-left: auto;
+}
 
 .d-flex {
   display: flex;
@@ -409,6 +418,17 @@ $method-colors: (
 }
 .justify-content-between {
   justify-content: space-between;
+}
+.normal-text {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.oav-error {
+  color: #ac0003;
+}
+.openable {
+  cursor: pointer;
 }
 
 .loading:before {
@@ -432,11 +452,12 @@ $method-colors: (
     }
 
     .input {
-      min-width: 30rem;
+      width: 50%;
+
     }
 
     .description {
-      min-width: 15rem;
+      width: 50%;
     }
   }
 }

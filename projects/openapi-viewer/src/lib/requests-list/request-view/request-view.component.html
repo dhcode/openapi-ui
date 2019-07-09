@@ -11,8 +11,13 @@
       <h4 class="toggle-button" oavOpenable #openable="openable">Response headers</h4>
       <textarea [hidden]="!openable.open">{{headers}}</textarea>
 
-      <h4>Response body</h4>
+      <h4 class="d-flex justify-content-between">
+        <span>Response body</span>
+        <span class="normal-text">{{size | number}} bytes</span>
+      </h4>
       <textarea>{{body}}</textarea>
+
+      <pre *ngIf="error" class="oav-error">{{error}}</pre>
     </div>
 
   </ng-container>

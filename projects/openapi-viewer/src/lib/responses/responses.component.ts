@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ResponseItem } from '../openapi-viewer.service';
+import { exampleFromSchema } from '../util/data-generator.util';
 
 @Component({
   selector: 'oav-responses',
@@ -11,9 +12,16 @@ export class ResponsesComponent implements OnInit {
 
   @Input() responseType: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+    for (const res of this.responses) {
+      if (res.schema) {
+        res.example = JSON.stringify(exampleFromSchema(res.schema), null, 2);
+      }
+    }
   }
+
 
 }

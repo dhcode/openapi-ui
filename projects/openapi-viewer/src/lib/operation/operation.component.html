@@ -1,25 +1,46 @@
-<div class="openapi-operation-details">
-  <p *ngIf="operationItem.operation.description">
-    {{operationItem.operation.description}}
-  </p>
-  <pre>{{operationItem.operation | json}}</pre>
-
-  <form (submit)="send()" [formGroup]="formGroup">
-    <h4>Parameters</h4>
-    <ng-container *ngIf="operationItem.parameters?.length">
-      <oav-parameter *ngFor="let param of operationItem.parameters" [parameter]="param"></oav-parameter>
-    </ng-container>
-    <button class="send-btn" [disabled]="formGroup.invalid">Send request</button>
-  </form>
-
-  <h4 class="oav-divided-container toggle-button left" oavOpenable #openable="openable">
-    <span class="main">Responses</span>
-    <select class="response-type-select" name="responseType" [(ngModel)]="responseType">
-      <option *ngFor="let resType of operationItem.responseTypes" [value]="resType">{{resType}}</option>
-    </select>
-  </h4>
-
-  <oav-responses [responses]="operationItem.responses" [responseType]="responseType" [hidden]="!openable.open"></oav-responses>
+<div class="oav-operation-layout">
+  <div [className]="'openapi-operation method-'+operationItem.method" [class.deprecated]="operation.deprecated"
+       [class.open]="open" [id]="tag +'/'+ operation.operationId">
+    <h3 (click)="toggleOpen()">
+      <a routerLink [fragment]="getFragment()" class="mainlink" (click)="toggleOpen(); $event.stopPropagation()">
+        <span [className]="'method method-'+operationItem.method">{{operationItem.method.toUpperCase()}}</span>
+        <span class="path">{{pathItem.path}}</span>
+      </a>
+      <small>{{operation.summary}}</small>
+      <button type="button" class="toggle-button" [class.open]="open"></button>
+    </h3>
 
 
+    <div class="oav-operation-details">
+      <p *ngIf="operationItem.operation.description">
+        {{operationItem.operation.description}}
+      </p>
+
+      <form (submit)="send()" [formGroup]="formGroup">
+        <h4>Parameters</h4>
+        <ng-container *ngIf="operationItem.parameters?.length">
+          <oav-parameter *ngFor="let param of operationItem.parameters" [parameter]="param"></oav-parameter>
+        </ng-container>
+        <button class="send-btn" [disabled]="formGroup.invalid">Send request</button>
+      </form>
+
+      <h4 class="oav-divided-container toggle-button left" oavOpenable #openable="openable">
+        <span class="main">Responses</span>
+        <select class="response-type-select" name="responseType" [(ngModel)]="responseType" (click)="$event.stopPropagation()">
+          <option *ngFor="let resType of operationItem.responseTypes" [value]="resType">{{resType}}</option>
+        </select>
+      </h4>
+
+      <oav-responses [responses]="operationItem.responses" [responseType]="responseType"
+                     [hidden]="!openable.open"></oav-responses>
+
+
+    </div>
+
+
+  </div>
+
+  <div class="oav-operation-requests" [hidden]="!requests.length">
+    <oav-requests-list [requests]="requests"></oav-requests-list>
+  </div>
 </div>

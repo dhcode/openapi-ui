@@ -1,6 +1,8 @@
 import { Component, DoCheck, Input, OnInit } from '@angular/core';
 import { OavRequest } from '../../openapi-viewer.service';
 
+type DisplayMode = 'text' | 'json' | 'download';
+
 @Component({
   selector: 'oav-request-view',
   templateUrl: './request-view.component.html'
@@ -14,6 +16,12 @@ export class RequestViewComponent implements OnInit, DoCheck {
 
   headers: string;
 
+  size = 0;
+
+  displayMode: DisplayMode = 'text';
+
+  error: any;
+
   constructor() {
   }
 
@@ -23,14 +31,38 @@ export class RequestViewComponent implements OnInit, DoCheck {
   ngDoCheck(): void {
     if (!this.readBody && this.request.response) {
       this.readBody = true;
-      this.headers = '';
-      this.request.response.headers.forEach((value, key) => {
-        this.headers += key + ': ' + value + '\n';
-      });
+
+
+      this.loadResponse();
+    }
+  }
+
+  loadResponse() {
+    this.headers = '';
+    this.request.response.headers.forEach((value, key) => {
+      this.headers += key + ': ' + value + '\n';
+    });
+
+    const contentType = this.request.response.headers.get('content-type');
+    if (contentType.startsWith('application/json')) {
+      this.displayMode = 'json';
       this.request.response.text().then(text => {
-        this.body = text;
+        this.size = text.length;
+        try {
+          const parsed = JSON.parse(text);
+          this.body = JSON.stringify(parsed, null, 2);
+        } catch (e) {
+          this.body = text;
+          this.error = e;
+        }
+
       });
     }
+
+    this.request.response.text().then(text => {
+      this.body = text;
+      this.size = text.length;
+    });
   }
 
   getDuration() {
