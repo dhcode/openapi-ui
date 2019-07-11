@@ -1,15 +1,14 @@
 $method-colors: (
-  "get": #2681ac,
-  "post": #25ac20,
-  "put": #ac700e,
-  "delete": #ac0003,
-  "options": #ac03a6,
-  "head": #87aaac,
-  "trace": #87ac89,
+  'get': #2681ac,
+  'post': #25ac20,
+  'put': #ac700e,
+  'delete': #ac0003,
+  'options': #ac03a6,
+  'head': #87aaac,
+  'trace': #87ac89
 );
 
 .openapi-tag {
-
   oav-group {
     display: none;
   }
@@ -48,14 +47,10 @@ $method-colors: (
         flex: none;
       }
     }
-
   }
-
 }
 
-
 .openapi-operation {
-
   background: #f1f1f1;
   margin: 0.5rem 0;
 
@@ -126,14 +121,11 @@ $method-colors: (
         flex: none;
       }
     }
-
   }
 
   &.deprecated h3 .mainlink {
     text-decoration: line-through;
   }
-
-
 }
 
 .oav-operation-details {
@@ -164,7 +156,7 @@ $method-colors: (
 }
 
 .oav-operation-layout {
-  display:flex;
+  display: flex;
   .openapi-operation {
     flex: 1;
   }
@@ -203,7 +195,6 @@ $method-colors: (
   }
 }
 
-
 .openapi-parameter {
   border-bottom: 1px solid #cccccc;
   padding: 0.2rem 0;
@@ -217,7 +208,9 @@ $method-colors: (
   .input {
     margin: 0.2rem 0;
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       width: 100%;
       padding: 0.2rem;
       font-size: 1rem;
@@ -246,14 +239,12 @@ $method-colors: (
   }
 
   .type {
-
   }
 
   .format {
     color: #828282;
     font-size: 0.8rem;
   }
-
 }
 
 .openapi-response-example {
@@ -319,7 +310,6 @@ $method-colors: (
 }
 
 .oav-request {
-
   background: #f1f1f1;
   margin: 0.5rem 0;
 
@@ -375,11 +365,9 @@ $method-colors: (
       font-weight: 400;
       flex: 1;
     }
-
   }
 
   .oav-request-details {
-
   }
 
   h4 {
@@ -457,7 +445,6 @@ $method-colors: (
 
     .input {
       width: 50%;
-
     }
 
     .description {
@@ -465,7 +452,6 @@ $method-colors: (
     }
   }
 }
-
 
 .openapi-response {
   border-bottom: 1px solid #cccccc;
@@ -480,7 +466,6 @@ $method-colors: (
   .description {
     margin: 0.2rem 0;
   }
-
 }
 
 @media (min-width: 60rem) {

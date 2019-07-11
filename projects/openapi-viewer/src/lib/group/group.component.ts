@@ -7,17 +7,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './group.component.html'
 })
 export class GroupComponent implements OnInit {
-
   @Input() tag: string;
 
   paths: PathItem[] = [];
 
   openOperations = new Set();
 
-  constructor(private openApiService: OpenapiViewerService,
-              private router: Router,
-              private route: ActivatedRoute) {
-  }
+  constructor(private openApiService: OpenapiViewerService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.paths = this.openApiService.getPathsByTag(this.tag);
@@ -36,14 +32,13 @@ export class GroupComponent implements OnInit {
     const opId = opItem.operation.operationId;
     if (this.openOperations.has(opId)) {
       this.openOperations.delete(opId);
-      this.router.navigate([], {fragment: this.tag});
+      this.router.navigate([], { fragment: this.tag });
     } else {
-      this.router.navigate([], {fragment: this.getFragment(opItem)});
+      this.router.navigate([], { fragment: this.getFragment(opItem) });
     }
   }
 
   getFragment(opItem: OperationsItem) {
     return this.tag + '/' + opItem.operation.operationId;
   }
-
 }

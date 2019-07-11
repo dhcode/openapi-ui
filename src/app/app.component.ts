@@ -8,13 +8,11 @@ import { OpenAPIObject } from 'openapi3-ts';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
   url = 'https://petstore.swagger.io/v2/swagger.json';
 
   spec: OpenAPIObject;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadSpec();
@@ -26,5 +24,4 @@ export class AppComponent implements OnInit {
       this.spec = s;
     });
   }
-
 }

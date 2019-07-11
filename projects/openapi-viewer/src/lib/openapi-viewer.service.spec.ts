@@ -4,10 +4,12 @@ import { OpenapiViewerService } from './openapi-viewer.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('OpenapiViewerService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule],
-    providers: [OpenapiViewerService]
-  }));
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [OpenapiViewerService]
+    })
+  );
 
   it('should be created', () => {
     const service: OpenapiViewerService = TestBed.get(OpenapiViewerService);
@@ -22,6 +24,5 @@ describe('OpenapiViewerService', () => {
 
     const pathItem = paths.find(p => p.path === '/pet');
     expect(pathItem.operations.length).toBe(2);
-
   });
 });

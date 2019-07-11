@@ -12,12 +12,11 @@ export function getControlContainer(controlContainer: ControlContainer) {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => MultiItemsInputComponent),
-      multi: true,
+      multi: true
     }
   ]
 })
 export class MultiItemsInputComponent implements OnInit, OnDestroy, ControlValueAccessor {
-
   @Input() name: string;
 
   @Input() required;
@@ -30,14 +29,11 @@ export class MultiItemsInputComponent implements OnInit, OnDestroy, ControlValue
 
   private subscription;
 
-  constructor() {
-  }
+  constructor() {}
 
-  private onChange = (v: any) => {
-  };
+  private onChange = (v: any) => {};
 
-  onTouched = () => {
-  };
+  onTouched = () => {};
 
   ngOnInit() {
     this.subscription = this.values.valueChanges.subscribe(changedValues => {
@@ -51,7 +47,7 @@ export class MultiItemsInputComponent implements OnInit, OnDestroy, ControlValue
   }
 
   get isRequired(): boolean {
-    return typeof (this.required) !== 'undefined' || this.required === true;
+    return typeof this.required !== 'undefined' || this.required === true;
   }
 
   get controls() {
@@ -84,7 +80,7 @@ export class MultiItemsInputComponent implements OnInit, OnDestroy, ControlValue
   writeValue(obj: string[]): void {
     if (obj) {
       this.values.clear();
-      obj.forEach(value => this.values.push(new FormControl({value, disabled: this.disabled})));
+      obj.forEach(value => this.values.push(new FormControl({ value, disabled: this.disabled })));
     } else {
       this.values.clear();
     }
@@ -99,6 +95,4 @@ export class MultiItemsInputComponent implements OnInit, OnDestroy, ControlValue
     this.values.removeAt(index);
     this.onTouched();
   }
-
-
 }

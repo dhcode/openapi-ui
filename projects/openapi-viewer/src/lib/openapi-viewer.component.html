@@ -1,5 +1,4 @@
 <div class="oav-layout">
-
   <div *ngIf="loading">
     Loading
   </div>
@@ -11,16 +10,15 @@
   <div *ngFor="let tag of tags" class="openapi-tag" [class.open]="openFragments.has(tag.name)">
     <h2 (click)="toggleTag(tag.name)">
       <a routerLink [fragment]="tag.name" class="mainlink" (click)="toggleTag(tag.name); $event.stopPropagation()">
-        <strong>{{tag.name}}</strong>
+        <strong>{{ tag.name }}</strong>
       </a>
-      <small *ngIf="tag.description">{{tag.description}}</small>
+      <small *ngIf="tag.description">{{ tag.description }}</small>
       <small *ngIf="tag.externalDocs" class="extra-link">
-        {{tag.externalDocs.description}}:
-        <a [href]="tag.externalDocs.url" target="_blank">{{tag.externalDocs.url}}</a>
+        {{ tag.externalDocs.description }}:
+        <a [href]="tag.externalDocs.url" target="_blank">{{ tag.externalDocs.url }}</a>
       </small>
       <button type="button" class="toggle-button" [class.open]="openFragments.has(tag.name)"></button>
     </h2>
     <oav-group [tag]="tag.name"></oav-group>
   </div>
-
 </div>

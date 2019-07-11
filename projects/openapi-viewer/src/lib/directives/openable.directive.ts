@@ -5,13 +5,11 @@ import { AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2 } 
   exportAs: 'openable'
 })
 export class OpenableDirective implements AfterViewInit {
-
   @Input() oavOpenable = true;
 
   @Input() open = false;
 
-  constructor(private element: ElementRef, private renderer: Renderer2) {
-  }
+  constructor(private element: ElementRef, private renderer: Renderer2) {}
 
   ngAfterViewInit(): void {
     if (this.oavOpenable !== false) {
@@ -30,5 +28,4 @@ export class OpenableDirective implements AfterViewInit {
       this.renderer.removeClass(this.element.nativeElement, 'open');
     }
   }
-
 }

@@ -12,7 +12,7 @@ const formatExamples = {
   number: () => 0,
   number_float: () => 0.0,
   integer: () => 0,
-  boolean: (schema) => typeof schema.default === 'boolean' ? schema.default : true,
+  boolean: schema => (typeof schema.default === 'boolean' ? schema.default : true),
   null: () => null,
   any: () => null
 };
@@ -20,7 +20,7 @@ const formatExamples = {
 export function examplePrimitive(schema: JSONSchema6) {
   const type = Array.isArray(schema.type) ? schema.type[0] : schema.type;
   const formatFunc = formatExamples[`${type}_${schema.format}`] || formatExamples[type];
-  if (typeof (formatFunc) === 'function') {
+  if (typeof formatFunc === 'function') {
     return formatFunc(schema);
   }
   return `Unknown: ` + type;
@@ -44,8 +44,11 @@ export function exampleFromSchema(schema: JSONSchema6Definition): any {
     return schema.enum[0];
   }
   if (type === 'object') {
-    const keys = Object.keys(schema.properties);
     const result = {};
+    if (!schema.properties) {
+      return result;
+    }
+    const keys = Object.keys(schema.properties);
     for (const key of keys) {
       result[key] = exampleFromSchema(schema.properties[key]);
     }

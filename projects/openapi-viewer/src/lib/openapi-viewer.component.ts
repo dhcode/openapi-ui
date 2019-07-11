@@ -11,7 +11,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class OpenapiViewerComponent implements OnInit, OnChanges {
-
   @Input() spec: OpenAPIObject;
 
   tags: TagObject[] = [];
@@ -20,10 +19,7 @@ export class OpenapiViewerComponent implements OnInit, OnChanges {
 
   openFragments = new Set();
 
-  constructor(private openApiService: OpenapiViewerService,
-              private router: Router,
-              private route: ActivatedRoute) {
-  }
+  constructor(private openApiService: OpenapiViewerService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.fragment.subscribe(fragment => {
@@ -33,20 +29,21 @@ export class OpenapiViewerComponent implements OnInit, OnChanges {
     });
   }
 
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.spec) {
       if (changes.spec.currentValue) {
         this.loading = true;
         this.tags = [];
-        this.openApiService.loadSpec(changes.spec.currentValue).then(() => {
-          this.loading = false;
-          this.loadTags();
-        }, e => {
-          this.loading = false;
-          console.error(e);
-        });
-
+        this.openApiService.loadSpec(changes.spec.currentValue).then(
+          () => {
+            this.loading = false;
+            this.loadTags();
+          },
+          e => {
+            this.loading = false;
+            console.error(e);
+          }
+        );
       } else {
         this.openApiService.resetSpec();
       }
@@ -60,10 +57,9 @@ export class OpenapiViewerComponent implements OnInit, OnChanges {
   toggleTag(tag) {
     if (this.openFragments.has(tag)) {
       this.openFragments.delete(tag);
-      this.router.navigate([], {fragment: ''});
+      this.router.navigate([], { fragment: '' });
     } else {
-      this.router.navigate([], {fragment: tag});
+      this.router.navigate([], { fragment: tag });
     }
   }
-
 }

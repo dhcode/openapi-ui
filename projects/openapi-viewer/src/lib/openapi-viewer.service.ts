@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OpenAPIObject, PathItemObject, ResponseObject, TagObject } from 'openapi3-ts';
 import { OperationObject, ParameterObject, ServerObject } from 'openapi3-ts/src/model/OpenApi';
-import { pointer } from 'jsonref';
 import Swagger from 'swagger-client';
 
 const methods = ['get', 'put', 'post', 'delete', 'options', 'head', 'trace'];
@@ -41,14 +40,12 @@ export interface OavRequest {
 
 @Injectable()
 export class OpenapiViewerService {
-
   spec: OpenAPIObject = null;
   loadErrors = [];
 
   requests: OavRequest[] = [];
 
-  constructor() {
-  }
+  constructor() {}
 
   // async loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
   //   console.log('load spec', spec);
@@ -70,7 +67,7 @@ export class OpenapiViewerService {
   // }
 
   async loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
-    const resolveResult = await Swagger.resolve({spec});
+    const resolveResult = await Swagger.resolve({ spec });
     console.log('loaded spec', resolveResult);
     this.spec = resolveResult.spec;
     this.loadErrors = resolveResult.errors;
@@ -114,14 +111,17 @@ export class OpenapiViewerService {
 
     this.requests.push(reqInfo);
 
-    fetch(request.url, request).then(res => {
-      reqInfo.response = res;
-      reqInfo.endTs = new Date();
-      reqInfo.running = false;
-      console.log('reqInfo', reqInfo);
-    }, err => {
-      console.log('request error', err);
-    });
+    fetch(request.url, request).then(
+      res => {
+        reqInfo.response = res;
+        reqInfo.endTs = new Date();
+        reqInfo.running = false;
+        console.log('reqInfo', reqInfo);
+      },
+      err => {
+        console.log('request error', err);
+      }
+    );
 
     return reqInfo;
   }
@@ -138,10 +138,7 @@ export class OpenapiViewerService {
     const paths = Object.keys(this.spec.paths);
     const result: PathItem[] = [];
     for (const path of paths) {
-      let pathObject: PathItemObject = this.spec.paths[path];
-      if ('$ref' in pathObject) {
-        pathObject = pointer(this.spec, pathObject.$ref);
-      }
+      const pathObject: PathItemObject = this.spec.paths[path];
 
       const tags = getTagsOfPath(pathObject);
       if (tag.length && tags.includes(tag)) {
@@ -153,43 +150,41 @@ export class OpenapiViewerService {
           servers: pathObject.servers,
           operations: null
         };
-        pathItem.operations = this.getOperationsOfPath(pathObject, pathItem.parameters);
+        pathItem.operations = getOperationsOfPath(pathObject, pathItem.parameters);
         result.push(pathItem);
       }
     }
     return result;
   }
-
-  getOperationsOfPath(pathObject: PathItemObject, parentParameters?: ParameterObject[]): OperationsItem[] {
-    const ops: OperationsItem[] = [];
-    for (const method of methods) {
-      const operation: OperationObject = pathObject[method];
-      if (operation) {
-        const parameters = [];
-        const responses = [];
-        if (parentParameters) {
-          parameters.push(...parentParameters);
-        }
-        if (operation.parameters) {
-          parameters.push(...operation.parameters);
-        }
-        if (operation.responses) {
-          responses.push(...Object.entries(operation.responses).map(([status, value]) => ({status, ...value})));
-        }
-        ops.push({
-          method,
-          operation,
-          parameters,
-          responses,
-          responseTypes: identifyResponseTypes(operation)
-        });
-      }
-    }
-    return ops;
-  }
-
 }
 
+function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: ParameterObject[]): OperationsItem[] {
+  const ops: OperationsItem[] = [];
+  for (const method of methods) {
+    const operation: OperationObject = pathObject[method];
+    if (operation) {
+      const parameters = [];
+      const responses = [];
+      if (parentParameters) {
+        parameters.push(...parentParameters);
+      }
+      if (operation.parameters) {
+        parameters.push(...operation.parameters);
+      }
+      if (operation.responses) {
+        responses.push(...Object.entries(operation.responses).map(([status, value]) => ({ status, ...value })));
+      }
+      ops.push({
+        method,
+        operation,
+        parameters,
+        responses,
+        responseTypes: identifyResponseTypes(operation)
+      });
+    }
+  }
+  return ops;
+}
 
 export function getTagsOfPath(pathObject: PathItemObject): string[] {
   const tags = [];

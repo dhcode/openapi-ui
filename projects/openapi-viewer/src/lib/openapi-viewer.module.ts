@@ -13,13 +13,18 @@ import { RequestViewComponent } from './requests-list/request-view/request-view.
 import { OpenableDirective } from './directives/openable.directive';
 
 @NgModule({
-  declarations: [OpenapiViewerComponent, GroupComponent, OperationComponent, ParameterComponent, ResponsesComponent, MultiItemsInputComponent, RequestsListComponent, RequestViewComponent, OpenableDirective],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule
+  declarations: [
+    OpenapiViewerComponent,
+    GroupComponent,
+    OperationComponent,
+    ParameterComponent,
+    ResponsesComponent,
+    MultiItemsInputComponent,
+    RequestsListComponent,
+    RequestViewComponent,
+    OpenableDirective
   ],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   exports: [OpenapiViewerComponent]
 })
-export class OpenapiViewerModule { }
+export class OpenapiViewerModule {}

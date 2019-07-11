@@ -8,7 +8,6 @@ type DisplayMode = 'text' | 'json' | 'download';
   templateUrl: './request-view.component.html'
 })
 export class RequestViewComponent implements OnInit, DoCheck {
-
   @Input() request: OavRequest;
 
   readBody = false;
@@ -22,16 +21,13 @@ export class RequestViewComponent implements OnInit, DoCheck {
 
   error: any;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngDoCheck(): void {
     if (!this.readBody && this.request.response) {
       this.readBody = true;
-
 
       this.loadResponse();
     }
@@ -55,7 +51,6 @@ export class RequestViewComponent implements OnInit, DoCheck {
           this.body = text;
           this.error = e;
         }
-
       });
     }
 
@@ -72,5 +67,4 @@ export class RequestViewComponent implements OnInit, DoCheck {
       return null;
     }
   }
-
 }

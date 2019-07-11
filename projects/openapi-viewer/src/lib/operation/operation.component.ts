@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './operation.component.html'
 })
 export class OperationComponent implements OnInit {
-
   @Input() tag: string;
   @Input() pathItem: PathItem;
   @Input() operationItem: OperationsItem;
@@ -22,17 +21,13 @@ export class OperationComponent implements OnInit {
 
   requests: OavRequest[] = [];
 
-  constructor(private openApiService: OpenapiViewerService,
-              private router: Router,
-              private route: ActivatedRoute) {
-  }
+  constructor(private openApiService: OpenapiViewerService, private router: Router, private route: ActivatedRoute) {}
 
   get operation(): OperationObject {
     return this.operationItem.operation;
   }
 
   ngOnInit() {
-
     this.route.fragment.subscribe(fragment => {
       if (fragment && fragment.length) {
         const parts = fragment.split('/');
@@ -43,8 +38,7 @@ export class OperationComponent implements OnInit {
       }
     });
 
-
-    this.formGroup = new FormGroup({}, {updateOn: 'blur'});
+    this.formGroup = new FormGroup({}, { updateOn: 'blur' });
 
     this.responseType = this.operationItem.responseTypes[0] || 'application/json';
 
@@ -54,8 +48,6 @@ export class OperationComponent implements OnInit {
   }
 
   send() {
-
-
     try {
       const req = this.openApiService.createRequest(this.operationItem.operation.operationId, this.formGroup.value, '', this.responseType);
       const reqInfo = this.openApiService.runRequest(this.pathItem, this.operationItem, req);
@@ -64,20 +56,18 @@ export class OperationComponent implements OnInit {
     } catch (e) {
       console.warn('Create request error', e);
     }
-
   }
 
   toggleOpen() {
     if (this.open) {
-      this.router.navigate([], {fragment: this.tag});
+      this.router.navigate([], { fragment: this.tag });
       this.open = false;
     } else {
-      this.router.navigate([], {fragment: this.getFragment()});
+      this.router.navigate([], { fragment: this.getFragment() });
     }
   }
 
   getFragment() {
     return this.tag + '/' + this.operation.operationId;
   }
-
 }

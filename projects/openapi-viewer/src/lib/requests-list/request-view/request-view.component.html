@@ -1,25 +1,21 @@
 <div class="oav-request-details">
   <ng-container *ngIf="!request.running">
-
-
     <div class="content">
       <div class="d-flex justify-content-between">
-        <div>Status: {{request.response.status}} {{request.response.statusText}}</div>
-        <div>{{getDuration()}}ms</div>
+        <div>Status: {{ request.response.status }} {{ request.response.statusText }}</div>
+        <div>{{ getDuration() }}ms</div>
       </div>
 
       <h4 class="toggle-button" oavOpenable #openable="openable">Response headers</h4>
-      <textarea [hidden]="!openable.open">{{headers}}</textarea>
+      <textarea [hidden]="!openable.open" readonly>{{ headers }}</textarea>
 
       <h4 class="d-flex justify-content-between">
         <span>Response body</span>
-        <span class="normal-text">{{size | number}} bytes</span>
+        <span class="normal-text">{{ size | number }} bytes</span>
       </h4>
-      <textarea>{{body}}</textarea>
+      <textarea readonly>{{ body }}</textarea>
 
-      <pre *ngIf="error" class="oav-error">{{error}}</pre>
+      <pre *ngIf="error" class="oav-error">{{ error }}</pre>
     </div>
-
   </ng-container>
-
 </div>

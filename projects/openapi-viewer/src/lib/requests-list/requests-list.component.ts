@@ -6,16 +6,13 @@ import { OavRequest, OpenapiViewerService } from '../openapi-viewer.service';
   templateUrl: './requests-list.component.html'
 })
 export class RequestsListComponent implements OnInit {
-
   openRequests = new Set();
 
   @Input() requests: OavRequest[] = [];
 
-  constructor(private openApiService: OpenapiViewerService) {
-  }
+  constructor(private openApiService: OpenapiViewerService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   toggleRequest(req: OavRequest) {
     if (this.openRequests.has(req)) {
@@ -31,5 +28,4 @@ export class RequestsListComponent implements OnInit {
     }
     return req.request.url;
   }
-
 }

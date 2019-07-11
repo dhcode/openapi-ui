@@ -62,9 +62,8 @@ const displayModes = [
   }
 ];
 
-
 function schemaType(param: ParameterObject): string {
-  const schema = param && 'schema' in param ? param.schema as SchemaObject : null;
+  const schema = param && 'schema' in param ? (param.schema as SchemaObject) : null;
   return schema && schema.type;
 }
 
@@ -76,7 +75,6 @@ function itemsType(obj: { items?: any } | any) {
   }
   console.log('items type not found', obj);
 }
-
 
 function getExample(param: ParameterObject, mediaType: string): any {
   if ('example' in param) {

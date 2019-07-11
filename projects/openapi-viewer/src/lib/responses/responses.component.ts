@@ -7,13 +7,11 @@ import { exampleFromSchema } from '../util/data-generator.util';
   templateUrl: './responses.component.html'
 })
 export class ResponsesComponent implements OnInit {
-
   @Input() responses: ResponseItem[];
 
   @Input() responseType: string;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     for (const res of this.responses) {
@@ -22,6 +20,4 @@ export class ResponsesComponent implements OnInit {
       }
     }
   }
-
-
 }
