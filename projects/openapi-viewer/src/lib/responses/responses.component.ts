@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ResponseItem } from '../openapi-viewer.service';
 import { exampleFromSchema } from '../util/data-generator.util';
+import { ResponseItem } from '../openapi-viewer.model';
 
 @Component({
   selector: 'oav-responses',

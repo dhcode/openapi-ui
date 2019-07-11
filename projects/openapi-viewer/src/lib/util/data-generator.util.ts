@@ -1,10 +1,14 @@
 import { JSONSchema6, JSONSchema6Definition } from 'json-schema';
 
+export const formatExampleDate = new Date();
+formatExampleDate.setMilliseconds(0);
+formatExampleDate.setSeconds(0);
+
 const formatExamples = {
   string: () => '',
   string_email: () => 'user@example.com',
-  'string_date-time': () => new Date().toISOString(),
-  string_date: () => new Date().toISOString().substring(0, 10),
+  'string_date-time': () => formatExampleDate.toISOString(),
+  string_date: () => formatExampleDate.toISOString().substring(0, 10),
   string_uuid: () => '3fa85f64-5717-4562-b3fc-2c963f66afa6',
   string_hostname: () => 'example.com',
   string_ipv4: () => '198.51.100.42',
@@ -59,4 +63,10 @@ export function exampleFromSchema(schema: JSONSchema6Definition): any {
     return [exampleFromSchema(item)];
   }
   return examplePrimitive(schema);
+}
+
+export function randomHex(len: number): string {
+  const preHex = len - 1 === 0 ? 0 : 2 ** (4 * (len - 1));
+  const hex = 2 ** (4 * len) - 1;
+  return Math.floor(preHex + Math.random() * (hex - preHex)).toString(16);
 }

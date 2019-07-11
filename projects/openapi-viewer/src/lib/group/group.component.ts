@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OpenapiViewerService, OperationsItem, PathItem } from '../openapi-viewer.service';
+import { OpenapiViewerService } from '../openapi-viewer.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OperationsItem, PathItem } from '../openapi-viewer.model';
 
 @Component({
   selector: 'oav-group',

@@ -11,6 +11,7 @@ import { MultiItemsInputComponent } from './parameter/multi-items-input/multi-it
 import { RequestsListComponent } from './requests-list/requests-list.component';
 import { RequestViewComponent } from './requests-list/request-view/request-view.component';
 import { OpenableDirective } from './directives/openable.directive';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { OpenableDirective } from './directives/openable.directive';
     RequestViewComponent,
     OpenableDirective
   ],
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   exports: [OpenapiViewerComponent]
 })
 export class OpenapiViewerModule {}

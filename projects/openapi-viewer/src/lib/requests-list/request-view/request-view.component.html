@@ -2,7 +2,7 @@
   <ng-container *ngIf="!request.running">
     <div class="content">
       <div class="d-flex justify-content-between">
-        <div>Status: {{ request.response.status }} {{ request.response.statusText }}</div>
+        <div>Status: {{ status }} {{ statusText }}</div>
         <div>{{ getDuration() }}ms</div>
       </div>
 

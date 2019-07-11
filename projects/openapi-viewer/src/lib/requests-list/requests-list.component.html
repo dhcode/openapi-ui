@@ -4,9 +4,9 @@
       <span [className]="'method method-' + req.request.method.toLowerCase()">{{ req.request.method.toUpperCase() }}</span>
       <span class="path">{{ getShortUrl(req) }}</span>
     </a>
-    <span class="status" *ngIf="!req.running && req.response">{{ req.response.status }}</span>
+    <span class="status" *ngIf="!req.running && req.status">{{ req.status }}</span>
     <span class="loading" *ngIf="req.running"></span>
-    <button type="button" class="toggle-button" [class.open]="openRequests.has(req)"></button>
+    <button type="button" class="toggle-button ml-auto" [class.open]="openRequests.has(req)"></button>
   </h3>
 
   <oav-request-view [request]="req" [hidden]="!openRequests.has(req)"></oav-request-view>

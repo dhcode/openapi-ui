@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OavRequest, OpenapiViewerService, OperationsItem, PathItem } from '../openapi-viewer.service';
+import { OpenapiViewerService } from '../openapi-viewer.service';
 import { FormGroup } from '@angular/forms';
 import { OperationObject } from 'openapi3-ts';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OavRequest, OperationsItem, PathItem } from '../openapi-viewer.model';
 
 @Component({
   selector: 'oav-operation',

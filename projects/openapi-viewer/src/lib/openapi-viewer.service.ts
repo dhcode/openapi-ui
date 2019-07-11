@@ -1,42 +1,12 @@
 import { Injectable } from '@angular/core';
-import { OpenAPIObject, PathItemObject, ResponseObject, TagObject } from 'openapi3-ts';
-import { OperationObject, ParameterObject, ServerObject } from 'openapi3-ts/src/model/OpenApi';
+import { OpenAPIObject, PathItemObject, TagObject } from 'openapi3-ts';
+import { OperationObject, ParameterObject } from 'openapi3-ts/src/model/OpenApi';
 import Swagger from 'swagger-client';
+import { HttpClient, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { OavRequest, OperationsItem, PathItem, SwaggerRequest } from './openapi-viewer.model';
+import { Observable } from 'rxjs';
 
 const methods = ['get', 'put', 'post', 'delete', 'options', 'head', 'trace'];
-
-export interface PathItem {
-  path: string;
-  operations: OperationsItem[];
-  summary?: string;
-  description?: string;
-  servers?: ServerObject[];
-  parameters?: ParameterObject[];
-}
-
-export interface OperationsItem {
-  method: string;
-  operation: OperationObject;
-  parameters: ParameterObject[];
-  responses: ResponseItem[];
-  responseTypes: string[];
-}
-
-export interface ResponseItem extends ResponseObject {
-  status: number;
-}
-
-export interface OavRequest {
-  id: string;
-  pathItem: PathItem;
-  operationsItem: OperationsItem;
-  request: any;
-  running: boolean;
-  error?: string;
-  startTs: Date;
-  endTs: Date;
-  response: Response;
-}
 
 @Injectable()
 export class OpenapiViewerService {
@@ -45,26 +15,7 @@ export class OpenapiViewerService {
 
   requests: OavRequest[] = [];
 
-  constructor() {}
-
-  // async loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
-  //   console.log('load spec', spec);
-  //   this.spec = await parse(spec, {
-  //     scope: 'https://localhost/swagger.json',
-  //     retriever
-  //   });
-  //   console.log('loaded spec', this.spec);
-  //   return this.spec;
-  //
-  //   function retriever(url) {
-  //     const opts = {
-  //       method: 'GET'
-  //     };
-  //     return fetch(url, opts).then((response) => {
-  //       return response.json();
-  //     });
-  //   }
-  // }
+  constructor(private http: HttpClient) {}
 
   async loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
     const resolveResult = await Swagger.resolve({ spec });
@@ -74,7 +25,12 @@ export class OpenapiViewerService {
     return this.spec;
   }
 
-  createRequest(operationId: string, parameters: Record<string, any>, requestContentType: string, responseContentType: string) {
+  createRequest(
+    operationId: string,
+    parameters: Record<string, any>,
+    requestContentType: string,
+    responseContentType: string
+  ): SwaggerRequest {
     // See https://github.com/swagger-api/swagger-js/blob/master/src/execute/index.js#L91
     const params = {
       spec: this.spec,
@@ -97,7 +53,7 @@ export class OpenapiViewerService {
     return Swagger.buildRequest(params);
   }
 
-  runRequest(pathItem: PathItem, operationsItem: OperationsItem, request: any): OavRequest {
+  runRequest(pathItem: PathItem, operationsItem: OperationsItem, request: SwaggerRequest): OavRequest {
     const reqInfo: OavRequest = {
       id: Math.floor(0x100000000 + Math.random() * 0x100000000).toString(16),
       pathItem,
@@ -106,22 +62,44 @@ export class OpenapiViewerService {
       running: true,
       startTs: new Date(),
       endTs: null,
-      response: null
+      requester: null,
+      status: 0
     };
 
     this.requests.push(reqInfo);
+    const headers = new HttpHeaders(request.headers);
 
-    fetch(request.url, request).then(
-      res => {
-        reqInfo.response = res;
-        reqInfo.endTs = new Date();
-        reqInfo.running = false;
-        console.log('reqInfo', reqInfo);
-      },
-      err => {
-        console.log('request error', err);
-      }
+    const req$ = this.http.request(
+      new HttpRequest(request.method, request.url, request.body, {
+        headers,
+        responseType: 'text',
+        reportProgress: true
+      })
     );
+
+    reqInfo.requester = new Observable(subscriber => {
+      reqInfo.running = true;
+      return req$.subscribe(
+        status => {
+          if (status.type === HttpEventType.ResponseHeader) {
+            reqInfo.status = status.status;
+          }
+          if (status.type === HttpEventType.Response) {
+            reqInfo.endTs = new Date();
+            reqInfo.running = false;
+          }
+          subscriber.next(status);
+        },
+        err => {
+          reqInfo.endTs = new Date();
+          reqInfo.running = false;
+          subscriber.error(err);
+        },
+        () => {
+          subscriber.complete();
+        }
+      );
+    });
 
     return reqInfo;
   }
