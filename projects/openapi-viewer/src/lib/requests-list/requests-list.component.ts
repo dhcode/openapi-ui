@@ -15,7 +15,7 @@ export class RequestsListComponent implements OnInit {
 
   ngOnInit() {}
 
-  toggleRequest(req: OavRequest) {
+  toggleRequest(req: OavRequest, state: boolean) {
     if (this.openRequests.has(req)) {
       this.openRequests.delete(req);
     } else {

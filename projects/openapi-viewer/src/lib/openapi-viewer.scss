@@ -50,32 +50,7 @@ $method-colors: (
   }
 }
 
-.openapi-operation {
-  background: #f1f1f1;
-  margin: 0.5rem 0;
-
-  @each $method, $color in $method-colors {
-    &.method-#{$method} {
-      background-color: rgba($color, 0.1);
-
-      h3:hover {
-        background-color: rgba($color, 0.2);
-      }
-    }
-  }
-
-  .oav-operation-details {
-    display: none;
-  }
-
-  &.open {
-    .oav-operation-details {
-      display: block;
-    }
-
-    padding-bottom: 1rem;
-  }
-
+oav-method-header {
   h3 {
     cursor: pointer;
     display: flex;
@@ -104,6 +79,9 @@ $method-colors: (
       .method-#{$method} {
         background-color: $color;
       }
+      &:hover {
+        background-color: rgba($color, 0.2);
+      }
     }
 
     .path {
@@ -111,7 +89,7 @@ $method-colors: (
       font-size: 1.2rem;
     }
 
-    small {
+    .summary {
       padding: 0 10px;
       font-size: 0.8rem;
       font-weight: 400;
@@ -121,6 +99,29 @@ $method-colors: (
         flex: none;
       }
     }
+  }
+}
+
+.openapi-operation {
+  background: #f1f1f1;
+  margin: 0.5rem 0;
+
+  @each $method, $color in $method-colors {
+    &.method-#{$method} {
+      background-color: rgba($color, 0.1);
+    }
+  }
+
+  .oav-operation-details {
+    display: none;
+  }
+
+  &.open {
+    .oav-operation-details {
+      display: block;
+    }
+
+    padding-bottom: 1rem;
   }
 
   &.deprecated h3 .mainlink {
@@ -320,50 +321,6 @@ $method-colors: (
       h3:hover {
         background-color: rgba($color, 0.2);
       }
-    }
-  }
-
-  h3 {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    margin: 0;
-
-    .mainlink {
-      text-decoration: inherit;
-      color: inherit;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    .method {
-      width: 5em;
-      display: inline-block;
-      color: #fff;
-      text-align: center;
-      padding: 0.2em;
-      font-size: 0.8rem;
-      margin-right: 0.5rem;
-    }
-
-    @each $method, $color in $method-colors {
-      .method-#{$method} {
-        background-color: $color;
-      }
-    }
-
-    .path {
-      font-family: monospace;
-      font-size: 1.2rem;
-      word-break: break-all;
-    }
-
-    .status {
-      padding: 0 10px;
-      font-size: 0.8rem;
-      font-weight: 400;
-      flex: 1;
     }
   }
 

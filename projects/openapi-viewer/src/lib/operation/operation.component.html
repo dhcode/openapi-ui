@@ -5,14 +5,15 @@
     [class.open]="open"
     [id]="tag + '/' + operation.operationId"
   >
-    <h3 (click)="toggleOpen()">
-      <a routerLink [fragment]="getFragment()" class="mainlink" (click)="toggleOpen(); $event.stopPropagation()">
-        <span [className]="'method method-' + operationItem.method">{{ operationItem.method.toUpperCase() }}</span>
-        <span class="path">{{ pathItem.path }}</span>
-      </a>
-      <small>{{ operation.summary }}</small>
-      <button type="button" class="toggle-button" [class.open]="open"></button>
-    </h3>
+    <oav-method-header
+      [fragment]="getFragment()"
+      [method]="operationItem.method"
+      [path]="pathItem.path"
+      [open]="open"
+      (openChange)="updateOpen($event)"
+    >
+      {{ operation.summary }}
+    </oav-method-header>
 
     <div class="oav-operation-details">
       <p *ngIf="operationItem.operation.description">
@@ -20,8 +21,8 @@
       </p>
 
       <form (submit)="send()" [formGroup]="formGroup">
-        <h4>Parameters</h4>
         <ng-container *ngIf="operationItem.parameters?.length">
+          <h4>Parameters</h4>
           <oav-parameter *ngFor="let param of operationItem.parameters" [parameter]="param"></oav-parameter>
         </ng-container>
         <button class="send-btn" [disabled]="formGroup.invalid">Send request</button>

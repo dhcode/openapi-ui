@@ -59,10 +59,10 @@ export class OperationComponent implements OnInit {
     }
   }
 
-  toggleOpen() {
-    if (this.open) {
+  updateOpen(state) {
+    this.open = state;
+    if (!state) {
       this.router.navigate([], { fragment: this.tag });
-      this.open = false;
     } else {
       this.router.navigate([], { fragment: this.getFragment() });
     }

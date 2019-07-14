@@ -1,0 +1,10 @@
+<h3 (click)="toggleOpen()" class="oav-method-header">
+  <a routerLink [fragment]="fragment" class="mainlink" (click)="toggleOpen(); $event.stopPropagation()">
+    <span [className]="'method method-' + method.toLowerCase()">{{ method.toUpperCase() }}</span>
+    <span class="path">{{ path }}</span>
+  </a>
+  <span class="summary">
+    <ng-content></ng-content>
+  </span>
+  <button type="button" class="toggle-button" [class.open]="open"></button>
+</h3>

@@ -1,13 +1,13 @@
 <div *ngFor="let req of requests" [className]="'oav-request method-' + req.request.method.toLowerCase()" [id]="req.id">
-  <h3 (click)="toggleRequest(req)">
-    <a href="javascript:" class="mainlink" (click)="toggleRequest(req); $event.stopPropagation()">
-      <span [className]="'method method-' + req.request.method.toLowerCase()">{{ req.request.method.toUpperCase() }}</span>
-      <span class="path">{{ getShortUrl(req) }}</span>
-    </a>
+  <oav-method-header
+    [method]="req.request.method"
+    [path]="getShortUrl(req)"
+    [open]="openRequests.has(req)"
+    (openChange)="toggleRequest(req, $event)"
+  >
     <span class="status" *ngIf="!req.running && req.status">{{ req.status }}</span>
     <span class="loading" *ngIf="req.running"></span>
-    <button type="button" class="toggle-button ml-auto" [class.open]="openRequests.has(req)"></button>
-  </h3>
+  </oav-method-header>
 
   <oav-request-view [request]="req" [hidden]="!openRequests.has(req)"></oav-request-view>
 </div>
