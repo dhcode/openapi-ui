@@ -1,6 +1,6 @@
 <div class="oav-request-details">
-  <ng-container *ngIf="!request.running">
-    <div class="content">
+  <div class="content">
+    <ng-container *ngIf="!request.running">
       <div class="d-flex justify-content-between">
         <div>Status: {{ status }} {{ statusText }}</div>
         <div>{{ getDuration() }}ms</div>
@@ -16,6 +16,10 @@
       <textarea readonly>{{ body }}</textarea>
 
       <pre *ngIf="error" class="oav-error">{{ error }}</pre>
+    </ng-container>
+    <div class="d-flex justify-content-between">
+      <button type="button" class="download-btn" (click)="download()">Download</button>
+      <button type="button" class="dismiss-btn" (click)="doDismiss()">Dismiss</button>
     </div>
-  </ng-container>
+  </div>
 </div>

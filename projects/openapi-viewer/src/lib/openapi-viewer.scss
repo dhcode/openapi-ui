@@ -196,6 +196,32 @@ oav-method-header {
   }
 }
 
+.download-btn {
+  color: #fff;
+  background-color: #2681ac;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 0;
+  margin: 0.2rem 0;
+}
+
+.download-btn:hover {
+  background-color: #269ed0;
+}
+
+.dismiss-btn {
+  color: #fff;
+  background-color: #ac0003;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 0;
+  margin: 0.2rem 0;
+}
+
+.dismiss-btn:hover {
+  background-color: #d60003;
+}
+
 .openapi-parameter {
   border-bottom: 1px solid #cccccc;
   padding: 0.2rem 0;

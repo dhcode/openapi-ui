@@ -9,5 +9,5 @@
     <span class="loading" *ngIf="req.running"></span>
   </oav-method-header>
 
-  <oav-request-view [request]="req" [hidden]="!openRequests.has(req)"></oav-request-view>
+  <oav-request-view [request]="req" [hidden]="!openRequests.has(req)" (dismiss)="removeRequest(req)"></oav-request-view>
 </div>

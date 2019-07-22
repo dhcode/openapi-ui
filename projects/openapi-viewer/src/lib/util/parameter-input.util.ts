@@ -13,6 +13,12 @@ const primitiveTypes = ['string', 'integer', 'number', 'boolean'];
 
 const displayModes = [
   {
+    mode: 'textSelect',
+    checkV2: (param: ParameterObject) => param.type === 'string' && param.items && param.items.enum,
+    checkV3: (param: ParameterObject) => schemaType(param) === 'string' && (param.schema as SchemaObject).enum,
+    getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
+  },
+  {
     mode: 'text',
     checkV2: (param: ParameterObject) => param.type === 'string',
     checkV3: (param: ParameterObject) => schemaType(param) === 'string',
@@ -89,6 +95,9 @@ function getExample(param: ParameterObject, mediaType: string): any {
   if (param.type === 'array' && param.items && 'default' in param.items) {
     return [param.items.default];
   }
+  if (isPrimitiveType(param.type) && param.items && 'default' in param.items) {
+    return param.items.default;
+  }
   return exampleFromSchema(param as any);
 }
 
@@ -105,4 +114,8 @@ export function getDisplayMode(param: ParameterObject): string {
 
 export function getExampleValue(displayMode: string, param: ParameterObject, mediaType: string) {
   return displayModes.find(dm => dm.mode === displayMode).getDefault(param, mediaType);
+}
+
+export function isPrimitiveType(type: string) {
+  return ['number', 'boolean', 'string', 'integer'].includes(type);
 }

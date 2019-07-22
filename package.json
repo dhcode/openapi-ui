@@ -1,6 +1,7 @@
 {
   "name": "openapi-ui",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "UI to display Swagger and OpenAPI RESTful API specifications.",
   "scripts": {
     "ng": "ng",
     "prettier": "prettier --write \"**/*.{js,json,css,scss,less,md,ts,html,component.html}\"",
@@ -10,7 +11,23 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "keywords": [
+    "OpenAPI",
+    "JavaScript",
+    "TypeScript",
+    "Angular",
+    "JSON",
+    "viewer",
+    "API Console",
+    "Swagger",
+    "Angular"
+  ],
+  "author": "Dominik Herbst",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dhcode/openapi-ui.git"
+  },
   "dependencies": {
     "@angular/animations": "~8.0.0",
     "@angular/common": "~8.0.0",

@@ -29,4 +29,9 @@ export class RequestsListComponent implements OnInit {
     }
     return req.request.url;
   }
+
+  removeRequest(req: OavRequest) {
+    this.requests.splice(this.requests.indexOf(req));
+    this.openRequests.delete(req);
+  }
 }

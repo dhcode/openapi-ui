@@ -1,4 +1,4 @@
-<div class="openapi-parameter" [formGroup]="controlContainer.control">
+<div class="openapi-parameter" [formGroup]="formGroup">
   <div class="name">
     <div>
       <strong>{{ parameter.name }}</strong
@@ -10,6 +10,12 @@
     </div>
   </div>
   <div class="input">
+    <ng-container *ngIf="displayMode === 'textSelect'">
+      <select [formControlName]="parameter.name">
+        <option *ngFor="let opt of parameter.items?.enum || parameter.schema?.enum" [value]="opt">{{ opt }}</option>
+      </select>
+    </ng-container>
+
     <ng-container *ngIf="displayMode === 'text'">
       <input [formControlName]="parameter.name" [placeholder]="parameter.name" />
     </ng-container>
@@ -36,7 +42,7 @@
 
     <ng-container *ngIf="displayMode === 'arrayWithSelection'">
       <select [formControlName]="parameter.name" multiple>
-        <option *ngFor="let opt of parameter.items?.enum || parameter.schema?.enum" [value]="opt">{{ opt }}</option>
+        <option *ngFor="let opt of parameter.items?.enum || parameter.schema?.enum" [ngValue]="opt">{{ opt }}</option>
       </select>
     </ng-container>
 

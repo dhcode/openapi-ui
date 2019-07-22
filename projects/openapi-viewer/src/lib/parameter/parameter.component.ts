@@ -1,13 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ParameterObject } from 'openapi3-ts';
 import { getDisplayMode, getExampleValue } from '../util/parameter-input.util';
-import { ControlContainer, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'oav-parameter',
   templateUrl: './parameter.component.html'
 })
 export class ParameterComponent implements OnInit, OnDestroy {
+  @Input() formGroup: FormGroup;
+
   @Input() parameter: ParameterObject;
 
   @Input() mediaType = '';
@@ -18,7 +20,7 @@ export class ParameterComponent implements OnInit, OnDestroy {
 
   control: FormControl;
 
-  constructor(public controlContainer: ControlContainer) {}
+  constructor() {}
 
   ngOnInit() {
     this.displayMode = getDisplayMode(this.parameter);
@@ -35,10 +37,15 @@ export class ParameterComponent implements OnInit, OnDestroy {
     }
 
     this.control = new FormControl(this.value, validators);
-    (this.controlContainer.control as FormGroup).addControl(this.parameter.name, this.control);
+
+    if (this.formGroup) {
+      this.formGroup.addControl(this.parameter.name, this.control);
+    }
   }
 
   ngOnDestroy(): void {
-    (this.controlContainer.control as FormGroup).removeControl(this.parameter.name);
+    if (this.formGroup) {
+      this.formGroup.removeControl(this.parameter.name);
+    }
   }
 }

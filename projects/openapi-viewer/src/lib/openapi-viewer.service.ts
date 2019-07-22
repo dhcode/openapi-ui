@@ -72,7 +72,7 @@ export class OpenapiViewerService {
     const req$ = this.http.request(
       new HttpRequest(request.method, request.url, request.body, {
         headers,
-        responseType: 'text',
+        responseType: 'blob',
         reportProgress: true
       })
     );
@@ -81,7 +81,7 @@ export class OpenapiViewerService {
       reqInfo.running = true;
       return req$.subscribe(
         status => {
-          if (status.type === HttpEventType.ResponseHeader) {
+          if (status.type === HttpEventType.ResponseHeader || status.type === HttpEventType.Response) {
             reqInfo.status = status.status;
           }
           if (status.type === HttpEventType.Response) {

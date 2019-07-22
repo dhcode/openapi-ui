@@ -1,27 +1,41 @@
-# OpenapiUi
+# OpenAPI UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.2.
+An documentation UI and API Console with focus on [Swagger v2 and OpenAPI v3 RESTful API specifications](https://swagger.io/specification/).
 
-## Development server
+This UI is inspired by the [Swagger UI](https://github.com/swagger-api/swagger-ui) project, but is more focused on doing API requests.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+It is developed as Angular Library and Angular App.
 
-## Code scaffolding
+## Current state
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This project is currently **in development**. It is not intended for production use.
+But you can try it out and see if it works with your API specification.
 
-## Build
+If you find any issues please report them. Thank you.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Usage of the Angular App
 
-## Running unit tests
+    git clone https://github.com/dhcode/openapi-ui.git
+    npm install
+    npm run start
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Open [localhost:4200](http://localhost:4200)
 
-## Running end-to-end tests
+## Usage of the Angular Library
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Coming soon
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Browser Compatibility
+
+This project aims to support the most common browsers.
+
+* Chrome
+* Firefox
+* Safari
+* Internet Explorer 11
+* Microsoft Edge
+
+## License
+
+[MIT](LICENSE)
