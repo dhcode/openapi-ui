@@ -25,7 +25,7 @@ describe('ParameterComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should create the parameter component', () => {
+  it('should build arrayWithSelection', () => {
     const spec: ParameterObject = {
       collectionFormat: 'multi',
       description: 'Status values that need to be considered for filter',
@@ -55,5 +55,28 @@ describe('ParameterComponent', () => {
     options[1].nativeElement.selected = true;
     select.nativeElement.dispatchEvent(new Event('change'));
     expect(component.formGroup.get('status').value).toEqual(['available', 'pending']);
+  });
+
+  it('should build text', () => {
+    const spec: ParameterObject = {
+      description: '',
+      in: 'query',
+      name: 'name',
+      required: true,
+      type: 'string'
+    };
+
+    component.formGroup = new FormGroup({});
+    component.mediaType = 'application/json';
+    component.parameter = spec;
+    fixture.detectChanges();
+    expect(component.displayMode).toBe('text');
+    expect(component.formGroup.get('name')).toBeDefined();
+    expect(component.formGroup.get('name').value).toEqual('');
+
+    const input = element.query(By.css('input'));
+    input.nativeElement.value = 'x';
+    input.nativeElement.dispatchEvent(new Event('input'));
+    expect(component.formGroup.get('name').value).toEqual('x');
   });
 });
