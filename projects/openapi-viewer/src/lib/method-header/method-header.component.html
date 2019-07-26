@@ -1,4 +1,4 @@
-<h3 (click)="toggleOpen()" class="oav-method-header">
+<h3 (click)="toggleOpen()" [className]="'oav-method-header oav-method-bg method-' + method.toLowerCase()">
   <a routerLink [fragment]="fragment" class="mainlink" (click)="toggleOpen(); $event.stopPropagation()">
     <span [className]="'method method-' + method.toLowerCase()">{{ method.toUpperCase() }}</span>
     <span class="path">{{ path }}</span>

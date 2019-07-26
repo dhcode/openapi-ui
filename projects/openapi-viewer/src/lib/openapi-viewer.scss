@@ -50,6 +50,14 @@ $method-colors: (
   }
 }
 
+.oav-method-bg {
+  @each $method, $color in $method-colors {
+    &.method-#{$method} {
+      background-color: rgba($color, 0.1);
+    }
+  }
+}
+
 oav-method-header {
   h3 {
     cursor: pointer;
@@ -103,14 +111,7 @@ oav-method-header {
 }
 
 .openapi-operation {
-  background: #f1f1f1;
   margin: 0.5rem 0;
-
-  @each $method, $color in $method-colors {
-    &.method-#{$method} {
-      background-color: rgba($color, 0.1);
-    }
-  }
 
   .oav-operation-details {
     display: none;
@@ -130,6 +131,7 @@ oav-method-header {
 }
 
 .oav-operation-details {
+  margin: 0.5rem 0;
   padding: 0 2rem;
 
   .send-btn {
@@ -158,7 +160,7 @@ oav-method-header {
 
 .oav-operation-layout {
   display: flex;
-  .openapi-operation {
+  .oav-operation-details {
     flex: 1;
   }
   .oav-operation-requests {

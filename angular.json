@@ -122,7 +122,8 @@
           "options": {
             "main": "projects/openapi-viewer/src/test.ts",
             "tsConfig": "projects/openapi-viewer/tsconfig.spec.json",
-            "karmaConfig": "projects/openapi-viewer/karma.conf.js"
+            "karmaConfig": "projects/openapi-viewer/karma.conf.js",
+            "codeCoverage": true
           }
         },
         "lint": {
