@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { OpenapiViewerService } from '../openapi-viewer.service';
 import { FormGroup } from '@angular/forms';
 import { OperationObject } from 'openapi3-ts';
@@ -9,12 +9,10 @@ import { OavRequest, OperationsItem, PathItem } from '../openapi-viewer.model';
   selector: 'oav-operation',
   templateUrl: './operation.component.html'
 })
-export class OperationComponent implements OnInit {
+export class OperationComponent implements OnChanges {
   @Input() tag: string;
   @Input() pathItem: PathItem;
   @Input() operationItem: OperationsItem;
-
-  open = false;
 
   responseType: string;
 
@@ -22,30 +20,20 @@ export class OperationComponent implements OnInit {
 
   requests: OavRequest[] = [];
 
+  openRequest = null;
+
   constructor(private openApiService: OpenapiViewerService, private router: Router, private route: ActivatedRoute) {}
 
   get operation(): OperationObject {
     return this.operationItem.operation;
   }
 
-  ngOnInit() {
-    this.route.fragment.subscribe(fragment => {
-      if (fragment && fragment.length) {
-        const parts = fragment.split('/');
-        if (parts[0] === this.tag && parts[1] === this.operation.operationId) {
-          console.log('open fragment', parts.slice(1));
-          this.open = true;
-        }
-      }
-    });
-
-    this.formGroup = new FormGroup({}, { updateOn: 'blur' });
-
-    this.responseType = this.operationItem.responseTypes[0] || 'application/json';
-
-    // this.formGroup.valueChanges.subscribe(value => {
-    //   console.log('valueChanges', value);
-    // });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.operationItem && this.operationItem) {
+      this.requests = this.openApiService.getRequestsByOperationId(this.operationItem.operation.operationId).reverse();
+      this.formGroup = new FormGroup({}, { updateOn: 'blur' });
+      this.responseType = this.operationItem.responseTypes[0] || 'application/json';
+    }
   }
 
   send() {
@@ -53,22 +41,10 @@ export class OperationComponent implements OnInit {
       const req = this.openApiService.createRequest(this.operationItem.operation.operationId, this.formGroup.value, '', this.responseType);
       const reqInfo = this.openApiService.runRequest(this.pathItem, this.operationItem, req);
       console.log('request', req);
-      this.requests.push(reqInfo);
+      this.requests.unshift(reqInfo);
+      this.openRequest = reqInfo;
     } catch (e) {
       console.warn('Create request error', e);
     }
-  }
-
-  updateOpen(state) {
-    this.open = state;
-    if (!state) {
-      this.router.navigate([], { fragment: this.tag });
-    } else {
-      this.router.navigate([], { fragment: this.getFragment() });
-    }
-  }
-
-  getFragment() {
-    return this.tag + '/' + this.operation.operationId;
   }
 }

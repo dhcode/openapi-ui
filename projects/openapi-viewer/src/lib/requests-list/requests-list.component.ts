@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { OpenapiViewerService } from '../openapi-viewer.service';
 import { OavRequest } from '../openapi-viewer.model';
 
@@ -14,6 +14,14 @@ export class RequestsListComponent implements OnInit {
   constructor(private openApiService: OpenapiViewerService) {}
 
   ngOnInit() {}
+
+  @Input()
+  set openRequest(req: OavRequest) {
+    if (req) {
+      this.openRequests.clear();
+      this.openRequests.add(req);
+    }
+  }
 
   toggleRequest(req: OavRequest, state: boolean) {
     if (this.openRequests.has(req)) {
@@ -33,5 +41,6 @@ export class RequestsListComponent implements OnInit {
   removeRequest(req: OavRequest) {
     this.requests.splice(this.requests.indexOf(req), 1);
     this.openRequests.delete(req);
+    this.openApiService.removeRequest(req);
   }
 }

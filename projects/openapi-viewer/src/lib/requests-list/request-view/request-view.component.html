@@ -2,30 +2,33 @@
   <div class="content">
     <ng-container *ngIf="!request.running">
       <div class="d-flex justify-content-between">
-        <div>Status: {{ status }} {{ statusText }}</div>
+        <div>Status: {{ request.status }} {{ request.statusText }}</div>
         <div>{{ getDuration() }}ms</div>
       </div>
+      <div class="d-flex justify-content-between" *ngIf="request.sentBytes">
+        <div>Bytes sent: {{ request.sentBytes | number }}</div>
+      </div>
 
-      <h4 class="toggle-button" oavOpenable #openable="openable">Response headers</h4>
-      <textarea [hidden]="!openable.open" readonly>{{ headers }}</textarea>
+      <h4>Response headers</h4>
+      <pre>{{ headers }}</pre>
 
       <h4 class="d-flex justify-content-between">
         <span>Response body</span>
-        <span class="normal-text">{{ size | number }} bytes</span>
+        <span class="normal-text">{{ request.receivedBytes | number }} bytes</span>
       </h4>
 
-      <ng-container *ngIf="displayMode === 'text' || displayMode === 'json'">
+      <ng-container *ngIf="(displayMode === 'text' || displayMode === 'json') && !request.running">
         <textarea readonly>{{ body }}</textarea>
       </ng-container>
 
-      <p class="oav-warning" *ngIf="size >= displayLimitBytes">
+      <p class="oav-warning" *ngIf="request.receivedBytes >= displayLimitBytes">
         Response is too large to be displayed. Please download it.
       </p>
 
       <pre *ngIf="error" class="oav-error">{{ error }}</pre>
     </ng-container>
     <div class="d-flex justify-content-between">
-      <button type="button" class="download-btn" (click)="download()">Download</button>
+      <button type="button" class="download-btn" (click)="download()" *ngIf="!request.running">Download</button>
       <button type="button" class="dismiss-btn" (click)="doDismiss()">Dismiss</button>
     </div>
   </div>

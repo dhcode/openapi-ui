@@ -26,5 +26,5 @@
 <oav-responses [responses]="operationItem.responses" [responseType]="responseType"></oav-responses>
 
 <div class="oav-operation-requests" [hidden]="!requests.length">
-  <oav-requests-list [requests]="requests"></oav-requests-list>
+  <oav-requests-list [requests]="requests" [openRequest]="openRequest"></oav-requests-list>
 </div>

@@ -37,11 +37,16 @@ export interface OavRequest {
   operationsItem: OperationsItem;
   request: SwaggerRequest;
   running: boolean;
+  canceled: boolean;
+  sentBytes: number;
+  receivedBytes: number;
   status: number;
+  statusText: string;
   error?: string;
   startTs: Date;
   endTs: Date;
-  requester: Observable<HttpEvent<any>>;
+  httpEvents: Observable<HttpEvent<any>>;
+  cancel: () => void;
 }
 
 export interface SwaggerRequest {

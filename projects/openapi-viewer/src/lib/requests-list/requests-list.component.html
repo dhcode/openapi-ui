@@ -5,8 +5,11 @@
     [open]="openRequests.has(req)"
     (openChange)="toggleRequest(req, $event)"
   >
-    <span class="status" *ngIf="!req.running && req.status">{{ req.status }}</span>
-    <span class="loading" *ngIf="req.running"></span>
+    {{ req.startTs | date: 'medium' }}
+    <strong class="ml-2">
+      <span [ngClass]="'status status-' + req.status" *ngIf="!req.running && req.status">{{ req.status }} {{ req.statusText }}</span>
+      <span class="loading" *ngIf="req.running"></span>
+    </strong>
   </oav-method-header>
 
   <oav-request-view [request]="req" [hidden]="!openRequests.has(req)" (dismiss)="removeRequest(req)"></oav-request-view>

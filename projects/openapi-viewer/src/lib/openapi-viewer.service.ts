@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { OpenAPIObject, PathItemObject, TagObject } from 'openapi3-ts';
 import { OperationObject, ParameterObject } from 'openapi3-ts/src/model/OpenApi';
 import Swagger from 'swagger-client';
-import { HttpClient, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { TagIndex, OavRequest, OperationsItem, PathItem, SwaggerRequest } from './openapi-viewer.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { OavRequest, OperationsItem, PathItem, SwaggerRequest, TagIndex } from './openapi-viewer.model';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { httpMethods } from './openapi-viewer.constants';
 import { map } from 'rxjs/operators';
+import { randomHex } from './util/data-generator.util';
 
 @Injectable()
 export class OpenapiViewerService {
@@ -64,54 +65,80 @@ export class OpenapiViewerService {
   }
 
   runRequest(pathItem: PathItem, operationsItem: OperationsItem, request: SwaggerRequest): OavRequest {
+    const httpEvents = new ReplaySubject<HttpEvent<any>>(1);
     const reqInfo: OavRequest = {
-      id: Math.floor(0x100000000 + Math.random() * 0x100000000).toString(16),
+      id: randomHex(16),
       pathItem,
       operationsItem,
       request,
       running: true,
+      canceled: false,
+      sentBytes: 0,
+      receivedBytes: 0,
       startTs: new Date(),
       endTs: null,
-      requester: null,
-      status: 0
+      httpEvents,
+      statusText: null,
+      status: 0,
+      cancel: null
     };
 
     this.requests.push(reqInfo);
     const headers = new HttpHeaders(request.headers);
 
-    const req$ = this.http.request(
-      new HttpRequest(request.method, request.url, request.body, {
-        headers,
-        responseType: 'blob',
-        reportProgress: true
-      })
-    );
-
-    reqInfo.requester = new Observable(subscriber => {
-      reqInfo.running = true;
-      return req$.subscribe(
+    const sub = this.http
+      .request(
+        new HttpRequest(request.method, request.url, request.body, {
+          headers,
+          responseType: 'blob',
+          reportProgress: true
+        })
+      )
+      .subscribe(
         status => {
           if (status.type === HttpEventType.ResponseHeader || status.type === HttpEventType.Response) {
             reqInfo.status = status.status;
+            reqInfo.statusText = status.statusText;
+          }
+          if (status.type === HttpEventType.UploadProgress) {
+            reqInfo.sentBytes = status.loaded;
+          }
+          if (status.type === HttpEventType.DownloadProgress) {
+            reqInfo.receivedBytes = status.loaded;
           }
           if (status.type === HttpEventType.Response) {
             reqInfo.endTs = new Date();
             reqInfo.running = false;
           }
-          subscriber.next(status);
+          console.log('status', status);
+          httpEvents.next(status);
         },
         err => {
           reqInfo.endTs = new Date();
           reqInfo.running = false;
-          subscriber.error(err);
+          httpEvents.error(err);
         },
         () => {
-          subscriber.complete();
+          reqInfo.running = false;
+          httpEvents.complete();
         }
       );
-    });
+
+    reqInfo.cancel = () => {
+      sub.unsubscribe();
+      reqInfo.canceled = true;
+      reqInfo.running = false;
+    };
 
     return reqInfo;
+  }
+
+  removeRequest(req: OavRequest) {
+    this.requests.splice(this.requests.indexOf(req), 1);
+  }
+
+  getRequestsByOperationId(opId: string): OavRequest[] {
+    return this.requests.filter(req => req.operationsItem.operation.operationId === opId);
   }
 
   resetSpec() {

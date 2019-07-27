@@ -24,12 +24,6 @@ export class RequestViewComponent implements OnInit, OnDestroy {
 
   displayLimitBytes = 1024 * 1024;
 
-  size = 0;
-  total = 0;
-
-  status = null;
-  statusText: string = null;
-
   displayMode: DisplayMode = 'text';
 
   error: any;
@@ -47,24 +41,14 @@ export class RequestViewComponent implements OnInit, OnDestroy {
   }
 
   loadResponse() {
-    this.size = 0;
-    this.total = 0;
-    this.status = null;
-    this.statusText = null;
     this.error = null;
     this.headers = '';
     this.body = '';
 
-    this.request.requester.pipe(takeUntil(this.destroy)).subscribe(
+    this.request.httpEvents.pipe(takeUntil(this.destroy)).subscribe(
       status => {
         console.log('request status', status);
-        if (status.type === HttpEventType.DownloadProgress) {
-          this.size = status.loaded;
-          this.total = status.total;
-        }
         if (status.type === HttpEventType.ResponseHeader || status.type === HttpEventType.Response) {
-          this.status = status.status;
-          this.statusText = status.statusText;
           this.setHeaders(status.headers);
         }
         if (status.type === HttpEventType.Response) {
@@ -72,7 +56,7 @@ export class RequestViewComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        console.error('erro response', err);
+        console.error('error response', err);
         if (err instanceof HttpErrorResponse) {
           this.setErrorBody(err);
         }
@@ -125,12 +109,17 @@ export class RequestViewComponent implements OnInit, OnDestroy {
   getDuration() {
     if (this.request.endTs) {
       return this.request.endTs.getTime() - this.request.startTs.getTime();
+    } else if (this.request.running) {
+      return new Date().getTime() - this.request.startTs.getTime();
     } else {
       return null;
     }
   }
 
   doDismiss() {
+    if (this.request.running) {
+      this.request.cancel();
+    }
     this.dismiss.next();
   }
 

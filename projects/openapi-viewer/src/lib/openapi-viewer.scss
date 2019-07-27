@@ -465,6 +465,14 @@ oav-method-header {
     width: 100%;
     min-height: 5rem;
   }
+
+  .status-200, .status-201, .status-202, .status-204 {
+    color: #25ac20;
+  }
+  .status-400, .status-401, .status-402, .status-403, .status-404, .status-405, .status-406,
+  .status-500, .status-501, .status-503, .status-504, .status-505 {
+    color: #ac0003;
+  }
 }
 
 .oav-index-nav {
