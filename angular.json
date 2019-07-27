@@ -109,6 +109,11 @@
       "root": "projects/openapi-viewer",
       "sourceRoot": "projects/openapi-viewer/src",
       "prefix": "oav",
+      "schematics": {
+        "@schematics/angular:component": {
+          "inlineStyle": true
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

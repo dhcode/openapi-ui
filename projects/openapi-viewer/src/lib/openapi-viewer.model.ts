@@ -1,7 +1,9 @@
 import { OperationObject, ParameterObject, ServerObject } from 'openapi3-ts/src/model/OpenApi';
-import { ResponseObject } from 'openapi3-ts';
-import { HttpEvent, HttpResponse } from '@angular/common/http';
+import { ResponseObject, TagObject } from 'openapi3-ts';
+import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+export type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'trace';
 
 export interface PathItem {
   path: string;
@@ -10,6 +12,11 @@ export interface PathItem {
   description?: string;
   servers?: ServerObject[];
   parameters?: ParameterObject[];
+}
+
+export interface TagIndex {
+  tag: TagObject;
+  paths: PathItem[];
 }
 
 export interface OperationsItem {

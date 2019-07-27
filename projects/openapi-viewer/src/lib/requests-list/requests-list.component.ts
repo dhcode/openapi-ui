@@ -31,7 +31,7 @@ export class RequestsListComponent implements OnInit {
   }
 
   removeRequest(req: OavRequest) {
-    this.requests.splice(this.requests.indexOf(req));
+    this.requests.splice(this.requests.indexOf(req), 1);
     this.openRequests.delete(req);
   }
 }

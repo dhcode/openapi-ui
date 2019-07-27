@@ -13,7 +13,14 @@
         <span>Response body</span>
         <span class="normal-text">{{ size | number }} bytes</span>
       </h4>
-      <textarea readonly>{{ body }}</textarea>
+
+      <ng-container *ngIf="displayMode === 'text' || displayMode === 'json'">
+        <textarea readonly>{{ body }}</textarea>
+      </ng-container>
+
+      <p class="oav-warning" *ngIf="size >= displayLimitBytes">
+        Response is too large to be displayed. Please download it.
+      </p>
 
       <pre *ngIf="error" class="oav-error">{{ error }}</pre>
     </ng-container>

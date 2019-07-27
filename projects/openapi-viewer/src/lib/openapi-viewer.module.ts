@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { OpenapiViewerComponent } from './openapi-viewer.component';
-import { GroupComponent } from './group/group.component';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { OperationComponent } from './operation/operation.component';
 import { ParameterComponent } from './parameter/parameter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,12 +10,16 @@ import { RequestsListComponent } from './requests-list/requests-list.component';
 import { RequestViewComponent } from './requests-list/request-view/request-view.component';
 import { OpenableDirective } from './directives/openable.directive';
 import { HttpClientModule } from '@angular/common/http';
-import { MethodHeaderComponent } from './method-header/method-header.component';
+import { MethodHeaderComponent } from './shared-components/method-header/method-header.component';
+import { MethodComponent } from './shared-components/method/method.component';
+import { IndexNavComponent } from './index-nav/index-nav.component';
+import { OperationViewComponent } from './operation-view/operation-view.component';
+import { OpenapiViewerRoutingModule } from './openapi-viewer-routing.module';
+import { OverviewViewComponent } from './overview-view/overview-view.component';
 
 @NgModule({
   declarations: [
     OpenapiViewerComponent,
-    GroupComponent,
     OperationComponent,
     ParameterComponent,
     ResponsesComponent,
@@ -25,9 +27,13 @@ import { MethodHeaderComponent } from './method-header/method-header.component';
     RequestsListComponent,
     RequestViewComponent,
     OpenableDirective,
-    MethodHeaderComponent
+    MethodHeaderComponent,
+    MethodComponent,
+    IndexNavComponent,
+    OperationViewComponent,
+    OverviewViewComponent
   ],
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, HttpClientModule],
-  exports: [OpenapiViewerComponent]
+  imports: [CommonModule, OpenapiViewerRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
+  exports: [OpenapiViewerComponent, OperationComponent]
 })
 export class OpenapiViewerModule {}

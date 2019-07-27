@@ -1,7 +1,7 @@
 <h3 (click)="toggleOpen()" [className]="'oav-method-header oav-method-bg method-' + method.toLowerCase()">
   <a routerLink [fragment]="fragment" class="mainlink" (click)="toggleOpen(); $event.stopPropagation()">
-    <span [className]="'method method-' + method.toLowerCase()">{{ method.toUpperCase() }}</span>
-    <span class="path">{{ path }}</span>
+    <oav-method [method]="method"></oav-method>
+    <span class="path ml-2">{{ path }}</span>
   </a>
   <span class="summary">
     <ng-content></ng-content>

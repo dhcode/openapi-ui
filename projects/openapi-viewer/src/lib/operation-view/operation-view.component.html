@@ -1,0 +1,11 @@
+<div class="oav-content">
+  <ng-container *ngIf="error === 'noOperationFound'">
+    Operation was not found
+  </ng-container>
+  <ng-container *ngIf="error === 'noTagFound'">
+    Tag was not found
+  </ng-container>
+  <ng-container *ngIf="operationItem">
+    <oav-operation [tag]="tag" [operationItem]="operationItem" [pathItem]="pathItem"></oav-operation>
+  </ng-container>
+</div>

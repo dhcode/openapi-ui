@@ -1,0 +1,34 @@
+<nav class="oav-index-nav">
+  <ol>
+    <li>
+      <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
+    </li>
+  </ol>
+
+  <ng-container *ngFor="let tag of index">
+    <header oavOpenable #openable="openable" [open]="openTags.has(tag.tag.name)">
+      <a href="javascript:">
+        <span>{{ tag.tag.name }}</span>
+        <button type="button" class="toggle-button ml-auto" [class.open]="openable.open"></button>
+      </a>
+    </header>
+    <ol [hidden]="!openable.open">
+      <ng-container *ngFor="let pathItem of tag.paths">
+        <ng-container *ngFor="let op of pathItem.operations">
+          <li>
+            <a [routerLink]="[tag.tag.name, op.operation.operationId]" routerLinkActive="active">
+              <span class="label d-flex">
+                <oav-method class="font-size-smaller" [method]="op.method"></oav-method>
+                <span [class.deprecated]="op.operation.deprecated">{{ op.operation.summary }}</span>
+              </span>
+              <span class="info-overlay d-flex">
+                <oav-method class="font-size-smaller" [method]="op.method"></oav-method>
+                <span [class.deprecated]="op.operation.deprecated">{{ pathItem.path }}</span>
+              </span>
+            </a>
+          </li>
+        </ng-container>
+      </ng-container>
+    </ol>
+  </ng-container>
+</nav>

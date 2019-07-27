@@ -1,0 +1,24 @@
+<div class="oav-content">
+  <h1>{{ spec.info.title }}</h1>
+
+  <ng-container *ngFor="let tag of index">
+    <h2>{{ tag.tag.name }}</h2>
+    <p *ngIf="tag.tag.description">{{ tag.tag.description }}</p>
+    <small *ngIf="tag.tag.externalDocs" class="extra-link">
+      {{ tag.tag.externalDocs.description }}:
+      <a [href]="tag.tag.externalDocs.url" target="_blank">{{ tag.tag.externalDocs.url }}</a>
+    </small>
+
+    <ng-container *ngFor="let pathItem of tag.paths">
+      <ng-container *ngFor="let op of pathItem.operations">
+        <h3>
+          <a [routerLink]="[tag.tag.name, op.operation.operationId]" routerLinkActive="active" class="oav-header-link">
+            <oav-method [method]="op.method"></oav-method>
+            <span class="oav-path ml-1" [class.deprecated]="op.operation.deprecated">{{ pathItem.path }}</span>
+            <span class="oav-summary font-size-smaller ml-2">{{ op.operation.summary }}</span>
+          </a>
+        </h3>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</div>

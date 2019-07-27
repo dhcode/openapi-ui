@@ -22,6 +22,8 @@ export class RequestViewComponent implements OnInit, OnDestroy {
 
   headers: string;
 
+  displayLimitBytes = 1024 * 1024;
+
   size = 0;
   total = 0;
 
@@ -72,18 +74,24 @@ export class RequestViewComponent implements OnInit, OnDestroy {
       err => {
         console.error('erro response', err);
         if (err instanceof HttpErrorResponse) {
-          this.body = err.error;
+          this.setErrorBody(err);
         }
         this.error = err.message;
       }
     );
   }
 
+  async setErrorBody(err: HttpErrorResponse) {
+    if (err.error instanceof Blob) {
+      this.body = await getTextFromBlob(err.error);
+    }
+  }
+
   async setBody(response: HttpResponse<any>) {
     this.blob = response.body;
     const contentType = response.headers.get('content-type');
     const textTypes = /^(application\/(json|xml)|text\/)/;
-    if (contentType.match(textTypes)) {
+    if (contentType.match(textTypes) && this.displayLimitBytes > this.blob.size) {
       this.displayMode = 'text';
       const body = await getTextFromBlob(response.body);
       if (contentType.startsWith('application/json') && body && body.length) {

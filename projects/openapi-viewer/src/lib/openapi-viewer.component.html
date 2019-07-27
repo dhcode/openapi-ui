@@ -1,24 +1,29 @@
 <div class="oav-layout">
-  <div *ngIf="loading">
-    Loading
-  </div>
+  <header class="oav-header">
+    <ng-content></ng-content>
+  </header>
+  <div class="oav-content-container">
+    <div *ngIf="loading">
+      <span class="loading"></span>
+      Loading
+    </div>
 
-  <div *ngIf="!loading && !tags.length">
-    No Tags found
-  </div>
+    <div *ngIf="!loading && !index.length">
+      No Tags found
+    </div>
 
-  <div *ngFor="let tag of tags" class="openapi-tag" [class.open]="openFragments.has(tag.name)">
-    <h2 (click)="toggleTag(tag.name)">
-      <a routerLink [fragment]="tag.name" class="mainlink" (click)="toggleTag(tag.name); $event.stopPropagation()">
-        <strong>{{ tag.name }}</strong>
-      </a>
-      <small *ngIf="tag.description">{{ tag.description }}</small>
-      <small *ngIf="tag.externalDocs" class="extra-link">
-        {{ tag.externalDocs.description }}:
-        <a [href]="tag.externalDocs.url" target="_blank">{{ tag.externalDocs.url }}</a>
-      </small>
-      <button type="button" class="toggle-button" [class.open]="openFragments.has(tag.name)"></button>
-    </h2>
-    <oav-group [tag]="tag.name"></oav-group>
+    <div *ngIf="!loading && error">
+      <h3>Error</h3>
+      <pre>{{ error.toString() }}</pre>
+    </div>
+
+    <ng-container *ngIf="!loading && !error && index.length">
+      <aside class="oav-index-container">
+        <oav-index-nav [index]="index"></oav-index-nav>
+      </aside>
+      <section class="oav-view-container">
+        <router-outlet></router-outlet>
+      </section>
+    </ng-container>
   </div>
 </div>

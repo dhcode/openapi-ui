@@ -3,26 +3,36 @@ import { OpenAPIObject, PathItemObject, TagObject } from 'openapi3-ts';
 import { OperationObject, ParameterObject } from 'openapi3-ts/src/model/OpenApi';
 import Swagger from 'swagger-client';
 import { HttpClient, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { OavRequest, OperationsItem, PathItem, SwaggerRequest } from './openapi-viewer.model';
-import { Observable } from 'rxjs';
-
-const methods = ['get', 'put', 'post', 'delete', 'options', 'head', 'trace'];
+import { TagIndex, OavRequest, OperationsItem, PathItem, SwaggerRequest } from './openapi-viewer.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { httpMethods } from './openapi-viewer.constants';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OpenapiViewerService {
-  spec: OpenAPIObject = null;
-  loadErrors = [];
+  spec = new BehaviorSubject<OpenAPIObject>(null);
+  tagIndex = new BehaviorSubject<TagIndex[]>([]);
+  loadErrors = new BehaviorSubject([]);
 
   requests: OavRequest[] = [];
 
   constructor(private http: HttpClient) {}
 
   async loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
+    if (this.loadErrors.value.length) {
+      this.loadErrors.next([]);
+    }
+    if (this.tagIndex.value.length) {
+      this.tagIndex.next([]);
+    }
     const resolveResult = await Swagger.resolve({ spec });
     console.log('loaded spec', resolveResult);
-    this.spec = resolveResult.spec;
-    this.loadErrors = resolveResult.errors;
-    return this.spec;
+    this.spec.next(resolveResult.spec);
+    this.tagIndex.next(getTagIndex(resolveResult.spec));
+    if (resolveResult.errors && resolveResult.errors.length) {
+      this.loadErrors.next(resolveResult.errors);
+    }
+    return resolveResult.spec;
   }
 
   createRequest(
@@ -33,7 +43,7 @@ export class OpenapiViewerService {
   ): SwaggerRequest {
     // See https://github.com/swagger-api/swagger-js/blob/master/src/execute/index.js#L91
     const params = {
-      spec: this.spec,
+      spec: this.spec.value,
       operationId,
       parameters,
       securities: undefined,
@@ -105,40 +115,48 @@ export class OpenapiViewerService {
   }
 
   resetSpec() {
-    this.spec = null;
+    this.spec.next(null);
+    this.tagIndex.next([]);
   }
 
-  getTags(): TagObject[] {
-    return this.spec.tags;
+  getTags(): Observable<TagObject[]> {
+    return this.spec.pipe(map(spec => spec.tags));
   }
+}
 
-  getPathsByTag(tag: string): PathItem[] {
-    const paths = Object.keys(this.spec.paths);
-    const result: PathItem[] = [];
-    for (const path of paths) {
-      const pathObject: PathItemObject = this.spec.paths[path];
+function getTagIndex(spec: OpenAPIObject): TagIndex[] {
+  return spec.tags.map(tag => ({
+    tag,
+    paths: getPathsByTag(spec, tag.name)
+  }));
+}
 
-      const tags = getTagsOfPath(pathObject);
-      if (tag.length && tags.includes(tag)) {
-        const pathItem = {
-          path,
-          summary: pathObject.summary,
-          description: pathObject.description,
-          parameters: pathObject.parameters as ParameterObject[],
-          servers: pathObject.servers,
-          operations: null
-        };
-        pathItem.operations = getOperationsOfPath(pathObject, pathItem.parameters);
-        result.push(pathItem);
-      }
+function getPathsByTag(spec: OpenAPIObject, tag: string): PathItem[] {
+  const paths = Object.keys(spec.paths);
+  const result: PathItem[] = [];
+  for (const path of paths) {
+    const pathObject: PathItemObject = spec.paths[path];
+
+    const tags = getTagsOfPath(pathObject);
+    if (tag.length && tags.includes(tag)) {
+      const pathItem = {
+        path,
+        summary: pathObject.summary,
+        description: pathObject.description,
+        parameters: pathObject.parameters as ParameterObject[],
+        servers: pathObject.servers,
+        operations: null
+      };
+      pathItem.operations = getOperationsOfPath(pathObject, pathItem.parameters);
+      result.push(pathItem);
     }
-    return result;
   }
+  return result;
 }
 
 function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: ParameterObject[]): OperationsItem[] {
   const ops: OperationsItem[] = [];
-  for (const method of methods) {
+  for (const method of httpMethods) {
     const operation: OperationObject = pathObject[method];
     if (operation) {
       const parameters = [];
@@ -166,7 +184,7 @@ function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: Para
 
 export function getTagsOfPath(pathObject: PathItemObject): string[] {
   const tags = [];
-  for (const method of methods) {
+  for (const method of httpMethods) {
     const operation: OperationObject = pathObject[method];
     if (operation && operation.tags) {
       tags.push(...operation.tags);
