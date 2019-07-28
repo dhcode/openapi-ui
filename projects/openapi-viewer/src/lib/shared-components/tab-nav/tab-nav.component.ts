@@ -36,12 +36,16 @@ export class TabNavComponent implements OnInit, OnDestroy {
 
   private checkForActiveTab() {
     if (!this.tabs.find(t => t.active) && this.tabs.length) {
-      if (this.tab) {
+      if (this.tab && this.getTabById(this.tab)) {
         this.showTab(this.tab);
       } else {
         this.showTab(this.tabs[0].id);
       }
     }
+  }
+
+  private getTabById(id: string) {
+    return this.tabs.find(tab => tab.id === id);
   }
 
   private showTab(id: string, notify = false) {
