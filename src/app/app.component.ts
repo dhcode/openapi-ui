@@ -12,6 +12,8 @@ export class AppComponent implements OnInit {
 
   spec: OpenAPIObject;
 
+  error = null;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -20,8 +22,14 @@ export class AppComponent implements OnInit {
 
   loadSpec() {
     this.spec = null;
-    this.http.get<OpenAPIObject>(this.url).subscribe(s => {
-      this.spec = s;
-    });
+    this.error = null;
+    this.http.get<OpenAPIObject>(this.url).subscribe(
+      s => {
+        this.spec = s;
+      },
+      err => {
+        this.error = err.message;
+      }
+    );
   }
 }

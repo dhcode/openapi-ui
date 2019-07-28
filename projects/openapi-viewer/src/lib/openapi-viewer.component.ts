@@ -54,7 +54,7 @@ export class OpenapiViewerComponent implements OnInit, OnChanges, OnDestroy {
           },
           e => {
             this.loading = false;
-            this.error = e;
+            this.error = e.message;
             console.error(e);
           }
         );

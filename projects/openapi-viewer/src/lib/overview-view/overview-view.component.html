@@ -1,6 +1,8 @@
 <div class="oav-content">
   <h1>{{ spec.info.title }}</h1>
 
+  <p *ngIf="spec.info.description">{{ spec.info.description }}</p>
+
   <ng-container *ngFor="let tag of index">
     <h2>{{ tag.tag.name }}</h2>
     <p *ngIf="tag.tag.description">{{ tag.tag.description }}</p>
