@@ -11,13 +11,13 @@ describe('OpenapiViewerService', () => {
     })
   );
 
-  it('should be created', () => {
+  it('should be created', async () => {
     const service: OpenapiViewerService = TestBed.get(OpenapiViewerService);
     expect(service).toBeTruthy();
-    service.spec = require('../../assets/swagger.json');
-
-    service.tagIndex.subscribe(index => {
+    await service.loadSpec(require('../../assets/swagger.json'));
+    const sub = service.tagIndex.subscribe(index => {
       expect(index.length).toBe(3);
     });
+    sub.unsubscribe();
   });
 });

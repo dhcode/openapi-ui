@@ -25,7 +25,7 @@ describe('MethodComponent', () => {
   it('should display method', () => {
     component.method = 'get';
     fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css('span')).classes['oav-method oav-method-get']).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('span')).nativeElement.innerText).toBe('GET');
+    expect(fixture.debugElement.query(By.css('span')).nativeElement.className).toBe('oav-method oav-method-get');
+    expect(fixture.debugElement.query(By.css('span')).nativeElement.textContent).toBe('GET');
   });
 });
