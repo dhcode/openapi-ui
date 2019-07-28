@@ -16,6 +16,9 @@ import { IndexNavComponent } from './index-nav/index-nav.component';
 import { OperationViewComponent } from './operation-view/operation-view.component';
 import { OpenapiViewerRoutingModule } from './openapi-viewer-routing.module';
 import { OverviewViewComponent } from './overview-view/overview-view.component';
+import { TabNavComponent } from './shared-components/tab-nav/tab-nav.component';
+import { TabNavItemDirective } from './shared-components/tab-nav/tab-nav-item.directive';
+import { TemplateOutletComponent } from './shared-components/template-outlet/template-outlet.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { OverviewViewComponent } from './overview-view/overview-view.component';
     MethodComponent,
     IndexNavComponent,
     OperationViewComponent,
-    OverviewViewComponent
+    OverviewViewComponent,
+    TabNavComponent,
+    TabNavItemDirective,
+    TemplateOutletComponent
   ],
   imports: [CommonModule, OpenapiViewerRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   exports: [OpenapiViewerComponent, OperationComponent]

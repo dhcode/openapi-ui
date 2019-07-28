@@ -67,7 +67,7 @@ export class OpenapiViewerService {
   runRequest(pathItem: PathItem, operationsItem: OperationsItem, request: SwaggerRequest): OavRequest {
     const httpEvents = new ReplaySubject<HttpEvent<any>>(1);
     const reqInfo: OavRequest = {
-      id: randomHex(16),
+      id: randomHex(8),
       pathItem,
       operationsItem,
       request,

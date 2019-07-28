@@ -1,0 +1,8 @@
+<nav class="oav-tab-nav">
+  <a href="javascript:" *ngFor="let tab of tabs" [class.active]="tab.active" (click)="showTab(tab.id)">
+    <oav-template-outlet [tpl]="tab.label" [ctx]="tab"></oav-template-outlet>
+  </a>
+</nav>
+<div class="oav-tab-content">
+  <ng-container *ngTemplateOutlet="tabContent"></ng-container>
+</div>

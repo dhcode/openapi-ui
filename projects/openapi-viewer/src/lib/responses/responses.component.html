@@ -1,14 +1,21 @@
-<ng-container *ngFor="let res of responses">
-  <div class="openapi-response" [oavOpenable]="!!res.example" #openable="openable">
-    <div class="status-code">
-      {{ res.status }}
+<oav-tab-nav>
+  <ng-container *ngFor="let res of responses">
+    <div *oavTabNavItem="res.status.toString()">
+      <p>
+        {{ res.description }}
+      </p>
+      <ng-container *ngIf="res.exampleHeaders">
+        <div class="openapi-response-example">
+          Body
+          <textarea readonly>{{ res.exampleHeaders }}</textarea>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="res.example">
+        <div class="openapi-response-example">
+          Body
+          <textarea readonly>{{ res.example }}</textarea>
+        </div>
+      </ng-container>
     </div>
-    <div class="description">
-      {{ res.description }}
-    </div>
-    <div class="ml-auto" [class.toggle-button]="res.example" [class.open]="openable.open"></div>
-  </div>
-  <div class="openapi-response-example" *ngIf="openable.open">
-    <textarea readonly>{{ res.example }}</textarea>
-  </div>
-</ng-container>
+  </ng-container>
+</oav-tab-nav>

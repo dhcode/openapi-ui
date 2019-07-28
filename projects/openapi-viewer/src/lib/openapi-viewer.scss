@@ -18,6 +18,8 @@ $primary-bg-hover: #31b1ff;
 $danger-bg: #ac0003;
 $danger-bg-hover: #f26767;
 
+$line-color: #ccc;
+
 .oav-layout {
   height: 100vh;
   display: flex;
@@ -372,7 +374,7 @@ oav-method-header {
   textarea {
     width: 100%;
     padding: 0.2rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-family: monospace;
     box-sizing: border-box;
     min-height: 10em;
@@ -472,6 +474,23 @@ oav-method-header {
   .status-400, .status-401, .status-402, .status-403, .status-404, .status-405, .status-406,
   .status-500, .status-501, .status-503, .status-504, .status-505 {
     color: #ac0003;
+  }
+}
+
+.oav-tab-nav {
+  border-bottom: 1px solid $line-color;
+  a {
+    color: #000000;
+    display: inline-block;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+  }
+  a:hover, a.active {
+    color: $active-color
+  }
+  a.active {
+    padding-bottom: 0.3rem;
+    border-bottom: 0.2rem solid $active-color;
   }
 }
 

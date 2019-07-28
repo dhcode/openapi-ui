@@ -1,0 +1,4 @@
+<ng-container *ngIf="isTemplate(); else noTpl">
+  <ng-container *ngTemplateOutlet="tpl; context: ctx"></ng-container>
+</ng-container>
+<ng-template #noTpl>{{ tpl }}</ng-template>
