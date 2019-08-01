@@ -1,4 +1,4 @@
-<oav-openapi-viewer [spec]="spec">
+<oav-openapi-viewer [specUrl]="specUrl">
   <form class="d-flex align-items-center header-form" (submit)="loadSpec()">
     <span>Specification URL: </span>
     <div class="flex-grow-1">
@@ -8,6 +8,4 @@
       <button class="send-btn">Load</button>
     </div>
   </form>
-  <div *ngIf="!spec">No spec loaded</div>
-  <div *ngIf="error">{{ error }}</div>
 </oav-openapi-viewer>

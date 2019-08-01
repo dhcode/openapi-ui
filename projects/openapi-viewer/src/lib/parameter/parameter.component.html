@@ -6,7 +6,8 @@
       <span class="type">{{ parameter.type }}</span>
     </div>
     <div class="param-in">
-      {{ parameter.in }} <span class="format" *ngIf="parameter.format">({{ parameter.format }})</span>
+      {{ parameter.customIn ? parameter.customIn : parameter.in }}
+      <span class="format" *ngIf="parameter.format">({{ parameter.format }})</span>
     </div>
   </div>
   <div class="input">

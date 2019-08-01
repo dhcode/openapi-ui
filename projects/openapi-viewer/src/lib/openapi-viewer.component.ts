@@ -14,13 +14,23 @@ import { takeUntil } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class OpenapiViewerComponent implements OnInit, OnChanges, OnDestroy {
+  /**
+   * An already parsed spec. Is allowed to contain $ref.
+   */
   @Input() spec: OpenAPIObject;
+
+  /**
+   * Alternatively an URL to a spec to resolve.
+   */
+  @Input() specUrl: string;
 
   index: TagIndex[] = [];
 
   loading = false;
 
   error = null;
+
+  loadErrors = [];
 
   openFragments = new Set();
 
@@ -37,6 +47,24 @@ export class OpenapiViewerComponent implements OnInit, OnChanges, OnDestroy {
     this.openApiService.tagIndex.pipe(takeUntil(this.destroy)).subscribe(tagIndex => {
       this.index = tagIndex;
     });
+    this.openApiService.loadErrors.pipe(takeUntil(this.destroy)).subscribe(errors => {
+      this.loadErrors = errors;
+    });
+  }
+
+  loadSpec(promise: Promise<OpenAPIObject>) {
+    this.loading = true;
+    this.error = null;
+    return promise.then(
+      () => {
+        this.loading = false;
+      },
+      e => {
+        this.loading = false;
+        this.error = e.message;
+        console.error(e);
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -44,20 +72,11 @@ export class OpenapiViewerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.spec) {
-      if (changes.spec.currentValue) {
-        this.loading = true;
-        this.error = null;
-        this.openApiService.loadSpec(changes.spec.currentValue).then(
-          () => {
-            this.loading = false;
-          },
-          e => {
-            this.loading = false;
-            this.error = e.message;
-            console.error(e);
-          }
-        );
+    if (changes.spec || changes.specUrl) {
+      if (this.spec) {
+        this.loadSpec(this.openApiService.loadSpec(this.spec));
+      } else if (this.specUrl) {
+        this.loadSpec(this.openApiService.loadSpecByUrl(this.specUrl));
       } else {
         this.openApiService.resetSpec();
       }

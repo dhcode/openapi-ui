@@ -1,7 +1,23 @@
 <div class="oav-content">
   <h1>{{ spec.info.title }}</h1>
 
-  <p *ngIf="spec.info.description">{{ spec.info.description }}</p>
+  <p *ngIf="spec.info.description">
+    <markdown [data]="spec.info.description"></markdown>
+  </p>
+
+  <div *ngIf="spec.info.termsOfService">
+    <a [href]="spec.info.termsOfService" target="_blank">Terms of service</a>
+  </div>
+  <div *ngIf="spec.info.contact?.url">
+    <a [href]="spec.info.contact.url" target="_blank">{{ spec.info.contact.name || 'Contact link' }}</a>
+  </div>
+  <div *ngIf="spec.info.contact?.email">
+    <a [href]="'mailto:' + spec.info.contact.email" target="_blank">{{ spec.info.contact.name || 'Contact email' }}</a>
+  </div>
+  <div *ngIf="spec.info.license?.url">
+    <a [href]="spec.info.license?.url" target="_blank">License: {{ spec.info.license.name }}</a>
+  </div>
+  <div *ngIf="spec.info.license && !spec.info.license.url">License: {{ spec.info.license.name }}</div>
 
   <ng-container *ngFor="let tag of index">
     <h2>{{ tag.tag.name }}</h2>

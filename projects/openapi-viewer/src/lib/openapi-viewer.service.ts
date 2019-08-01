@@ -19,19 +19,28 @@ export class OpenapiViewerService {
 
   constructor(private http: HttpClient) {}
 
-  async loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
+  loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
+    return this.resolveSpec({ spec });
+  }
+
+  loadSpecByUrl(url: string): Promise<OpenAPIObject> {
+    return this.resolveSpec({ url });
+  }
+
+  private async resolveSpec(swaggerOpts: any): Promise<OpenAPIObject> {
     if (this.loadErrors.value.length) {
       this.loadErrors.next([]);
     }
     if (this.tagIndex.value.length) {
       this.tagIndex.next([]);
     }
-    const resolveResult = await Swagger.resolve({ spec });
+    const resolveResult = await Swagger.resolve({ spec: swaggerOpts.spec, url: swaggerOpts.url });
     console.log('loaded spec', resolveResult);
     this.spec.next(resolveResult.spec);
     this.tagIndex.next(getTagIndex(resolveResult.spec));
     if (resolveResult.errors && resolveResult.errors.length) {
       this.loadErrors.next(resolveResult.errors);
+      throw new Error('Spec resolve errors');
     }
     return resolveResult.spec;
   }
@@ -39,6 +48,7 @@ export class OpenapiViewerService {
   createRequest(
     operationId: string,
     parameters: Record<string, any>,
+    requestBody: any,
     requestContentType: string,
     responseContentType: string
   ): SwaggerRequest {
@@ -55,7 +65,7 @@ export class OpenapiViewerService {
       responseInterceptor: undefined,
       contextUrl: undefined,
       userFetch: undefined,
-      requestBody: undefined,
+      requestBody,
       server: undefined,
       serverVariables: undefined,
       http: undefined
@@ -152,7 +162,7 @@ export class OpenapiViewerService {
 }
 
 function getTagIndex(spec: OpenAPIObject): TagIndex[] {
-  return spec.tags.map(tag => ({
+  return (spec.tags || [{ name: 'untagged' }]).map(tag => ({
     tag,
     paths: getPathsByTag(spec, tag.name)
   }));
@@ -165,7 +175,7 @@ function getPathsByTag(spec: OpenAPIObject, tag: string): PathItem[] {
     const pathObject: PathItemObject = spec.paths[path];
 
     const tags = getTagsOfPath(pathObject);
-    if (tag.length && tags.includes(tag)) {
+    if ((tag !== 'untagged' && tags.includes(tag)) || (tag === 'untagged' && tags.length === 0)) {
       const pathItem = {
         path,
         summary: pathObject.summary,
@@ -186,6 +196,9 @@ function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: Para
   for (const method of httpMethods) {
     const operation: OperationObject = pathObject[method];
     if (operation) {
+      if (!operation.operationId) {
+        operation.operationId = 'op-' + randomHex(8);
+      }
       const parameters = [];
       const responses = [];
       if (parentParameters) {
@@ -226,8 +239,10 @@ function identifyResponseTypes(operation: OperationObject): string[] {
   }
   const types = new Set();
   for (const [status, res] of Object.entries(operation.responses)) {
-    for (const contentType of Object.keys(res.content)) {
-      types.add(contentType);
+    if (res.content) {
+      for (const contentType of Object.keys(res.content)) {
+        types.add(contentType);
+      }
     }
   }
   return [...types];

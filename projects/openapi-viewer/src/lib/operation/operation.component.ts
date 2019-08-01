@@ -38,7 +38,22 @@ export class OperationComponent implements OnChanges {
 
   send() {
     try {
-      const req = this.openApiService.createRequest(this.operationItem.operation.operationId, this.formGroup.value, '', this.responseType);
+      const parameters = { ...this.formGroup.value };
+      let requestBody;
+      let contentType = '';
+      if (parameters.requestBody) {
+        contentType = parameters.requestBody.contentType;
+        requestBody = { ...parameters.requestBody };
+        delete requestBody.contentType;
+        delete parameters.requestBody;
+      }
+      const req = this.openApiService.createRequest(
+        this.operationItem.operation.operationId,
+        parameters,
+        requestBody,
+        contentType,
+        this.responseType
+      );
       const reqInfo = this.openApiService.runRequest(this.pathItem, this.operationItem, req);
       console.log('request', req);
       this.requests.unshift(reqInfo);

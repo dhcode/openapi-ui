@@ -83,10 +83,10 @@ function itemsType(obj: { items?: any } | any) {
 }
 
 function getExample(param: ParameterObject, mediaType: string): any {
-  if ('example' in param) {
+  if (param.example !== undefined) {
     return param.example;
   }
-  if ('examples' in param && param.examples[mediaType] && 'value' in param.examples[mediaType]) {
+  if (param.examples !== undefined && param.examples[mediaType] && 'value' in param.examples[mediaType]) {
     return (param.examples[mediaType] as ExampleObject).value;
   }
   if (param.schema) {

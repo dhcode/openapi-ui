@@ -5,13 +5,16 @@
 </h1>
 
 <p *ngIf="operationItem.operation.description">
-  {{ operationItem.operation.description }}
+  <markdown [data]="operationItem.operation.description"></markdown>
 </p>
 
 <form (submit)="send()" [formGroup]="formGroup">
   <ng-container *ngIf="operationItem.parameters?.length">
     <h4>Parameters</h4>
     <oav-parameter *ngFor="let param of operationItem.parameters" [parameter]="param" [formGroup]="formGroup"></oav-parameter>
+  </ng-container>
+  <ng-container *ngIf="operationItem.operation.requestBody">
+    <oav-request-body-input [requestBody]="operationItem.operation.requestBody" [addToFormGroup]="formGroup"></oav-request-body-input>
   </ng-container>
   <button class="send-btn" [disabled]="formGroup.invalid">Send request</button>
 </form>
@@ -26,5 +29,6 @@
 <oav-responses [responses]="operationItem.responses" [responseType]="responseType"></oav-responses>
 
 <div class="oav-operation-requests" [hidden]="!requests.length">
+  <h4>Requests</h4>
   <oav-requests-list [requests]="requests" [openRequest]="openRequest"></oav-requests-list>
 </div>

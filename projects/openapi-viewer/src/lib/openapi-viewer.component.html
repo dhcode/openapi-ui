@@ -15,6 +15,7 @@
     <div *ngIf="!loading && error">
       <h3>Error</h3>
       <pre>{{ error.toString() }}</pre>
+      <pre *ngFor="let err of loadErrors">{{ err.toString() }}</pre>
     </div>
 
     <ng-container *ngIf="!loading && !error && index.length">

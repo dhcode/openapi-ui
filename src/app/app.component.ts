@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { OpenAPIObject } from 'openapi3-ts';
 
 @Component({
@@ -9,27 +8,21 @@ import { OpenAPIObject } from 'openapi3-ts';
 })
 export class AppComponent implements OnInit {
   url = 'https://petstore.swagger.io/v2/swagger.json';
+  // url = 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml';
+
+  specUrl: string;
 
   spec: OpenAPIObject;
 
   error = null;
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.loadSpec();
   }
 
   loadSpec() {
-    this.spec = null;
-    this.error = null;
-    this.http.get<OpenAPIObject>(this.url).subscribe(
-      s => {
-        this.spec = s;
-      },
-      err => {
-        this.error = err.message;
-      }
-    );
+    this.specUrl = this.url;
   }
 }
