@@ -33,7 +33,7 @@ const displayModes = [
   {
     mode: 'object',
     checkV2: (param: ParameterObject) => param.type === 'object',
-    checkV3: (param: ParameterObject) => schemaType(param) === 'object',
+    checkV3: (param: ParameterObject) => schemaType(param) === 'object' || (param.schema && (param.schema as SchemaObject).properties),
     getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {

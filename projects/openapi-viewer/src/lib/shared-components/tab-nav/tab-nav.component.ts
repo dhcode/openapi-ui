@@ -1,7 +1,6 @@
 import { Component, ContentChildren, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, TemplateRef } from '@angular/core';
 import { TabNavItemDirective } from './tab-nav-item.directive';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'oav-tab-nav',

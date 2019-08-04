@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, TemplateRef } from '@angular/core';
 import { randomHex } from '../../util/data-generator.util';
 
 @Directive({

@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { OpenapiViewerService } from '../openapi-viewer.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { OperationsItem, PathItem, TagIndex } from '../openapi-viewer.model';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'oav-operation-view',

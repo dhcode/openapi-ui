@@ -48,7 +48,7 @@ export function exampleFromSchema(schema: JSONSchema6Definition): any {
   if (schema.enum) {
     return schema.enum[0];
   }
-  if (type === 'object') {
+  if (type === 'object' || schema.properties) {
     const result = {};
     if (!schema.properties) {
       return result;

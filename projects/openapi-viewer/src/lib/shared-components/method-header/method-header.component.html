@@ -1,5 +1,5 @@
 <h3 (click)="toggleOpen()" [className]="'oav-method-header oav-method-bg method-' + method.toLowerCase()">
-  <a routerLink [fragment]="fragment" class="mainlink" (click)="toggleOpen(); $event.stopPropagation()">
+  <a href="javascript:" class="mainlink" (click)="toggleOpen(); $event.stopPropagation()">
     <oav-method [method]="method"></oav-method>
     <span class="path ml-2">{{ path }}</span>
   </a>

@@ -1,12 +1,21 @@
 <div class="oav-request-details">
   <div class="content">
     <ng-container *ngIf="!request.running">
+      <div *ngIf="request.request.url">
+        <div>
+          URL: <code>{{ request.request.url }}</code>
+        </div>
+      </div>
       <div class="d-flex justify-content-between">
-        <div>Status: {{ request.status }} {{ request.statusText }}</div>
+        <div>
+          Status: <code>{{ request.status }} {{ request.statusText }}</code>
+        </div>
         <div>{{ getDuration() }}ms</div>
       </div>
-      <div class="d-flex justify-content-between" *ngIf="request.sentBytes">
-        <div>Bytes sent: {{ request.sentBytes | number }}</div>
+      <div *ngIf="request.sentBytes">
+        <div>
+          Bytes sent: <code>{{ request.sentBytes | number }}</code>
+        </div>
       </div>
 
       <h4>Response headers</h4>

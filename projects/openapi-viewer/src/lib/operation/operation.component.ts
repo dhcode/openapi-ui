@@ -1,8 +1,7 @@
-import { Component, Input, OnChanges, OnInit, Optional, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, Optional, SimpleChanges } from '@angular/core';
 import { OpenapiViewerService } from '../openapi-viewer.service';
 import { FormGroup } from '@angular/forms';
 import { OperationObject } from 'openapi3-ts';
-import { ActivatedRoute, Router } from '@angular/router';
 import { OavRequest, OperationsItem, PathItem } from '../openapi-viewer.model';
 import { OavSettings } from '../openapi-viewer.settings';
 

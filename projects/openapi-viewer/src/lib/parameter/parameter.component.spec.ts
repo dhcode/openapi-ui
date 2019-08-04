@@ -79,4 +79,38 @@ describe('ParameterComponent', () => {
     input.nativeElement.dispatchEvent(new Event('input'));
     expect(component.formGroup.get('name').value).toEqual('x');
   });
+
+  it('should build object input', () => {
+    const spec: ParameterObject = {
+      description: '',
+      in: null,
+      inCustom: 'body',
+      name: 'body',
+      required: true,
+      schema: {
+        required: ['name'],
+        properties: {
+          name: {
+            type: 'string'
+          },
+          tag: {
+            type: 'string'
+          }
+        }
+      }
+    };
+
+    component.formGroup = new FormGroup({});
+    component.mediaType = 'application/json';
+    component.parameter = spec;
+    fixture.detectChanges();
+    expect(component.displayMode).toBe('object');
+    expect(component.formGroup.get('body')).toBeDefined();
+    expect(component.formGroup.get('body').value).toEqual(JSON.stringify({ name: '', tag: '' }, null, 2));
+
+    const input = element.query(By.css('textarea'));
+    input.nativeElement.value = '{}';
+    input.nativeElement.dispatchEvent(new Event('input'));
+    expect(component.formGroup.get('body').value).toEqual('{}');
+  });
 });

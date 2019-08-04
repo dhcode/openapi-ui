@@ -58,7 +58,7 @@ export class RequestBodyInputComponent implements OnInit, OnDestroy, OnChanges {
   private contentToParameter(mediaType: string, def: MediaTypeObject): Partial<ParameterObject>[] {
     if ((mediaType === 'application/x-www-form-urlencoded' || mediaType.startsWith('multipart')) && def.schema) {
       const schema = def.schema as SchemaObject;
-      if (schema.type === 'object' && schema.properties) {
+      if ((schema.type === 'object' || !schema.type) && schema.properties) {
         return Object.keys(schema.properties).map(key => {
           const propScheme = schema.properties[key] as SchemaObject;
           return {
