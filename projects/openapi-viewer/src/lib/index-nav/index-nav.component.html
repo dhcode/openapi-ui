@@ -19,11 +19,11 @@
             <a [routerLink]="[tag.tag.name, op.operation.operationId]" routerLinkActive="active">
               <span class="label d-flex">
                 <oav-method class="font-size-smaller" [method]="op.method"></oav-method>
-                <span [class.deprecated]="op.operation.deprecated">{{ op.operation.summary }}</span>
+                <span [class.deprecated]="op.operation.deprecated">{{ getPrimaryLabel(op, pathItem) }}</span>
               </span>
-              <span class="info-overlay d-flex">
+              <span class="info-overlay d-flex" *ngIf="showHoverLabel">
                 <oav-method class="font-size-smaller" [method]="op.method"></oav-method>
-                <span [class.deprecated]="op.operation.deprecated">{{ pathItem.path }}</span>
+                <span [class.deprecated]="op.operation.deprecated">{{ getHoverLabel(op, pathItem) }}</span>
               </span>
             </a>
           </li>

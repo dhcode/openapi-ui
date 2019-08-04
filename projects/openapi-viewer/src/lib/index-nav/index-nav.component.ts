@@ -1,8 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { TagIndex } from '../openapi-viewer.model';
+import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { OperationsItem, PathItem, TagIndex } from '../openapi-viewer.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { OavSettings } from '../openapi-viewer.settings';
 
 @Component({
   selector: 'oav-index-nav',
@@ -13,9 +14,16 @@ export class IndexNavComponent implements OnInit, OnDestroy {
 
   @Input() index: TagIndex[];
 
+  showHoverLabel: boolean;
+
   private sub: Subscription;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, @Optional() private oavSettings: OavSettings) {
+    if (!this.oavSettings) {
+      this.oavSettings = OavSettings.default;
+    }
+    this.showHoverLabel = !!this.oavSettings.indexHoverLabel;
+  }
 
   ngOnInit() {
     this.checkOpenTags(this.router.routerState.snapshot.url);
@@ -35,4 +43,24 @@ export class IndexNavComponent implements OnInit, OnDestroy {
       this.openTags.add(tag);
     }
   }
+
+  getPrimaryLabel(op: OperationsItem, pathItem: PathItem): string {
+    return getLabel(op, pathItem, this.oavSettings.indexPrimaryLabel);
+  }
+
+  getHoverLabel(op: OperationsItem, pathItem: PathItem): string {
+    return getLabel(op, pathItem, this.oavSettings.indexHoverLabel);
+  }
+}
+
+function getLabel(op: OperationsItem, pathItem: PathItem, fields: string[]): string {
+  for (const field of fields) {
+    if (field === 'path') {
+      return pathItem.path;
+    }
+    if (op.operation[field]) {
+      return op.operation[field];
+    }
+  }
+  return '';
 }

@@ -8,6 +8,11 @@
   <markdown [data]="operationItem.operation.description"></markdown>
 </p>
 
+<ng-container *ngIf="showRawOperationDefinition">
+  <h4 oavOpenable #rawOpenable="openable" class="toggle-button">Raw operation definition</h4>
+  <pre *ngIf="rawOpenable.open">{{ operationItem.operation | json }}</pre>
+</ng-container>
+
 <form (submit)="send()" [formGroup]="formGroup">
   <ng-container *ngIf="operationItem.parameters?.length">
     <h4>Parameters</h4>

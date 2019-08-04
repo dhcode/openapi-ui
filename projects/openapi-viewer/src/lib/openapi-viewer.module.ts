@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { OpenapiViewerComponent } from './openapi-viewer.component';
 import { CommonModule } from '@angular/common';
 import { OperationComponent } from './operation/operation.component';
@@ -21,6 +21,7 @@ import { TabNavItemDirective } from './shared-components/tab-nav/tab-nav-item.di
 import { TemplateOutletComponent } from './shared-components/template-outlet/template-outlet.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { RequestBodyInputComponent } from './request-body-input/request-body-input.component';
+import { OavSettings } from './openapi-viewer.settings';
 
 @NgModule({
   declarations: [

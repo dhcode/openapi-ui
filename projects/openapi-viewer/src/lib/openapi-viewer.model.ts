@@ -1,5 +1,4 @@
-import { OperationObject, ParameterObject, ServerObject } from 'openapi3-ts/src/model/OpenApi';
-import { ResponseObject, TagObject } from 'openapi3-ts';
+import { ResponseObject, TagObject, ServerObject, OperationObject, ParameterObject } from 'openapi3-ts';
 import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 

@@ -1,6 +1,12 @@
 <oav-openapi-viewer [specUrl]="specUrl">
   <form class="d-flex align-items-center header-form" (submit)="loadSpec()">
     <span>Specification URL: </span>
+    <div>
+      <select name="urlPreset" class="spec-url-select" ngModel (ngModelChange)="updateUrl($event)">
+        <option value="">Custom URL</option>
+        <option *ngFor="let opt of urlOptions" [value]="opt.url">{{ opt.label }}</option>
+      </select>
+    </div>
     <div class="flex-grow-1">
       <input class="spec-url" name="url" type="text" [(ngModel)]="url" />
     </div>
