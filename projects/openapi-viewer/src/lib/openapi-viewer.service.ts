@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { OpenAPIObject, PathItemObject, TagObject } from 'openapi3-ts';
+import { OpenAPIObject, PathItemObject, SecuritySchemeObject, TagObject } from 'openapi3-ts';
 import { OperationObject, ParameterObject } from 'openapi3-ts/src/model/OpenApi';
 import Swagger from 'swagger-client';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { OavRequest, OperationsItem, PathItem, SwaggerRequest, TagIndex } from './openapi-viewer.model';
+import { AuthStatus, OavRequest, OperationsItem, PathItem, SecuritySchemeItem, SwaggerRequest, TagIndex } from './openapi-viewer.model';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { httpMethods } from './openapi-viewer.constants';
 import { map } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { randomHex } from './util/data-generator.util';
 export class OpenapiViewerService {
   spec = new BehaviorSubject<OpenAPIObject>(null);
   tagIndex = new BehaviorSubject<TagIndex[]>([]);
+  securitySchemes = new BehaviorSubject<SecuritySchemeItem[]>([]);
   loadErrors = new BehaviorSubject([]);
 
   requests: OavRequest[] = [];
@@ -38,6 +39,7 @@ export class OpenapiViewerService {
     console.log('loaded spec', resolveResult);
     this.spec.next(resolveResult.spec);
     this.tagIndex.next(getTagIndex(resolveResult.spec));
+    this.securitySchemes.next(getSecurityInformation(resolveResult.spec));
     if (resolveResult.errors && resolveResult.errors.length) {
       this.loadErrors.next(resolveResult.errors);
       throw new Error('Spec resolve errors');
@@ -210,12 +212,17 @@ function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: Para
       if (operation.responses) {
         responses.push(...Object.entries(operation.responses).map(([status, value]) => ({ status, ...value })));
       }
+      let authStatus: AuthStatus = 'none';
+      if (operation.security && Object.keys(operation.security.length)) {
+        authStatus = 'required';
+      }
       ops.push({
         method,
         operation,
         parameters,
         responses,
-        responseTypes: identifyResponseTypes(operation)
+        responseTypes: identifyResponseTypes(operation),
+        authStatus
       });
     }
   }
@@ -246,4 +253,19 @@ function identifyResponseTypes(operation: OperationObject): string[] {
     }
   }
   return [...types];
+}
+
+function getSecurityInformation(spec: OpenAPIObject) {
+  const securitySchemes: SecuritySchemeItem[] = [];
+  const definitions = spec.securityDefinitions || (spec.components && spec.components.securitySchemes) || {};
+  for (const [schemeName, schemeDef] of Object.entries(definitions)) {
+    securitySchemes.push({
+      name: schemeName,
+      securityScheme: schemeDef as SecuritySchemeObject,
+      authenticated: false,
+      credentials: null
+    });
+  }
+
+  return securitySchemes;
 }

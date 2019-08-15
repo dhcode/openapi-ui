@@ -18,6 +18,9 @@ $primary-bg-hover: #31b1ff;
 $danger-bg: #ac0003;
 $danger-bg-hover: #f26767;
 
+$required-color: #8a8a8f;
+$success-color: #25ac20;
+
 $line-color: #ccc;
 
 .oav-layout {
@@ -429,6 +432,21 @@ oav-method-header {
 
   .main {
     flex: 1;
+  }
+}
+
+.oav-auth-status {
+  font-family: monospace;
+  &::before {
+    content: ' ';
+  }
+  &.required::before {
+    content: '🔒\FE0E';
+    color: $required-color;
+  }
+  &.ok {
+    content: '🔒\FE0E';
+    color: $success-color;
   }
 }
 

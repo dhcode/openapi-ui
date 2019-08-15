@@ -1,8 +1,10 @@
-import { ResponseObject, TagObject, ServerObject, OperationObject, ParameterObject } from 'openapi3-ts';
+import { ResponseObject, TagObject, ServerObject, OperationObject, ParameterObject, SecuritySchemeObject } from 'openapi3-ts';
 import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'trace';
+
+export type AuthStatus = 'none' | 'required' | 'ok';
 
 export interface PathItem {
   path: string;
@@ -24,6 +26,14 @@ export interface OperationsItem {
   parameters: ParameterObject[];
   responses: ResponseItem[];
   responseTypes: string[];
+  authStatus: AuthStatus;
+}
+
+export interface SecuritySchemeItem {
+  name: string;
+  securityScheme: SecuritySchemeObject;
+  authenticated: boolean;
+  credentials: any;
 }
 
 export interface ResponseItem extends ResponseObject {
