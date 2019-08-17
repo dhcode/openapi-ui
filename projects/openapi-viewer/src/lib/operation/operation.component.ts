@@ -5,8 +5,6 @@ import { OperationObject } from 'openapi3-ts';
 import { AuthStatus, OavRequest, OperationsItem, PathItem } from '../models/openapi-viewer.model';
 import { OavSettings } from '../models/openapi-viewer.settings';
 import { OpenapiAuthService } from '../services/openapi-auth.service';
-import { ChangeDetection } from '@angular/cli/lib/config/schema';
-import get = Reflect.get;
 
 @Component({
   selector: 'oav-operation',

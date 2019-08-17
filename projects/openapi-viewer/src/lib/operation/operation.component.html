@@ -25,12 +25,13 @@
   <button class="send-btn" [disabled]="formGroup.invalid">Send request</button>
 </form>
 
-<h4 class="oav-divided-container">
-  <span class="main">Responses</span>
-  <select class="response-type-select" name="responseType" [(ngModel)]="responseType">
-    <option *ngFor="let resType of operationItem.responseTypes" [value]="resType">{{ resType }}</option>
-  </select>
-</h4>
+<h4>Responses</h4>
+
+<oav-tab-nav [(tab)]="responseType">
+  <ng-container *ngFor="let resType of operationItem.responseTypes">
+    <div *oavTabNavItem="resType; id: resType"></div>
+  </ng-container>
+</oav-tab-nav>
 
 <oav-responses [responses]="operationItem.responses" [responseType]="responseType"></oav-responses>
 

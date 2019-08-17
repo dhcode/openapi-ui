@@ -1,5 +1,5 @@
 <nav class="oav-tab-nav">
-  <a href="javascript:" *ngFor="let tab of tabs" [class.active]="tab.active" (click)="showTab(tab.id)">
+  <a href="javascript:" *ngFor="let tab of tabs" [class.active]="tab.active" (click)="showTab(tab.id, true)">
     <oav-template-outlet [tpl]="tab.label" [ctx]="tab"></oav-template-outlet>
   </a>
 </nav>

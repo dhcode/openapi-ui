@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { OavRequest } from '../../models/openapi-viewer.model';
 import { Subject } from 'rxjs';
 import { HttpErrorResponse, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { takeUntil } from 'rxjs/operators';
+import { delay, takeUntil } from 'rxjs/operators';
 
 type DisplayMode = 'text' | 'json' | 'download';
 
@@ -134,7 +134,8 @@ export class RequestViewComponent implements OnInit, OnDestroy {
       'image/gif': 'gif',
       'image/jpeg': 'jpg'
     };
-    let name = this.request.operationsItem.operation.operationId;
+    const readableTs = new Date().toISOString().replace(/[-:]|\.\d{3}/g, '');
+    let name = readableTs + '_' + this.request.operationsItem.operation.operationId;
     const mime = Object.keys(contentType2Ending).find(mimeType => contentType.startsWith(mimeType));
     if (mime) {
       name += '.' + contentType2Ending[mime];

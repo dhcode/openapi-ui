@@ -1,4 +1,16 @@
-import { Component, ContentChildren, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, TemplateRef } from '@angular/core';
+import {
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  TemplateRef
+} from '@angular/core';
 import { TabNavItemDirective } from './tab-nav-item.directive';
 import { Subject } from 'rxjs';
 
@@ -7,7 +19,7 @@ import { Subject } from 'rxjs';
   templateUrl: './tab-nav.component.html',
   styles: []
 })
-export class TabNavComponent implements OnInit, OnDestroy {
+export class TabNavComponent implements OnDestroy, OnChanges {
   tabs: TabNavItemDirective[] = [];
 
   @Output() tabChange = new EventEmitter<string>();
@@ -27,7 +39,11 @@ export class TabNavComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.tab && !changes.tab.firstChange) {
+      this.showTab(this.tab);
+    }
+  }
 
   ngOnDestroy(): void {
     this.destroy.complete();
