@@ -32,7 +32,12 @@
         <h3>
           <a [routerLink]="[tag.tag.name, op.operation.operationId]" routerLinkActive="active" class="oav-header-link">
             <oav-method [method]="op.method"></oav-method>
-            <span class="oav-auth-status ml-1" [class.required]="op.authStatus === 'required'" [class.ok]="op.authStatus === 'ok'"></span>
+            <span
+              class="oav-auth-status ml-1"
+              *ngIf="getAuthStatus(op) as authStatus"
+              [class.required]="authStatus === 'required'"
+              [class.ok]="authStatus === 'ok'"
+            ></span>
             <span class="oav-path ml-1" [class.deprecated]="op.operation.deprecated">{{ pathItem.path }}</span>
             <span class="oav-summary font-size-smaller ml-2">{{ op.operation.summary }}</span>
           </a>

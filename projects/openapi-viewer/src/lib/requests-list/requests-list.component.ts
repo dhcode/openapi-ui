@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OpenapiViewerService } from '../openapi-viewer.service';
-import { OavRequest } from '../openapi-viewer.model';
+import { OpenapiViewerService } from '../services/openapi-viewer.service';
+import { OavRequest } from '../models/openapi-viewer.model';
 
 @Component({
   selector: 'oav-requests-list',

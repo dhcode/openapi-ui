@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OpenapiViewerService } from '../openapi-viewer.service';
+import { OpenapiViewerService } from '../services/openapi-viewer.service';
 import { combineLatest, Subscription } from 'rxjs';
-import { OperationsItem, PathItem, TagIndex } from '../openapi-viewer.model';
+import { OperationsItem, PathItem, TagIndex } from '../models/openapi-viewer.model';
 
 @Component({
   selector: 'oav-operation-view',

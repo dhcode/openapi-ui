@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { OavRequest } from '../../openapi-viewer.model';
+import { OavRequest } from '../../models/openapi-viewer.model';
 import { Subject } from 'rxjs';
 import { HttpErrorResponse, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { takeUntil } from 'rxjs/operators';

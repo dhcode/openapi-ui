@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { OpenapiViewerService } from '../openapi-viewer.service';
+import { OpenapiViewerService } from '../services/openapi-viewer.service';
 import { combineLatest, Subscription } from 'rxjs';
-import { TagIndex } from '../openapi-viewer.model';
+import { AuthStatus, OperationsItem, TagIndex } from '../models/openapi-viewer.model';
 import { OpenAPIObject } from 'openapi3-ts';
+import { OpenapiAuthService } from '../services/openapi-auth.service';
 
 @Component({
   selector: 'oav-overview-view',
@@ -16,13 +17,17 @@ export class OverviewViewComponent implements OnInit, OnDestroy {
 
   private sub: Subscription;
 
-  constructor(private openApiService: OpenapiViewerService) {}
+  constructor(private openApiService: OpenapiViewerService, private authService: OpenapiAuthService) {}
 
   ngOnInit() {
-    this.sub = combineLatest(this.openApiService.spec, this.openApiService.tagIndex).subscribe(([spec, index]) => {
+    this.sub = combineLatest([this.openApiService.spec, this.openApiService.tagIndex]).subscribe(([spec, index]) => {
       this.spec = spec;
       this.index = index;
     });
+  }
+
+  getAuthStatus(op: OperationsItem): AuthStatus {
+    return this.authService.getAuthStatus(op.operation.security);
   }
 
   ngOnDestroy(): void {

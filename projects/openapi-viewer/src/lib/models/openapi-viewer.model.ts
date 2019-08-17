@@ -26,7 +26,6 @@ export interface OperationsItem {
   parameters: ParameterObject[];
   responses: ResponseItem[];
   responseTypes: string[];
-  authStatus: AuthStatus;
 }
 
 export interface SecuritySchemeItem {

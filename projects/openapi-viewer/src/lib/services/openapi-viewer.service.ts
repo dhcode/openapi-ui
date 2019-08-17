@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
-import { OpenAPIObject, PathItemObject, SecuritySchemeObject, TagObject } from 'openapi3-ts';
+import { OpenAPIObject, PathItemObject } from 'openapi3-ts';
 import { OperationObject, ParameterObject } from 'openapi3-ts/src/model/OpenApi';
 import Swagger from 'swagger-client';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { AuthStatus, OavRequest, OperationsItem, PathItem, SecuritySchemeItem, SwaggerRequest, TagIndex } from './openapi-viewer.model';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { httpMethods } from './openapi-viewer.constants';
-import { map } from 'rxjs/operators';
-import { randomHex } from './util/data-generator.util';
+import { AuthStatus, OavRequest, OperationsItem, PathItem, SwaggerRequest, TagIndex } from '../models/openapi-viewer.model';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { httpMethods } from '../openapi-viewer.constants';
+import { randomHex } from '../util/data-generator.util';
+import { OpenapiAuthService } from './openapi-auth.service';
 
 @Injectable()
 export class OpenapiViewerService {
   spec = new BehaviorSubject<OpenAPIObject>(null);
   tagIndex = new BehaviorSubject<TagIndex[]>([]);
-  securitySchemes = new BehaviorSubject<SecuritySchemeItem[]>([]);
   loadErrors = new BehaviorSubject([]);
+
+  operationParameterCache: Record<string, any> = {};
 
   requests: OavRequest[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: OpenapiAuthService) {}
 
   loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
     return this.resolveSpec({ spec });
@@ -39,7 +40,8 @@ export class OpenapiViewerService {
     console.log('loaded spec', resolveResult);
     this.spec.next(resolveResult.spec);
     this.tagIndex.next(getTagIndex(resolveResult.spec));
-    this.securitySchemes.next(getSecurityInformation(resolveResult.spec));
+    this.authService.identifySchemes(resolveResult.spec);
+    this.operationParameterCache = {};
     if (resolveResult.errors && resolveResult.errors.length) {
       this.loadErrors.next(resolveResult.errors);
       throw new Error('Spec resolve errors');
@@ -153,13 +155,18 @@ export class OpenapiViewerService {
     return this.requests.filter(req => req.operationsItem.operation.operationId === opId);
   }
 
+  saveOperationParameters(opId: string, parameters: any) {
+    this.operationParameterCache[opId] = parameters;
+  }
+
+  loadOperationParameters(opId: string): any {
+    return this.operationParameterCache[opId];
+  }
+
   resetSpec() {
     this.spec.next(null);
     this.tagIndex.next([]);
-  }
-
-  getTags(): Observable<TagObject[]> {
-    return this.spec.pipe(map(spec => spec.tags));
+    this.loadErrors.next([]);
   }
 }
 
@@ -212,17 +219,13 @@ function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: Para
       if (operation.responses) {
         responses.push(...Object.entries(operation.responses).map(([status, value]) => ({ status, ...value })));
       }
-      let authStatus: AuthStatus = 'none';
-      if (operation.security && Object.keys(operation.security.length)) {
-        authStatus = 'required';
-      }
+
       ops.push({
         method,
         operation,
         parameters,
         responses,
-        responseTypes: identifyResponseTypes(operation),
-        authStatus
+        responseTypes: identifyResponseTypes(operation)
       });
     }
   }
@@ -253,19 +256,4 @@ function identifyResponseTypes(operation: OperationObject): string[] {
     }
   }
   return [...types];
-}
-
-function getSecurityInformation(spec: OpenAPIObject) {
-  const securitySchemes: SecuritySchemeItem[] = [];
-  const definitions = spec.securityDefinitions || (spec.components && spec.components.securitySchemes) || {};
-  for (const [schemeName, schemeDef] of Object.entries(definitions)) {
-    securitySchemes.push({
-      name: schemeName,
-      securityScheme: schemeDef as SecuritySchemeObject,
-      authenticated: false,
-      credentials: null
-    });
-  }
-
-  return securitySchemes;
 }

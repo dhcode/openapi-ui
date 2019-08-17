@@ -1,16 +1,17 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { OpenapiViewerService } from './openapi-viewer.service';
+import { OpenapiViewerService } from './services/openapi-viewer.service';
 import { OpenAPIObject } from 'openapi3-ts';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TagIndex } from './openapi-viewer.model';
+import { TagIndex } from './models/openapi-viewer.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { OpenapiAuthService } from './services/openapi-auth.service';
 
 @Component({
   selector: 'oav-openapi-viewer',
   templateUrl: './openapi-viewer.component.html',
   styleUrls: ['./openapi-viewer.scss'],
-  providers: [OpenapiViewerService],
+  providers: [OpenapiAuthService, OpenapiViewerService],
   encapsulation: ViewEncapsulation.None
 })
 export class OpenapiViewerComponent implements OnInit, OnChanges, OnDestroy {

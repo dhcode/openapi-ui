@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { exampleFromSchema } from '../util/data-generator.util';
-import { ResponseItem } from '../openapi-viewer.model';
+import { ResponseItem } from '../models/openapi-viewer.model';
 import { HeaderObject } from 'openapi3-ts';
 import { JSONSchema6Definition } from 'json-schema';
 

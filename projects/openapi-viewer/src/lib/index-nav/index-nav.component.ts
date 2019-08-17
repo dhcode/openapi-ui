@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { OperationsItem, PathItem, TagIndex } from '../openapi-viewer.model';
+import { OperationsItem, PathItem, TagIndex } from '../models/openapi-viewer.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { OavSettings } from '../openapi-viewer.settings';
+import { OavSettings } from '../models/openapi-viewer.settings';
 
 @Component({
   selector: 'oav-index-nav',

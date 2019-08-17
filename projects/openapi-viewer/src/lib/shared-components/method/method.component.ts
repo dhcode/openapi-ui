@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { HttpMethod } from '../../openapi-viewer.model';
+import { HttpMethod } from '../../models/openapi-viewer.model';
 
 @Component({
   selector: 'oav-method',
