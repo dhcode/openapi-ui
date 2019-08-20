@@ -21,6 +21,8 @@ import { TabNavItemDirective } from './shared-components/tab-nav/tab-nav-item.di
 import { TemplateOutletComponent } from './shared-components/template-outlet/template-outlet.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { RequestBodyInputComponent } from './request-body-input/request-body-input.component';
+import { AuthenticationViewComponent } from './authentication-view/authentication-view.component';
+import { AuthCredentialsComponent } from './authentication-view/auth-credentials/auth-credentials.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { RequestBodyInputComponent } from './request-body-input/request-body-inp
     TabNavComponent,
     TabNavItemDirective,
     TemplateOutletComponent,
-    RequestBodyInputComponent
+    RequestBodyInputComponent,
+    AuthenticationViewComponent,
+    AuthCredentialsComponent
   ],
   imports: [CommonModule, OpenapiViewerRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule, MarkdownModule.forRoot()],
   exports: [OpenapiViewerComponent, OperationComponent]

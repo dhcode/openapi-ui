@@ -444,7 +444,7 @@ oav-method-header {
     content: '🔒\FE0E';
     color: $required-color;
   }
-  &.ok {
+  &.ok::before {
     content: '🔓\FE0E';
     color: $success-color;
   }
@@ -523,6 +523,7 @@ oav-method-header {
       color: #000;
       text-decoration: none;
       padding: .2em 1rem;
+      font-size: 1rem;
       display: flex;
       justify-content: space-between;
       font-weight: bold;
@@ -569,6 +570,14 @@ oav-method-header {
     }
     a:active, a.active {
       color: $active-color;
+    }
+  }
+  .oav-top-nav {
+    padding-left: 0;
+
+    a {
+      font-size: 1rem;
+      padding-left: 1rem;
     }
   }
 }

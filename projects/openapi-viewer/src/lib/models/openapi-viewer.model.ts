@@ -28,11 +28,25 @@ export interface OperationsItem {
   responseTypes: string[];
 }
 
+export interface BasicAuthCredentials {
+  username: string;
+  password: string;
+}
+export interface OAuthToken {
+  access_token: string;
+  token_type: string;
+}
+export interface OAuthCredentials {
+  token: OAuthToken;
+  scopes: string[];
+}
+export type SecurityCredentials = BasicAuthCredentials | OAuthCredentials | string;
+
 export interface SecuritySchemeItem {
   name: string;
   securityScheme: SecuritySchemeObject;
   authenticated: boolean;
-  credentials: any;
+  credentials: SecurityCredentials;
 }
 
 export interface ResponseItem extends ResponseObject {

@@ -1,0 +1,9 @@
+<div class="oav-content">
+  <h1>Authentication schemes</h1>
+
+  <div *ngFor="let scheme of schemes">
+    <h2>{{ scheme.name }}</h2>
+
+    <oav-auth-credentials [securityScheme]="scheme"></oav-auth-credentials>
+  </div>
+</div>

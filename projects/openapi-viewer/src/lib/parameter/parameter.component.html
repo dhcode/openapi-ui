@@ -52,6 +52,6 @@
     </ng-container>
   </div>
   <div class="description">
-    {{ parameter.description }}
+    <markdown [data]="parameter.description"></markdown>
   </div>
 </div>

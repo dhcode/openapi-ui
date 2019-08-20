@@ -3,7 +3,7 @@ import { OpenAPIObject, PathItemObject } from 'openapi3-ts';
 import { OperationObject, ParameterObject } from 'openapi3-ts/src/model/OpenApi';
 import Swagger from 'swagger-client';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { AuthStatus, OavRequest, OperationsItem, PathItem, SwaggerRequest, TagIndex } from '../models/openapi-viewer.model';
+import { OavRequest, OperationsItem, PathItem, SecurityCredentials, SwaggerRequest, TagIndex } from '../models/openapi-viewer.model';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { httpMethods } from '../openapi-viewer.constants';
 import { randomHex } from '../util/data-generator.util';
@@ -57,11 +57,19 @@ export class OpenapiViewerService {
     responseContentType: string
   ): SwaggerRequest {
     // See https://github.com/swagger-api/swagger-js/blob/master/src/execute/index.js#L91
+
+    const securities: Record<string, SecurityCredentials> = {};
+    for (const scheme of this.authService.securitySchemes.value) {
+      if (scheme.authenticated) {
+        securities[scheme.name] = scheme.credentials;
+      }
+    }
+
     const params = {
       spec: this.spec.value,
       operationId,
       parameters,
-      securities: undefined,
+      securities: { authorized: securities },
       requestContentType,
       responseContentType,
       scheme: undefined,

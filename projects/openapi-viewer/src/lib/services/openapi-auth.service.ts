@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AuthStatus, SecuritySchemeItem } from '../models/openapi-viewer.model';
+import { AuthStatus, OAuthCredentials, SecuritySchemeItem } from '../models/openapi-viewer.model';
 import { OpenAPIObject, SecurityRequirementObject, SecuritySchemeObject } from 'openapi3-ts';
 import { securitySchemeTypesWithScopes } from '../openapi-viewer.constants';
 
@@ -46,7 +46,8 @@ export class OpenapiAuthService {
       scheme.securityScheme.type &&
       securitySchemeTypesWithScopes.includes(scheme.securityScheme.type)
     ) {
-      if (scheme.credentials && scheme.credentials.scopes && scopes.every(s => scheme.credentials.scopes.includes(s))) {
+      const credentials = scheme.credentials as OAuthCredentials;
+      if (credentials && credentials.scopes && scopes.every(s => credentials.scopes.includes(s))) {
         return true;
       }
     } else if (scheme && scheme.authenticated) {
