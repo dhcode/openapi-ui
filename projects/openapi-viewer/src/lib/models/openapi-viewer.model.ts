@@ -49,6 +49,13 @@ export interface SecuritySchemeItem {
   credentials: SecurityCredentials;
 }
 
+export interface SecurityRequirementStatus {
+  name: string;
+  securityScheme: SecuritySchemeObject;
+  authenticated: boolean;
+  scopes?: string[];
+}
+
 export interface ResponseItem extends ResponseObject {
   status: number;
 }

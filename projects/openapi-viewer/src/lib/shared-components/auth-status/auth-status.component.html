@@ -1,0 +1,20 @@
+<span
+  #statusIcon
+  class="oav-auth-status ml-1"
+  *ngIf="showAuthentication"
+  [class.required]="authStatus === 'required'"
+  [class.ok]="authStatus === 'ok'"
+  [oavTooltip]="portal"
+></span>
+
+<oav-tooltip *cdkPortal>
+  <ng-container *ngFor="let reqs of requiredSchemes">
+    <div *ngFor="let status of reqs">
+      <h4 class="m-0">
+        {{ status.name }}
+        <span class="oav-auth-status ml-1" [class.required]="!status.authenticated" [class.ok]="status.authenticated"></span>
+      </h4>
+    </div>
+    <hr />
+  </ng-container>
+</oav-tooltip>

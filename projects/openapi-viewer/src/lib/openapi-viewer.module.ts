@@ -23,6 +23,11 @@ import { MarkdownModule } from 'ngx-markdown';
 import { RequestBodyInputComponent } from './request-body-input/request-body-input.component';
 import { AuthenticationViewComponent } from './authentication-view/authentication-view.component';
 import { AuthCredentialsComponent } from './authentication-view/auth-credentials/auth-credentials.component';
+import { AuthStatusComponent } from './shared-components/auth-status/auth-status.component';
+import { PortalModule } from '@angular/cdk/portal';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { TooltipComponent } from './shared-components/tooltip/tooltip.component';
+import { TooltipDirective } from './shared-components/tooltip/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -44,9 +49,21 @@ import { AuthCredentialsComponent } from './authentication-view/auth-credentials
     TemplateOutletComponent,
     RequestBodyInputComponent,
     AuthenticationViewComponent,
-    AuthCredentialsComponent
+    AuthCredentialsComponent,
+    AuthStatusComponent,
+    TooltipComponent,
+    TooltipDirective
   ],
-  imports: [CommonModule, OpenapiViewerRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule, MarkdownModule.forRoot()],
+  imports: [
+    CommonModule,
+    OpenapiViewerRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MarkdownModule.forRoot(),
+    PortalModule,
+    OverlayModule
+  ],
   exports: [OpenapiViewerComponent, OperationComponent]
 })
 export class OpenapiViewerModule {}

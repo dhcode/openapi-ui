@@ -25,6 +25,8 @@ export class OperationComponent implements OnChanges, OnDestroy {
 
   showRawOperationDefinition = false;
 
+  showAuthentication = true;
+
   authStatus: AuthStatus;
 
   constructor(
@@ -33,9 +35,11 @@ export class OperationComponent implements OnChanges, OnDestroy {
     private authService: OpenapiAuthService,
     private cd: ChangeDetectorRef
   ) {
-    if (this.oavSettings) {
-      this.showRawOperationDefinition = this.oavSettings.showRawOperationDefinition;
+    if (!this.oavSettings) {
+      this.oavSettings = OavSettings.default;
     }
+    this.showRawOperationDefinition = this.oavSettings.showRawOperationDefinition;
+    this.showAuthentication = this.oavSettings.enableAuthentication;
   }
 
   get operation(): OperationObject {

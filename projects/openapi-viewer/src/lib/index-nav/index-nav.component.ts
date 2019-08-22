@@ -15,6 +15,7 @@ export class IndexNavComponent implements OnInit, OnDestroy {
   @Input() index: TagIndex[];
 
   showHoverLabel: boolean;
+  showAuthentication: boolean;
 
   private sub: Subscription;
 
@@ -23,6 +24,7 @@ export class IndexNavComponent implements OnInit, OnDestroy {
       this.oavSettings = OavSettings.default;
     }
     this.showHoverLabel = !!this.oavSettings.indexHoverLabel;
+    this.showAuthentication = this.oavSettings.enableAuthentication;
   }
 
   ngOnInit() {

@@ -22,5 +22,12 @@ export class OavSettings {
    * Whether to show the option to display the raw operation definition on the operation page.
    */
   showRawOperationDefinition = false;
+
+  /**
+   * Whether authentication is enabled.
+   * - Status is shown at operations
+   * - Authentication page is shown, where a user can enter credentials
+   */
+  enableAuthentication = true;
 }
 OavSettings.default = new OavSettings();

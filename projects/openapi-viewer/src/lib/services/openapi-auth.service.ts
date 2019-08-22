@@ -1,22 +1,49 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AuthStatus, OAuthCredentials, SecuritySchemeItem } from '../models/openapi-viewer.model';
+import { AuthStatus, OAuthCredentials, SecurityRequirementStatus, SecuritySchemeItem } from '../models/openapi-viewer.model';
 import { OpenAPIObject, SecurityRequirementObject, SecuritySchemeObject } from 'openapi3-ts';
 import { securitySchemeTypesWithScopes } from '../openapi-viewer.constants';
 
 @Injectable()
 export class OpenapiAuthService {
-  securitySchemes = new BehaviorSubject<SecuritySchemeItem[]>([]);
+  readonly securitySchemes = new BehaviorSubject<SecuritySchemeItem[]>([]);
+  private globalRequirements: SecurityRequirementObject[] = [];
 
   constructor() {}
 
   identifySchemes(spec: OpenAPIObject) {
     this.securitySchemes.next(getSecurityInformation(spec));
+    if (Array.isArray(spec.security)) {
+      this.globalRequirements = spec.security;
+    }
+  }
+
+  getAllRequirements(requirement?: SecurityRequirementObject[]): SecurityRequirementObject[] {
+    return [...this.globalRequirements, ...(requirement || [])];
+  }
+
+  getRequiredSchemes(requirement?: SecurityRequirementObject[]): SecurityRequirementStatus[][] {
+    const result: SecurityRequirementStatus[][] = [];
+    for (const reqs of this.getAllRequirements(requirement)) {
+      result.push(
+        Object.keys(reqs).map(reqName => {
+          const schemaItem = this.getSchema(reqName);
+          return {
+            name: reqName,
+            scopes: reqs[reqName],
+            securityScheme: schemaItem.securityScheme,
+            authenticated: schemaItem.authenticated
+          };
+        })
+      );
+    }
+    return result;
   }
 
   getAuthStatus(requirement: SecurityRequirementObject[]): AuthStatus {
     let authStatus: AuthStatus = 'none';
-    if (requirement && Object.keys(requirement).length) {
+    const allRequirements = this.getAllRequirements(requirement);
+    if (allRequirements && Object.keys(allRequirements).length) {
       authStatus = 'required';
       if (this.hasAnyAuthorization(requirement)) {
         authStatus = 'ok';

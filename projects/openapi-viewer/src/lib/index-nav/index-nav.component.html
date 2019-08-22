@@ -3,7 +3,7 @@
     <li>
       <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
     </li>
-    <li>
+    <li *ngIf="showAuthentication">
       <a routerLink="/auth" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Authentication</a>
     </li>
   </ol>
