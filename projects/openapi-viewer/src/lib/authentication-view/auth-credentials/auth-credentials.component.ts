@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BasicAuthCredentials, SecuritySchemeItem } from '../../models/openapi-viewer.model';
 import { FormControl, FormGroup } from '@angular/forms';
+import { OpenapiAuthService } from '../../services/openapi-auth.service';
 
 @Component({
   selector: 'oav-auth-credentials',
@@ -13,12 +14,13 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
   username = new FormControl('');
   password = new FormControl('');
   apiKey = new FormControl('');
+  remember = new FormControl(false);
 
-  formGroup;
+  formGroup: FormGroup;
 
   @Input() securityScheme: SecuritySchemeItem;
 
-  constructor() {}
+  constructor(private authService: OpenapiAuthService) {}
 
   ngOnInit() {}
 
@@ -38,10 +40,13 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
     } else {
       this.displayMode = 'unknown';
     }
+    if (this.securityScheme.remember) {
+      this.remember.patchValue(true);
+    }
   }
 
   readApiKey() {
-    this.formGroup = new FormGroup({ apiKey: this.apiKey });
+    this.formGroup = new FormGroup({ apiKey: this.apiKey, remember: this.remember });
     if (typeof this.securityScheme.credentials === 'string') {
       this.apiKey.patchValue(this.securityScheme.credentials);
     } else {
@@ -50,7 +55,7 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
   }
 
   readHttpCredentials() {
-    this.formGroup = new FormGroup({ username: this.username, password: this.password });
+    this.formGroup = new FormGroup({ username: this.username, password: this.password, remember: this.remember });
     const credentials = this.securityScheme.credentials as BasicAuthCredentials;
     if (typeof credentials === 'object' && credentials) {
       if (typeof credentials.username === 'string') {
@@ -71,15 +76,19 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
 
   save() {
     if (this.displayMode === 'apiKey') {
-      this.securityScheme.credentials = this.apiKey.value;
-      this.securityScheme.authenticated = this.apiKey.value.length > 0;
+      this.authService.updateCredentials(this.securityScheme.name, this.apiKey.value, this.apiKey.value.length > 0, this.remember.value);
     }
     if (this.displayMode === 'usernamePassword') {
-      this.securityScheme.credentials = {
-        username: this.username.value,
-        password: this.password.value
-      };
-      this.securityScheme.authenticated = this.username.value.length > 0;
+      this.authService.updateCredentials(
+        this.securityScheme.name,
+        {
+          username: this.username.value,
+          password: this.password.value
+        },
+        this.username.value.length > 0,
+        this.remember.value
+      );
     }
+    this.formGroup.markAsPristine();
   }
 }

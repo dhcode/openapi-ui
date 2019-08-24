@@ -85,6 +85,10 @@ $line-color: #ccc;
   .send-btn:hover {
     background-color: $primary-bg-hover;
   }
+  .send-btn:disabled {
+    background-color: #ccc;
+  }
+
 
   pre {
     white-space: pre-wrap;
@@ -323,7 +327,7 @@ oav-method-header {
   background-color: #d60003;
 }
 
-.openapi-parameter {
+.oav-parameter {
   border-bottom: 1px solid #cccccc;
   padding: 0.2rem 0;
   box-sizing: border-box;
@@ -355,6 +359,9 @@ oav-method-header {
 
   .description {
     margin: 0.2rem 0;
+    p {
+      margin-top: 0;
+    }
   }
 
   .required {
@@ -657,6 +664,7 @@ oav-tooltip {
   background: white;
   border: 1px solid #ccc;
   padding: 1rem;
+  box-shadow: 0 0 3px #ccc;
 }
 
 @keyframes spin-loader {
@@ -666,7 +674,7 @@ oav-tooltip {
 }
 
 @media (min-width: 60rem) {
-  .openapi-parameter {
+  .oav-parameter {
     display: flex;
 
     .name {

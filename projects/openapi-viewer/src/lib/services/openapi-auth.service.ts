@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AuthStatus, OAuthCredentials, SecurityRequirementStatus, SecuritySchemeItem } from '../models/openapi-viewer.model';
+import {
+  AuthStatus,
+  OAuthCredentials,
+  SecurityCredentials,
+  SecurityRequirementStatus,
+  SecuritySchemeItem
+} from '../models/openapi-viewer.model';
 import { OpenAPIObject, SecurityRequirementObject, SecuritySchemeObject } from 'openapi3-ts';
 import { securitySchemeTypesWithScopes } from '../openapi-viewer.constants';
 
@@ -86,17 +92,63 @@ export class OpenapiAuthService {
   getSchema(name: string): SecuritySchemeItem {
     return this.securitySchemes.value.find(s => s.name === name);
   }
+
+  updateCredentials(name: string, credentials: SecurityCredentials, authenticated: boolean, remember = false) {
+    if (typeof name !== 'string' || !name.length) {
+      throw new Error('No credentials name given');
+    }
+    const schema = this.getSchema(name);
+    schema.credentials = credentials;
+    schema.authenticated = authenticated;
+    if (remember) {
+      schema.remember = true;
+      writeCredentialsStore(name, credentials);
+    }
+    if (!schema.authenticated) {
+      clearCredentialsStore(name);
+    }
+  }
+}
+
+function clearCredentialsStore(name: string) {
+  const key = getStorageKey(name);
+  window.sessionStorage.removeItem(key);
+}
+
+function writeCredentialsStore(name: string, credentials: SecurityCredentials) {
+  const key = getStorageKey(name);
+  const value = JSON.stringify(credentials);
+  window.sessionStorage.setItem(key, value);
+}
+
+function readCredentialsStore(name: string): SecurityCredentials | null {
+  const key = getStorageKey(name);
+  const value = window.sessionStorage.getItem(key);
+  if (typeof value === 'string') {
+    try {
+      return JSON.parse(value);
+    } catch (e) {
+      console.warn('Failed to parse credentials for ' + name, e);
+    }
+  }
+  return null;
+}
+
+function getStorageKey(name: string) {
+  return 'oavCredentials.' + name.replace(/[^-_A-Za-z0-9]/g, '_');
 }
 
 function getSecurityInformation(spec: OpenAPIObject) {
   const securitySchemes: SecuritySchemeItem[] = [];
   const definitions = spec.securityDefinitions || (spec.components && spec.components.securitySchemes) || {};
   for (const [schemeName, schemeDef] of Object.entries(definitions)) {
+    const storedCredentials = readCredentialsStore(schemeName);
     securitySchemes.push({
       name: schemeName,
       securityScheme: schemeDef as SecuritySchemeObject,
-      authenticated: false,
-      credentials: null
+      authenticated: storedCredentials !== null,
+      remember: storedCredentials !== null,
+      credentials: storedCredentials
     });
   }
 

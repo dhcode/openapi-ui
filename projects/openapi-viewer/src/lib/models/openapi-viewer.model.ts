@@ -46,6 +46,7 @@ export interface SecuritySchemeItem {
   name: string;
   securityScheme: SecuritySchemeObject;
   authenticated: boolean;
+  remember: boolean;
   credentials: SecurityCredentials;
 }
 

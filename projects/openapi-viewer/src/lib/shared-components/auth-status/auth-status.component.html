@@ -13,8 +13,10 @@
       <h4 class="m-0">
         {{ status.name }}
         <span class="oav-auth-status ml-1" [class.required]="!status.authenticated" [class.ok]="status.authenticated"></span>
+        <span class="ml-1 normal-text" *ngIf="status.authenticated">authenticated</span>
+        <span class="ml-1 normal-text" *ngIf="!status.authenticated">not provided</span>
       </h4>
+      <ng-container *ngIf="status.scopes?.length"> Required scopes: {{ status.scopes.join(', ') }} </ng-container>
     </div>
-    <hr />
   </ng-container>
 </oav-tooltip>
