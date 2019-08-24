@@ -4,6 +4,8 @@
   <div *ngFor="let scheme of schemes">
     <h2>{{ scheme.name }}</h2>
 
+    <markdown *ngIf="scheme.securityScheme.description" [data]="scheme.securityScheme.description"></markdown>
+
     <oav-auth-credentials [securityScheme]="scheme"></oav-auth-credentials>
   </div>
 </div>

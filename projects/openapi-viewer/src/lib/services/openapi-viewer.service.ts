@@ -11,13 +11,13 @@ import { OpenapiAuthService } from './openapi-auth.service';
 
 @Injectable()
 export class OpenapiViewerService {
-  spec = new BehaviorSubject<OpenAPIObject>(null);
-  tagIndex = new BehaviorSubject<TagIndex[]>([]);
-  loadErrors = new BehaviorSubject([]);
+  readonly spec = new BehaviorSubject<OpenAPIObject>(null);
+  readonly tagIndex = new BehaviorSubject<TagIndex[]>([]);
+  readonly loadErrors = new BehaviorSubject([]);
 
-  operationParameterCache: Record<string, any> = {};
+  private operationParameterCache: Record<string, any> = {};
 
-  requests: OavRequest[] = [];
+  private requests: OavRequest[] = [];
 
   constructor(private http: HttpClient, private authService: OpenapiAuthService) {}
 

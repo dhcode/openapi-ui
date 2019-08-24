@@ -25,7 +25,7 @@ export class OpenapiAuthService {
   }
 
   getAllRequirements(requirement?: SecurityRequirementObject[]): SecurityRequirementObject[] {
-    return [...this.globalRequirements, ...(requirement || [])];
+    return [...this.globalRequirements, ...(requirement || [])].filter(reqObject => Object.keys(reqObject).length > 0);
   }
 
   getRequiredSchemes(requirement?: SecurityRequirementObject[]): SecurityRequirementStatus[][] {
@@ -46,12 +46,12 @@ export class OpenapiAuthService {
     return result;
   }
 
-  getAuthStatus(requirement: SecurityRequirementObject[]): AuthStatus {
+  getAuthStatus(requirements: SecurityRequirementObject[]): AuthStatus {
     let authStatus: AuthStatus = 'none';
-    const allRequirements = this.getAllRequirements(requirement);
+    const allRequirements = this.getAllRequirements(requirements);
     if (allRequirements && Object.keys(allRequirements).length) {
       authStatus = 'required';
-      if (this.hasAnyAuthorization(requirement)) {
+      if (this.hasAnyAuthorization(allRequirements)) {
         authStatus = 'ok';
       }
     }
@@ -59,16 +59,17 @@ export class OpenapiAuthService {
   }
 
   hasAnyAuthorization(requirements: SecurityRequirementObject[]): boolean {
-    if (!requirements || !Object.keys(requirements).length) {
+    if (!requirements || !requirements.length) {
       return true;
     }
     // one needs to be fulfilled
     for (const req of requirements) {
       const reqNames = Object.keys(req);
-      if (reqNames.every(rn => this.hasRequirement(rn, req[rn]))) {
+      if (reqNames.length && reqNames.every(rn => this.hasRequirement(rn, req[rn]))) {
         return true;
       }
     }
+    return false;
   }
 
   hasRequirement(reqName, scopes: string[]): boolean {
@@ -98,13 +99,16 @@ export class OpenapiAuthService {
       throw new Error('No credentials name given');
     }
     const schema = this.getSchema(name);
-    schema.credentials = credentials;
     schema.authenticated = authenticated;
-    if (remember) {
-      schema.remember = true;
-      writeCredentialsStore(name, credentials);
-    }
-    if (!schema.authenticated) {
+    if (schema.authenticated) {
+      schema.credentials = credentials;
+      if (remember) {
+        schema.remember = true;
+        writeCredentialsStore(name, credentials);
+      }
+    } else {
+      schema.remember = false;
+      schema.credentials = null;
       clearCredentialsStore(name);
     }
   }

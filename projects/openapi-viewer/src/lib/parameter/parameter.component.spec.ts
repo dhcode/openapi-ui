@@ -5,6 +5,7 @@ import { MultiItemsInputComponent } from './multi-items-input/multi-items-input.
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ParameterObject } from 'openapi3-ts';
+import { MarkdownModule } from 'ngx-markdown';
 
 describe('ParameterComponent', () => {
   let fixture: ComponentFixture<ParameterComponent>;
@@ -13,7 +14,7 @@ describe('ParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, MarkdownModule.forRoot()],
       declarations: [ParameterComponent, MultiItemsInputComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(ParameterComponent);

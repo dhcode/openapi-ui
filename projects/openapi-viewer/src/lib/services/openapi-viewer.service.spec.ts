@@ -2,16 +2,17 @@ import { TestBed } from '@angular/core/testing';
 
 import { OpenapiViewerService } from './openapi-viewer.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { OpenapiAuthService } from './openapi-auth.service';
 
 describe('OpenapiViewerService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [OpenapiViewerService]
+      providers: [OpenapiAuthService, OpenapiViewerService]
     })
   );
 
-  it('should be created', async () => {
+  it('should identify the tags', async () => {
     const service: OpenapiViewerService = TestBed.get(OpenapiViewerService);
     expect(service).toBeTruthy();
     await service.loadSpec(require('../../../assets/swagger.json'));

@@ -4,6 +4,7 @@ import { RequestBodyInputComponent } from './request-body-input.component';
 import { ParameterComponent } from '../parameter/parameter.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MultiItemsInputComponent } from '../parameter/multi-items-input/multi-items-input.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 describe('RequestBodyInputComponent', () => {
   let component: RequestBodyInputComponent;
@@ -12,7 +13,7 @@ describe('RequestBodyInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, MarkdownModule],
       declarations: [RequestBodyInputComponent, ParameterComponent, MultiItemsInputComponent]
     }).compileComponents();
   }));
