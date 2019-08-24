@@ -51,6 +51,9 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "es5": {
+              "tsConfig": "./tsconfig-es5.app.json"
             }
           }
         },
@@ -62,6 +65,9 @@
           "configurations": {
             "production": {
               "browserTarget": "openapi-ui:build:production"
+            },
+            "es5": {
+              "browserTarget": "openapi-ui:build:es5"
             }
           }
         },
