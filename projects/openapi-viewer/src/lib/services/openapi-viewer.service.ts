@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OpenAPIObject, PathItemObject } from 'openapi3-ts';
-import { OperationObject, ParameterObject } from 'openapi3-ts/src/model/OpenApi';
+import { OpenAPIObject, OperationObject, ParameterObject, PathItemObject } from 'openapi3-ts';
 import Swagger from 'swagger-client';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { OavRequest, OperationsItem, PathItem, SecurityCredentials, SwaggerRequest, TagIndex } from '../models/openapi-viewer.model';

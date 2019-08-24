@@ -36,13 +36,23 @@ This project aims to support the most common browsers.
 * Internet Explorer 11
 * Microsoft Edge
 
+## Not supported features
+
+* Example values for XML
+
 ## TODO
 
-* Integrate Ace editor for better handling of request and response contents
+* Integrate OAuth authentication support
 * Show JSON Schema description
 * Setup CI build with Github pages deployment
 * Increase test coverage
 
+## Other libraries used
+
+* [ngx-ace-wrapper](https://github.com/zefoy/ngx-ace-wrapper) + [brace](https://github.com/thlorenz/brace) + [ace](https://github.com/ajaxorg/ace) to show nicely formatted code
+* [ngx-markdown](https://github.com/jfcere/ngx-markdown) + [marked](https://github.com/markedjs/marked) to show nicely formatted descriptions, if markdown was used in a specification
+* [swagger-client](https://github.com/swagger-api/swagger-js) to parse specifications and to create HTTP requests based on parameters
+* [openapi3-ts](https://github.com/metadevpro/openapi3-ts) for OpenAPI specification typings
 
 ## License
 

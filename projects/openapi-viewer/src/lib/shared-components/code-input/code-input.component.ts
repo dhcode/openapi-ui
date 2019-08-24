@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AceConfigInterface } from 'ngx-ace-wrapper';
+import 'brace';
 import 'brace/mode/json';
 import 'brace/mode/xml';
 

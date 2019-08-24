@@ -6,6 +6,8 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ParameterObject } from 'openapi3-ts';
 import { MarkdownModule } from 'ngx-markdown';
+import { CodeInputComponent } from '../shared-components/code-input/code-input.component';
+import { AceComponent, AceModule } from 'ngx-ace-wrapper';
 
 describe('ParameterComponent', () => {
   let fixture: ComponentFixture<ParameterComponent>;
@@ -14,8 +16,8 @@ describe('ParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, MarkdownModule.forRoot()],
-      declarations: [ParameterComponent, MultiItemsInputComponent]
+      imports: [FormsModule, ReactiveFormsModule, MarkdownModule.forRoot(), AceModule],
+      declarations: [ParameterComponent, MultiItemsInputComponent, CodeInputComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(ParameterComponent);
     component = fixture.componentInstance;
@@ -44,6 +46,7 @@ describe('ParameterComponent', () => {
     component.formGroup = new FormGroup({});
     component.mediaType = 'application/json';
     component.parameter = spec;
+    component.ngOnChanges({});
     fixture.detectChanges();
     expect(component.displayMode).toBe('arrayWithSelection');
     expect(component.formGroup.get('status')).toBeDefined();
@@ -70,6 +73,7 @@ describe('ParameterComponent', () => {
     component.formGroup = new FormGroup({});
     component.mediaType = 'application/json';
     component.parameter = spec;
+    component.ngOnChanges({});
     fixture.detectChanges();
     expect(component.displayMode).toBe('text');
     expect(component.formGroup.get('name')).toBeDefined();
@@ -104,14 +108,15 @@ describe('ParameterComponent', () => {
     component.formGroup = new FormGroup({});
     component.mediaType = 'application/json';
     component.parameter = spec;
+    component.ngOnChanges({});
     fixture.detectChanges();
     expect(component.displayMode).toBe('object');
     expect(component.formGroup.get('body')).toBeDefined();
     expect(component.formGroup.get('body').value).toEqual(JSON.stringify({ name: '', tag: '' }, null, 2));
 
-    const input = element.query(By.css('textarea'));
-    input.nativeElement.value = '{}';
-    input.nativeElement.dispatchEvent(new Event('input'));
+    const input = element.query(By.directive(AceComponent));
+    const ace: AceComponent = input.componentInstance;
+    input.componentInstance.valueChange.next('{}');
     expect(component.formGroup.get('body').value).toEqual('{}');
   });
 });

@@ -25,7 +25,7 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.securityScheme) {
+    if (changes.securityScheme && this.securityScheme) {
       this.checkScheme();
     }
   }
