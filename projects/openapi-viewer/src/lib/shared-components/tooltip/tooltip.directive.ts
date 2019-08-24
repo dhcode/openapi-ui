@@ -43,7 +43,7 @@ export class TooltipDirective implements OnDestroy {
   }
 
   open() {
-    if (this.overlayRef) {
+    if (this.overlayRef || !this.oavTooltip) {
       return;
     }
     this.overlayRef = this.overlay.create({

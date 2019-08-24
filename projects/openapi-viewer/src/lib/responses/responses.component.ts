@@ -23,9 +23,18 @@ export class ResponsesComponent implements OnInit {
       if (res.headers) {
         res.exampleHeaders = Object.keys(res.headers).map(headerName => ({
           name: headerName,
-          example: JSON.stringify(exampleFromSchema((res.headers[headerName] as HeaderObject).schema as JSONSchema6Definition), null, 2)
+          example: getHeaderExampleValue(res.headers[headerName])
         }));
       }
     }
   }
+}
+
+function getHeaderExampleValue(headerObject: HeaderObject) {
+  if (headerObject.schema) {
+    return exampleFromSchema(headerObject.schema as JSONSchema6Definition);
+  } else if (headerObject.type) {
+    return exampleFromSchema((headerObject as unknown) as JSONSchema6Definition);
+  }
+  return '';
 }

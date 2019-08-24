@@ -54,6 +54,16 @@ $line-color: #ccc;
 .oav-content {
   margin: 1rem;
 
+  h1 {
+    font-size: 1.5em;
+  }
+  h3 {
+    font-size: 1.15em;
+  }
+  h4 {
+    font-size: 1em;
+  }
+
   a {
     color: $active-color;
   }
@@ -446,6 +456,7 @@ oav-method-header {
 
 .oav-auth-status {
   font-family: monospace;
+  cursor: pointer;
   &::before {
     content: ' ';
   }
@@ -594,6 +605,14 @@ oav-method-header {
 
 .m-0 {
   margin: 0;
+}
+.my-0 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.my-3 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 .mt-0 {
   margin-top: 0;

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, Optional, SimpleChanges } from '@angular/core';
 import { OpenapiViewerService } from '../services/openapi-viewer.service';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { OperationObject } from 'openapi3-ts';
 import { AuthStatus, OavRequest, OperationsItem, PathItem } from '../models/openapi-viewer.model';
 import { OavSettings } from '../models/openapi-viewer.settings';
@@ -15,7 +15,7 @@ export class OperationComponent implements OnChanges, OnDestroy {
   @Input() pathItem: PathItem;
   @Input() operationItem: OperationsItem;
 
-  responseType: string;
+  responseType = new FormControl('application/json');
 
   formGroup: FormGroup;
 
@@ -54,8 +54,8 @@ export class OperationComponent implements OnChanges, OnDestroy {
       }
 
       this.requests = this.openApiService.getRequestsByOperationId(this.operationItem.operation.operationId).reverse();
-      this.formGroup = new FormGroup({}, { updateOn: 'blur' });
-      this.responseType = this.operationItem.responseTypes[0] || 'application/json';
+      this.formGroup = new FormGroup({ __responseType: this.responseType }, { updateOn: 'blur' });
+      this.responseType.patchValue(this.operationItem.responseTypes[0] || 'application/json');
       this.authStatus = this.authService.getAuthStatus(this.operationItem.operation.security);
       const savedParams = this.openApiService.loadOperationParameters(this.operation.operationId);
       if (savedParams) {
@@ -87,7 +87,7 @@ export class OperationComponent implements OnChanges, OnDestroy {
         parameters,
         requestBody,
         contentType,
-        this.responseType
+        this.responseType.value
       );
       const reqInfo = this.openApiService.runRequest(this.pathItem, this.operationItem, req);
       console.log('request', req);

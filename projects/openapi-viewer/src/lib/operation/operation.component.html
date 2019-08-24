@@ -10,32 +10,42 @@
 </p>
 
 <ng-container *ngIf="showRawOperationDefinition">
-  <h4 oavOpenable #rawOpenable="openable" class="toggle-button">Raw operation definition</h4>
+  <h3 oavOpenable #rawOpenable="openable" class="toggle-button">Raw operation definition</h3>
   <pre *ngIf="rawOpenable.open">{{ operationItem.operation | json }}</pre>
 </ng-container>
 
 <form (submit)="send()" [formGroup]="formGroup">
   <ng-container *ngIf="operationItem.parameters?.length">
-    <h4>Parameters</h4>
+    <h3>Parameters</h3>
     <oav-parameter *ngFor="let param of operationItem.parameters" [parameter]="param" [formGroup]="formGroup"></oav-parameter>
   </ng-container>
   <ng-container *ngIf="operationItem.operation.requestBody">
     <oav-request-body-input [requestBody]="operationItem.operation.requestBody" [addToFormGroup]="formGroup"></oav-request-body-input>
   </ng-container>
+  <div *ngIf="operationItem.responseTypes?.length > 1">
+    <div class="oav-parameter">
+      <div class="name">
+        <div><strong>Response type</strong>:</div>
+        <div class="param-in">
+          Accept header
+        </div>
+      </div>
+      <div class="input">
+        <select [formControl]="responseType">
+          <option *ngFor="let resType of operationItem.responseTypes" [value]="resType">{{ resType }}</option>
+        </select>
+      </div>
+      <div class="description"></div>
+    </div>
+  </div>
   <button class="send-btn" [disabled]="formGroup.invalid">Send request</button>
 </form>
 
-<h4>Responses</h4>
+<h3>Responses</h3>
 
-<oav-tab-nav [(tab)]="responseType">
-  <ng-container *ngFor="let resType of operationItem.responseTypes">
-    <div *oavTabNavItem="resType; id: resType"></div>
-  </ng-container>
-</oav-tab-nav>
-
-<oav-responses [responses]="operationItem.responses" [responseType]="responseType"></oav-responses>
+<oav-responses [responses]="operationItem.responses" [responseType]="responseType.value"></oav-responses>
 
 <div class="oav-operation-requests" [hidden]="!requests.length">
-  <h4>Requests</h4>
+  <h3>Requests</h3>
   <oav-requests-list [requests]="requests" [openRequest]="openRequest"></oav-requests-list>
 </div>

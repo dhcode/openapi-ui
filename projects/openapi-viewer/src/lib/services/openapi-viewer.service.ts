@@ -255,7 +255,7 @@ function identifyResponseTypes(operation: OperationObject): string[] {
   if (operation.produces) {
     return operation.produces;
   }
-  const types = new Set();
+  const types = new Set<string>();
   for (const [status, res] of Object.entries(operation.responses)) {
     if (res.content) {
       for (const contentType of Object.keys(res.content)) {

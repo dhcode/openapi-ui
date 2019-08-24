@@ -4,7 +4,7 @@
   *ngIf="showAuthentication"
   [class.required]="authStatus === 'required'"
   [class.ok]="authStatus === 'ok'"
-  [oavTooltip]="portal"
+  [oavTooltip]="authStatus !== 'none' ? portal : null"
 ></span>
 
 <oav-tooltip *cdkPortal>

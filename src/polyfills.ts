@@ -63,3 +63,5 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 if (!(window as any).global) {
   (window as any).global = window;
 }
+import 'core-js/es/array';
+import 'core-js/es/object';

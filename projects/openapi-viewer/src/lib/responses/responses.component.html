@@ -7,7 +7,9 @@
       <ng-container *ngIf="res.exampleHeaders">
         <div class="openapi-response-example">
           Example Headers:
-          <textarea readonly>{{ res.exampleHeaders }}</textarea>
+          <div class="my-3">
+            <pre *ngFor="let header of res.exampleHeaders" class="my-0">{{ header.name }}: {{ header.example }}</pre>
+          </div>
         </div>
       </ng-container>
       <ng-container *ngIf="res.example">
