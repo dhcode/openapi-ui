@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { OavRequest } from '../../models/openapi-viewer.model';
 import { Subject } from 'rxjs';
 import { HttpErrorResponse, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { delay, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-type DisplayMode = 'text' | 'json' | 'download';
+type DisplayMode = 'text' | 'json' | 'xml' | 'download';
 
 @Component({
   selector: 'oav-request-view',
@@ -88,6 +88,9 @@ export class RequestViewComponent implements OnInit, OnDestroy {
           this.error = e;
         }
       } else {
+        if (contentType.startsWith('application/xml')) {
+          this.displayMode = 'xml';
+        }
         this.body = body;
       }
     } else {

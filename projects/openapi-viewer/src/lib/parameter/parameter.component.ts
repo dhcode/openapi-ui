@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { ParameterObject } from 'openapi3-ts';
 import { getDisplayMode, getExampleValue } from '../util/parameter-input.util';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   selector: 'oav-parameter',
   templateUrl: './parameter.component.html'
 })
-export class ParameterComponent implements OnInit, OnDestroy {
+export class ParameterComponent implements OnChanges, OnDestroy {
   @Input() formGroup: FormGroup;
 
   @Input() parameter: ParameterObject;
@@ -22,7 +22,7 @@ export class ParameterComponent implements OnInit, OnDestroy {
 
   constructor() {}
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
     this.displayMode = getDisplayMode(this.parameter);
 
     this.value = getExampleValue(this.displayMode, this.parameter, this.mediaType);

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { exampleFromSchema } from '../util/data-generator.util';
 import { ResponseItem } from '../models/openapi-viewer.model';
 import { HeaderObject } from 'openapi3-ts';
@@ -8,14 +8,17 @@ import { JSONSchema6Definition } from 'json-schema';
   selector: 'oav-responses',
   templateUrl: './responses.component.html'
 })
-export class ResponsesComponent implements OnInit {
+export class ResponsesComponent implements OnChanges {
   @Input() responses: ResponseItem[];
 
   @Input() responseType: string;
 
   constructor() {}
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.responses) {
+      return;
+    }
     for (const res of this.responses) {
       if (res.schema) {
         res.example = JSON.stringify(exampleFromSchema(res.schema), null, 2);

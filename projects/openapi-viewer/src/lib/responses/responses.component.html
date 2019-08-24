@@ -15,7 +15,7 @@
       <ng-container *ngIf="res.example">
         <div class="openapi-response-example">
           Example Body:
-          <textarea readonly>{{ res.example }}</textarea>
+          <oav-code-input readonly [ngModel]="res.example" mode="json"></oav-code-input>
         </div>
       </ng-container>
     </div>

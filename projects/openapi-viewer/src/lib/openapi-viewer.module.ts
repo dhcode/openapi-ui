@@ -28,6 +28,8 @@ import { PortalModule } from '@angular/cdk/portal';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { TooltipComponent } from './shared-components/tooltip/tooltip.component';
 import { TooltipDirective } from './shared-components/tooltip/tooltip.directive';
+import { AceModule } from 'ngx-ace-wrapper';
+import { CodeInputComponent } from './shared-components/code-input/code-input.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { TooltipDirective } from './shared-components/tooltip/tooltip.directive'
     AuthCredentialsComponent,
     AuthStatusComponent,
     TooltipComponent,
-    TooltipDirective
+    TooltipDirective,
+    CodeInputComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +65,8 @@ import { TooltipDirective } from './shared-components/tooltip/tooltip.directive'
     HttpClientModule,
     MarkdownModule.forRoot(),
     PortalModule,
-    OverlayModule
+    OverlayModule,
+    AceModule
   ],
   exports: [OpenapiViewerComponent, OperationComponent]
 })

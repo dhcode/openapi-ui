@@ -24,8 +24,8 @@
       <span class="normal-text ml-2">{{ request.receivedBytes | number }} bytes received after {{ getDuration() | number }} ms</span>
     </h4>
 
-    <ng-container *ngIf="(displayMode === 'text' || displayMode === 'json') && !request.running">
-      <textarea readonly>{{ body }}</textarea>
+    <ng-container *ngIf="(displayMode === 'text' || displayMode === 'json' || displayMode === 'xml') && !request.running">
+      <oav-code-input [ngModel]="body" [mode]="displayMode" [minLines]="5" readonly></oav-code-input>
     </ng-container>
 
     <p class="oav-warning" *ngIf="request.receivedBytes >= displayLimitBytes">

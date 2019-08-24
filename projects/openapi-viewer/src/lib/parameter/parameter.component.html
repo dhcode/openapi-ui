@@ -33,12 +33,8 @@
       <input type="file" [formControlName]="parameter.name" [placeholder]="parameter.name" />
     </ng-container>
 
-    <ng-container *ngIf="displayMode === 'object'">
-      <textarea [formControlName]="parameter.name" [placeholder]="parameter.name"></textarea>
-    </ng-container>
-
-    <ng-container *ngIf="displayMode === 'array'">
-      <textarea [formControlName]="parameter.name" [placeholder]="parameter.name"></textarea>
+    <ng-container *ngIf="displayMode === 'object' || displayMode === 'array'">
+      <oav-code-input [formControlName]="parameter.name" mode="json"></oav-code-input>
     </ng-container>
 
     <ng-container *ngIf="displayMode === 'arrayWithSelection'">
