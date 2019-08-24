@@ -36,6 +36,14 @@ This project aims to support the most common browsers.
 * Internet Explorer 11
 * Microsoft Edge
 
+## TODO
+
+* Integrate Ace editor for better handling of request and response contents
+* Show JSON Schema description
+* Setup CI build with Github pages deployment
+* Increase test coverage
+
+
 ## License
 
 [MIT](LICENSE)
