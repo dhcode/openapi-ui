@@ -13,7 +13,7 @@
     "test:lib:ci": "ng test openapi-viewer --watch=false --no-progress --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "gh-pages -d dist/openapi-ui"
+    "deploy": "gh-pages -d dist/openapi-ui -m 'auto commit [ci skip]'"
   },
   "keywords": [
     "OpenAPI",

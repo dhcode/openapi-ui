@@ -103,7 +103,12 @@ export class CodeInputComponent implements OnChanges, ControlValueAccessor, OnIn
   writeValue(obj: string): void {
     this.value = obj;
     this.writing = true;
-    this.cd.detectChanges();
+    try {
+      this.cd.detectChanges();
+    } catch (e) {
+      console.error('Update Ace error', this.value, e);
+    }
+
     this.writing = false;
     this.changes.next();
   }
