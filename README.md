@@ -44,6 +44,8 @@ This project aims to support the most common browsers.
 
 * Integrate OAuth authentication support
 * Show JSON Schema description
+* Show generated commandline for curl
+* Show generated code for JavaScript and other languages
 * Setup CI build with Github pages deployment
 * Increase test coverage
 

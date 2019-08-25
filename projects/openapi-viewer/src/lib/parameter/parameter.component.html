@@ -34,7 +34,7 @@
     </ng-container>
 
     <ng-container *ngIf="displayMode === 'object' || displayMode === 'array'">
-      <oav-code-input [formControlName]="parameter.name" mode="json"></oav-code-input>
+      <oav-code-input [formControlName]="parameter.name" mode="json" [schema]="parameter.schema"></oav-code-input>
     </ng-container>
 
     <ng-container *ngIf="displayMode === 'arrayWithSelection'">

@@ -1,9 +1,23 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  forwardRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AceConfigInterface } from 'ngx-ace-wrapper';
 import 'brace';
 import 'brace/mode/json';
 import 'brace/mode/xml';
+import { ValidateFunction } from 'ajv';
+import { getValidationFunction } from '../../util/validation.util';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'oav-code-input',
@@ -18,7 +32,7 @@ import 'brace/mode/xml';
     }
   ]
 })
-export class CodeInputComponent implements OnChanges, ControlValueAccessor {
+export class CodeInputComponent implements OnChanges, ControlValueAccessor, OnInit, OnDestroy {
   config: AceConfigInterface = {};
 
   disabled = false;
@@ -27,18 +41,38 @@ export class CodeInputComponent implements OnChanges, ControlValueAccessor {
 
   @Input() readonly: boolean | string;
 
-  @Input() mode = 'text';
+  @Input() mode: 'json' | 'xml' | 'text' = 'text';
 
   @Input() minLines = 1;
   @Input() maxLines = 50;
 
+  @Input() schema = null;
+
+  errors: string[] = [];
   private writing = false;
+  private validate: ValidateFunction = null;
+  private changes = new Subject();
+
   private onChange = (v: string) => {};
   private onTouched = () => {};
 
   constructor(private cd: ChangeDetectorRef) {}
 
+  ngOnInit(): void {
+    this.changes.pipe(debounceTime(100)).subscribe(() => this.checkValue());
+  }
+
+  ngOnDestroy(): void {
+    this.changes.complete();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.schema) {
+      this.validate = getValidationFunction(this.schema);
+    } else {
+      this.validate = null;
+      this.errors = [];
+    }
     this.updateConfig();
   }
 
@@ -46,7 +80,8 @@ export class CodeInputComponent implements OnChanges, ControlValueAccessor {
     this.config = {
       minLines: this.minLines,
       maxLines: this.maxLines,
-      wrap: true
+      wrap: true,
+      tabSize: 2
     };
     if (this.readonly || this.readonly === '') {
       this.config.readOnly = true;
@@ -70,12 +105,32 @@ export class CodeInputComponent implements OnChanges, ControlValueAccessor {
     this.writing = true;
     this.cd.detectChanges();
     this.writing = false;
+    this.changes.next();
   }
 
   updateValue(value: string) {
     if (!this.writing) {
       this.value = value;
+      this.changes.next();
       this.onChange(value);
+    }
+  }
+
+  checkValue() {
+    if (this.validate && this.mode === 'json') {
+      this.errors = [];
+      if (!this.value) {
+        return;
+      }
+      try {
+        const text = JSON.parse(this.value);
+        if (!this.validate(text)) {
+          this.errors = this.validate.errors.map(e => `${e.dataPath}: ${e.keyword} ${e.message}`);
+          console.log(this.validate.errors);
+        }
+      } catch (e) {
+        this.errors = [e.message];
+      }
     }
   }
 }
