@@ -21,7 +21,7 @@ jobs:
           name: test
           command: npm run test:lib:ci
       - codecov/upload:
-          file: coverage/openapi-viewer
+          file: coverage/openapi-viewer/lcov.info
       - run:
           name: build
           command: npm run build

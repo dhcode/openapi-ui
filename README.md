@@ -1,5 +1,8 @@
 # OpenAPI UI
 
+[![CircleCI](https://img.shields.io/circleci/build/gh/dhcode/openapi-ui.svg)](https://circleci.com/gh/dhcode/openapi-ui)
+[![Codecov](https://img.shields.io/codecov/c/github/dhcode/openapi-ui.svg)](https://codecov.io/gh/dhcode/openapi-ui)
+
 An documentation UI and API Console with focus on [Swagger v2 and OpenAPI v3 RESTful API specifications](https://swagger.io/specification/).
 
 This UI is inspired by the [Swagger UI](https://github.com/swagger-api/swagger-ui) project, but is more focused on doing API requests.
