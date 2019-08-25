@@ -1,22 +1,33 @@
 <oav-tab-nav>
-  <ng-container *ngFor="let res of responses">
-    <div *oavTabNavItem="res.status.toString()">
-      <p>
-        {{ res.description }}
-      </p>
-      <ng-container *ngIf="res.exampleHeaders">
-        <div class="openapi-response-example">
-          Example Headers:
-          <div class="my-3">
-            <pre *ngFor="let header of res.exampleHeaders" class="my-0">{{ header.name }}: {{ header.example }}</pre>
+  <ng-container *ngFor="let status of items">
+    <div *oavTabNavItem="status.statusCode">
+      <markdown *ngIf="status.description" [data]="status.description"></markdown>
+      <ng-container *ngIf="status.headers?.length">
+        <h4>Example Headers</h4>
+        <div class="my-3">
+          <div class="oav-parameter" *ngFor="let header of status.headers">
+            <div class="name">{{ header.name }}:</div>
+            <div class="input">{{ header.value }}</div>
+            <div class="description">
+              <markdown [data]="header.description"></markdown>
+            </div>
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="res.example">
-        <div class="openapi-response-example">
-          Example Body:
-          <oav-code-input readonly [ngModel]="res.example" mode="json"></oav-code-input>
-        </div>
+      <ng-container *ngIf="status.contents?.length === 1">
+        <h4>Example Body</h4>
+        <oav-code-input readonly [ngModel]="status.contents[0].value" [mode]="mode"></oav-code-input>
+      </ng-container>
+      <ng-container *ngIf="status.contents?.length > 1">
+        <oav-tab-nav>
+          <ng-container *ngFor="let content of status.contents">
+            <div *oavTabNavItem="content.summary || content.name">
+              <markdown *ngIf="content.description" [data]="content.description"></markdown>
+              <a *ngIf="content.externalValueUrl" [href]="content.externalValueUrl" target="_blank">Example</a>
+              <oav-code-input *ngIf="!content.externalValueUrl" readonly [ngModel]="content.value" [mode]="mode"></oav-code-input>
+            </div>
+          </ng-container>
+        </oav-tab-nav>
       </ng-container>
     </div>
   </ng-container>

@@ -38,7 +38,7 @@
 
 <h3>Responses</h3>
 
-<oav-responses [responses]="operationItem.responses" [responseType]="responseType.value"></oav-responses>
+<oav-responses [responses]="operationItem.operation.responses" [responseType]="responseType.value"></oav-responses>
 
 <div class="oav-operation-requests" [hidden]="!requests.length">
   <h3>Requests</h3>

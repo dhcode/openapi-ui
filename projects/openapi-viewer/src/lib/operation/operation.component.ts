@@ -15,7 +15,7 @@ export class OperationComponent implements OnChanges, OnDestroy {
   @Input() pathItem: PathItem;
   @Input() operationItem: OperationsItem;
 
-  responseType = new FormControl('application/json');
+  responseType = new FormControl('application/json', { updateOn: 'change' });
 
   formGroup: FormGroup;
 

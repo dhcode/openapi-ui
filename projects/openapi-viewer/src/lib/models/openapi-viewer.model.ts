@@ -24,7 +24,6 @@ export interface OperationsItem {
   method: string;
   operation: OperationObject;
   parameters: ParameterObject[];
-  responses: ResponseItem[];
   responseTypes: string[];
 }
 

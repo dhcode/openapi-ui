@@ -223,15 +223,11 @@ function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: Para
       if (operation.parameters) {
         parameters.push(...operation.parameters);
       }
-      if (operation.responses) {
-        responses.push(...Object.entries(operation.responses).map(([status, value]) => ({ status, ...value })));
-      }
 
       ops.push({
         method,
         operation,
         parameters,
-        responses,
         responseTypes: identifyResponseTypes(operation)
       });
     }

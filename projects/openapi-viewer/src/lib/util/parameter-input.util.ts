@@ -1,12 +1,12 @@
-import { ExampleObject, ParameterObject, ReferenceObject, SchemaObject } from 'openapi3-ts';
+import { BaseParameterObject, ExampleObject, ParameterObject, ReferenceObject, SchemaObject } from 'openapi3-ts';
 import { exampleFromSchema } from './data-generator.util';
 import { JSONSchema6Definition } from 'json-schema';
 
 interface DisplayMode {
   mode: string;
-  checkV2: (param: ParameterObject) => boolean;
-  checkV3: (param: ParameterObject) => boolean;
-  getDefault: (param: ParameterObject, mediaType: string) => any;
+  checkV2: (param: BaseParameterObject) => boolean;
+  checkV3: (param: BaseParameterObject) => boolean;
+  getDefault: (param: BaseParameterObject, mediaType: string) => any;
 }
 
 const primitiveTypes = ['string', 'integer', 'number', 'boolean'];
@@ -14,61 +14,61 @@ const primitiveTypes = ['string', 'integer', 'number', 'boolean'];
 const displayModes = [
   {
     mode: 'textSelect',
-    checkV2: (param: ParameterObject) => param.type === 'string' && param.items && param.items.enum,
-    checkV3: (param: ParameterObject) => schemaType(param) === 'string' && (param.schema as SchemaObject).enum,
-    getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
+    checkV2: (param: BaseParameterObject) => param.type === 'string' && param.items && param.items.enum,
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'string' && (param.schema as SchemaObject).enum,
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {
     mode: 'text',
-    checkV2: (param: ParameterObject) => param.type === 'string',
-    checkV3: (param: ParameterObject) => schemaType(param) === 'string',
-    getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
+    checkV2: (param: BaseParameterObject) => param.type === 'string',
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'string',
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {
     mode: 'integer',
-    checkV2: (param: ParameterObject) => param.type === 'integer',
-    checkV3: (param: ParameterObject) => schemaType(param) === 'integer',
-    getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
+    checkV2: (param: BaseParameterObject) => param.type === 'integer',
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'integer',
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {
     mode: 'object',
-    checkV2: (param: ParameterObject) => param.type === 'object',
-    checkV3: (param: ParameterObject) => schemaType(param) === 'object' || (param.schema && (param.schema as SchemaObject).properties),
-    getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
+    checkV2: (param: BaseParameterObject) => param.type === 'object',
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'object' || (param.schema && (param.schema as SchemaObject).properties),
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {
     mode: 'arrayWithSelection',
-    checkV2: (param: ParameterObject) => param.type === 'array' && param.items && param.items.enum,
-    checkV3: (param: ParameterObject) => schemaType(param) === 'array' && (param.schema as SchemaObject).enum,
-    getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
+    checkV2: (param: BaseParameterObject) => param.type === 'array' && param.items && param.items.enum,
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'array' && (param.schema as SchemaObject).enum,
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {
     mode: 'arrayWithPrimitive',
-    checkV2: (param: ParameterObject) => param.type === 'array' && primitiveTypes.includes(itemsType(param)),
-    checkV3: (param: ParameterObject) => schemaType(param) === 'array' && primitiveTypes.includes(itemsType(param.schema)),
-    getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
+    checkV2: (param: BaseParameterObject) => param.type === 'array' && primitiveTypes.includes(itemsType(param)),
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'array' && primitiveTypes.includes(itemsType(param.schema)),
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {
     mode: 'array',
-    checkV2: (param: ParameterObject) => param.type === 'array',
-    checkV3: (param: ParameterObject) => schemaType(param) === 'array',
-    getDefault: (param: ParameterObject, mediaType: string) => getExample(param, mediaType)
+    checkV2: (param: BaseParameterObject) => param.type === 'array',
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'array',
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {
     mode: 'file',
-    checkV2: (param: ParameterObject) => param.type === 'file',
-    checkV3: (param: ParameterObject) => false,
-    getDefault: (param: ParameterObject, mediaType: string) => ''
+    checkV2: (param: BaseParameterObject) => param.type === 'file',
+    checkV3: (param: BaseParameterObject) => false,
+    getDefault: (param: BaseParameterObject, mediaType: string) => ''
   },
   {
     mode: 'any',
-    checkV2: (param: ParameterObject) => true,
-    checkV3: (param: ParameterObject) => true,
-    getDefault: (param: ParameterObject, mediaType: string) => ''
+    checkV2: (param: BaseParameterObject) => true,
+    checkV3: (param: BaseParameterObject) => true,
+    getDefault: (param: BaseParameterObject, mediaType: string) => ''
   }
 ];
 
-function schemaType(param: ParameterObject): string {
+function schemaType(param: BaseParameterObject): string {
   const schema = param && 'schema' in param ? (param.schema as SchemaObject) : null;
   return schema && schema.type;
 }
@@ -82,7 +82,7 @@ function itemsType(obj: { items?: any } | any) {
   console.log('items type not found', obj);
 }
 
-function getExample(param: ParameterObject, mediaType: string): any {
+function getExample(param: BaseParameterObject, mediaType: string): any {
   if (param.example !== undefined) {
     return param.example;
   }
@@ -101,7 +101,7 @@ function getExample(param: ParameterObject, mediaType: string): any {
   return exampleFromSchema(param as any);
 }
 
-export function getDisplayMode(param: ParameterObject): string {
+export function getDisplayMode(param: BaseParameterObject): string {
   for (const dm of displayModes) {
     if ('type' in param && dm.checkV2(param)) {
       return dm.mode;
@@ -112,7 +112,7 @@ export function getDisplayMode(param: ParameterObject): string {
   return 'any';
 }
 
-export function getExampleValue(displayMode: string, param: ParameterObject, mediaType: string) {
+export function getExampleValue(displayMode: string, param: BaseParameterObject, mediaType: string) {
   return displayModes.find(dm => dm.mode === displayMode).getDefault(param, mediaType);
 }
 

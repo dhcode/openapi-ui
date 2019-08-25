@@ -50,6 +50,9 @@ export function exampleFromSchema(schema: JSONSchema6Definition): any {
   }
   if (type === 'object' || schema.properties) {
     const result = {};
+    if ((schema as any).example) {
+      return (schema as any).example;
+    }
     if (!schema.properties) {
       return result;
     }
@@ -70,4 +73,20 @@ export function randomHex(len: number): string {
   const preHex = len - 1 === 0 ? 0 : 2 ** (4 * (len - 1));
   const hex = 2 ** (4 * len) - 1;
   return Math.floor(preHex + Math.random() * (hex - preHex)).toString(16);
+}
+
+export function getStarMatcher(pattern: string): RegExp {
+  const escaped = escapeRegExpNoStar(pattern);
+  return new RegExp('^' + escaped.replace(/\*/g, '.{0,50}') + '$');
+}
+
+function escapeRegExpNoStar(pattern: string) {
+  return pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export function getJsonString(input: any): string {
+  if (typeof input === 'string' && input.match(/^({|\[|"|\d|-\d|null)/)) {
+    return input;
+  }
+  return JSON.stringify(input, null, 2);
 }

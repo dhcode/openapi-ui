@@ -1,4 +1,4 @@
-import { exampleFromSchema, formatExampleDate, randomHex } from './data-generator.util';
+import { exampleFromSchema, formatExampleDate, getJsonString, getStarMatcher, randomHex } from './data-generator.util';
 
 describe('Data Generator', () => {
   it('should generate random hex', () => {
@@ -29,5 +29,17 @@ describe('Data Generator', () => {
       status: 'placed',
       complete: false
     });
+  });
+
+  it('should match patterns', () => {
+    expect(getStarMatcher('ct/*').test('ct/hey')).toBe(true);
+    expect(getStarMatcher('ct/*').test('as/hey')).toBe(false);
+    expect(getStarMatcher('ct/*.*').test('ct/hey')).toBe(false);
+    expect(getStarMatcher('ct/*.*').test('ct/hey.a')).toBe(true);
+  });
+
+  it('should get data as json string', () => {
+    expect(getJsonString({ a: 3 })).toBe('{\n  "a": 3\n}');
+    expect(getJsonString('{"a":3}')).toBe('{"a":3}');
   });
 });
