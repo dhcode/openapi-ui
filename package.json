@@ -12,7 +12,8 @@
     "test:lib": "ng test openapi-viewer",
     "test:lib:ci": "ng test openapi-viewer --watch=false --no-progress --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deploy": "gh-pages -d dist/openapi-ui"
   },
   "keywords": [
     "OpenAPI",
@@ -63,6 +64,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/json-schema": "^7.0.3",
     "codelyzer": "^5.0.0",
+    "gh-pages": "^2.1.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",

@@ -1,0 +1,59 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/openapi-ui
+    docker:
+      - image: circleci/node:12-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: install dependenices
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - "node_modules"
+      - run:
+          name: test
+          command: npm run test:lib:ci
+      - store_artifacts:
+          path: coverage
+          prefix: coverage
+      - run:
+          name: build
+          command: npm run build
+      - persist_to_workspace:
+          root: dist
+          paths: openapi-ui
+  deploy:
+    working_directory: ~/openapi-ui
+    docker:
+        - image: circleci/node:12-browsers
+    steps:
+      - restore_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+      - attach_workspace:
+          at: dist
+      - add_ssh_keys:
+          fingerprints:
+            - "91:c6:3d:7b:78:b8:2f:4a:44:a5:d4:3d:a3:c3:9b:8b"
+      - run:
+          name: deploy gh pages
+          command: |
+            git config user.email "ci-build@my1a.de"
+            git config user.name "ci-build"
+            npm run deploy
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - deploy
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
