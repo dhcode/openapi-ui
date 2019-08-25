@@ -7,7 +7,7 @@
     "prettier": "prettier --write \"**/*.{js,json,css,scss,less,md,ts,html,component.html}\"",
     "start": "ng serve",
     "start:es5": "ng serve --configuration es5",
-    "build": "ng build",
+    "build": "ng build --baseHref=/openapi-ui/",
     "test": "ng test",
     "test:lib": "ng test openapi-viewer",
     "test:lib:ci": "ng test openapi-viewer --watch=false --no-progress --browsers=ChromeHeadlessCI",

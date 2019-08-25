@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.5
 jobs:
   build:
     working_directory: ~/openapi-ui
@@ -18,9 +20,8 @@ jobs:
       - run:
           name: test
           command: npm run test:lib:ci
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
+      - codecov/upload:
+          file: coverage/openapi-viewer
       - run:
           name: build
           command: npm run build
@@ -46,6 +47,9 @@ jobs:
             git config user.email "ci-build@my1a.de"
             git config user.name "ci-build"
             npm run deploy
+
+  coverage:
+    working_directory: ~/openapi-ui
 
 workflows:
   version: 2
