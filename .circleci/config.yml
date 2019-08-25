@@ -48,9 +48,6 @@ jobs:
             git config user.name "ci-build"
             npm run deploy
 
-  coverage:
-    working_directory: ~/openapi-ui
-
 workflows:
   version: 2
   build:
