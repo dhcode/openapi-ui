@@ -51,7 +51,6 @@ This project aims to support the most common browsers.
 * Show JSON Schema description
 * Show generated commandline for curl
 * Show generated code for JavaScript and other languages
-* Setup CI build with Github pages deployment
 * Increase test coverage
 
 ## Other libraries used
