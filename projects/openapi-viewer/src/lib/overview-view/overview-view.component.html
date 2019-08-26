@@ -27,17 +27,6 @@
       <a [href]="tag.tag.externalDocs.url" target="_blank">{{ tag.tag.externalDocs.url }}</a>
     </small>
 
-    <ng-container *ngFor="let pathItem of tag.paths">
-      <ng-container *ngFor="let op of pathItem.operations">
-        <h3>
-          <oav-method [method]="op.method"></oav-method>
-          <oav-auth-status [operation]="op.operation"></oav-auth-status>
-          <a [routerLink]="[tag.tag.name, op.operation.operationId]" routerLinkActive="active" class="oav-header-link ml-1">
-            <span class="oav-path" [class.deprecated]="op.operation.deprecated">{{ pathItem.path }}</span>
-            <span class="oav-summary font-size-smaller ml-2">{{ op.operation.summary }}</span>
-          </a>
-        </h3>
-      </ng-container>
-    </ng-container>
+    <oav-overview-view-endpoints [tag]="tag"></oav-overview-view-endpoints>
   </ng-container>
 </div>

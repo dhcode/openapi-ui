@@ -31,10 +31,6 @@ $line-color: #ccc;
   display: flex;
   flex-direction: column;
 
-  .oav-header {
-
-  }
-
   .oav-content-container {
     flex: 1;
     display: flex;
@@ -47,7 +43,7 @@ $line-color: #ccc;
     }
     .oav-view-container {
       flex: 1;
-      overflow-y: auto;
+      overflow: scroll;
     }
   }
 }
@@ -521,6 +517,11 @@ oav-method-header {
       box-sizing: border-box;
       display: block;
       position: relative;
+
+      .label {
+        display: flex;
+      }
+
       .info-overlay {
         padding: .2em;
         display: none;
@@ -528,13 +529,15 @@ oav-method-header {
         background: $hover-bg;
         top: 0;
         left: 0;
+        white-space: nowrap;
       }
     }
     a:hover {
       background: $hover-bg;
       color: $active-color;
+
       .info-overlay {
-        display: block;
+        display: flex;
       }
       .label {
         visibility: hidden;

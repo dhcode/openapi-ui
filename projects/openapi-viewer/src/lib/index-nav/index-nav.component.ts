@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import { OperationsItem, PathItem, TagIndex } from '../models/openapi-viewer.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -7,7 +7,8 @@ import { OavSettings } from '../models/openapi-viewer.settings';
 
 @Component({
   selector: 'oav-index-nav',
-  templateUrl: './index-nav.component.html'
+  templateUrl: './index-nav.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IndexNavComponent implements OnInit, OnDestroy {
   openTags = new Set<string>();
@@ -19,7 +20,7 @@ export class IndexNavComponent implements OnInit, OnDestroy {
 
   private sub: Subscription;
 
-  constructor(private router: Router, @Optional() private oavSettings: OavSettings) {
+  constructor(private router: Router, @Optional() private oavSettings: OavSettings, private cd: ChangeDetectorRef) {
     if (!this.oavSettings) {
       this.oavSettings = OavSettings.default;
     }
@@ -31,6 +32,7 @@ export class IndexNavComponent implements OnInit, OnDestroy {
     this.checkOpenTags(this.router.routerState.snapshot.url);
     this.sub = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       this.checkOpenTags(event.url);
+      this.cd.markForCheck();
     });
   }
 
@@ -45,24 +47,4 @@ export class IndexNavComponent implements OnInit, OnDestroy {
       this.openTags.add(tag);
     }
   }
-
-  getPrimaryLabel(op: OperationsItem, pathItem: PathItem): string {
-    return getLabel(op, pathItem, this.oavSettings.indexPrimaryLabel);
-  }
-
-  getHoverLabel(op: OperationsItem, pathItem: PathItem): string {
-    return getLabel(op, pathItem, this.oavSettings.indexHoverLabel);
-  }
-}
-
-function getLabel(op: OperationsItem, pathItem: PathItem, fields: string[]): string {
-  for (const field of fields) {
-    if (field === 'path') {
-      return pathItem.path;
-    }
-    if (op.operation[field]) {
-      return op.operation[field];
-    }
-  }
-  return '';
 }

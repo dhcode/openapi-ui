@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OpenAPIObject } from 'openapi3-ts';
+import { ActivatedRoute } from '@angular/router';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
@@ -29,10 +31,15 @@ export class AppComponent implements OnInit {
 
   error = null;
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.loadSpec();
+    this.route.queryParams.subscribe(queryParams => {
+      if (queryParams.url) {
+        this.url = queryParams.url;
+      }
+      this.loadSpec();
+    });
   }
 
   updateUrl(url) {

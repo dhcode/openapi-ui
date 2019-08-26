@@ -30,6 +30,8 @@ import { TooltipComponent } from './shared-components/tooltip/tooltip.component'
 import { TooltipDirective } from './shared-components/tooltip/tooltip.directive';
 import { AceModule } from 'ngx-ace-wrapper';
 import { CodeInputComponent } from './shared-components/code-input/code-input.component';
+import { IndexNavEndpointsComponent } from './index-nav/index-nav-endpoints/index-nav-endpoints.component';
+import { OverviewViewEndpointsComponent } from './overview-view/overview-view-endpoints/overview-view-endpoints.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { CodeInputComponent } from './shared-components/code-input/code-input.co
     AuthStatusComponent,
     TooltipComponent,
     TooltipDirective,
-    CodeInputComponent
+    CodeInputComponent,
+    IndexNavEndpointsComponent,
+    OverviewViewEndpointsComponent
   ],
   imports: [
     CommonModule,

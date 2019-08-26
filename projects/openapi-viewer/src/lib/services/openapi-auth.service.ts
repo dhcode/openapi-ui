@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import {
   AuthStatus,
   OAuthCredentials,
@@ -13,6 +13,11 @@ import { securitySchemeTypesWithScopes } from '../openapi-viewer.constants';
 @Injectable()
 export class OpenapiAuthService {
   readonly securitySchemes = new BehaviorSubject<SecuritySchemeItem[]>([]);
+  /**
+   * Emits with the scheme name when its credentials have been updated
+   */
+  readonly updatedCredentials = new Subject<string>();
+
   private globalRequirements: SecurityRequirementObject[] = [];
 
   constructor() {}
@@ -111,6 +116,7 @@ export class OpenapiAuthService {
       schema.credentials = null;
       clearCredentialsStore(name);
     }
+    this.updatedCredentials.next(name);
   }
 }
 

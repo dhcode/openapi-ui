@@ -18,6 +18,8 @@ export class OpenapiViewerService {
 
   private requests: OavRequest[] = [];
 
+  private loadingPromise = null;
+
   constructor(private http: HttpClient, private authService: OpenapiAuthService) {}
 
   loadSpec(spec: OpenAPIObject): Promise<OpenAPIObject> {
@@ -35,7 +37,13 @@ export class OpenapiViewerService {
     if (this.tagIndex.value.length) {
       this.tagIndex.next([]);
     }
-    const resolveResult = await Swagger.resolve({ spec: swaggerOpts.spec, url: swaggerOpts.url });
+    this.loadingPromise = Swagger.resolve({ spec: swaggerOpts.spec, url: swaggerOpts.url });
+    const loadingPromise = this.loadingPromise;
+    const resolveResult = await loadingPromise;
+    if (loadingPromise !== this.loadingPromise) {
+      return null;
+    }
+
     console.log('loaded spec', resolveResult);
     this.spec.next(resolveResult.spec);
     this.tagIndex.next(getTagIndex(resolveResult.spec));

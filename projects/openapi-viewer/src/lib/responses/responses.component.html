@@ -24,7 +24,13 @@
             <div *oavTabNavItem="content.summary || content.name">
               <markdown *ngIf="content.description" [data]="content.description"></markdown>
               <a *ngIf="content.externalValueUrl" [href]="content.externalValueUrl" target="_blank">Example</a>
-              <oav-code-input *ngIf="!content.externalValueUrl" readonly [ngModel]="content.value" [mode]="mode"></oav-code-input>
+              <oav-code-input
+                *ngIf="!content.externalValueUrl"
+                readonly
+                [ngModel]="content.value"
+                [mode]="mode"
+                [maxLines]="20"
+              ></oav-code-input>
             </div>
           </ng-container>
         </oav-tab-nav>

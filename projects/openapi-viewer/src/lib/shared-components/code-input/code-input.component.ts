@@ -44,7 +44,7 @@ export class CodeInputComponent implements OnChanges, ControlValueAccessor, OnIn
   @Input() mode: 'json' | 'xml' | 'text' = 'text';
 
   @Input() minLines = 1;
-  @Input() maxLines = 50;
+  @Input() maxLines = 20;
 
   @Input() schema = null;
 
@@ -68,7 +68,13 @@ export class CodeInputComponent implements OnChanges, ControlValueAccessor, OnIn
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.schema) {
-      this.validate = getValidationFunction(this.schema);
+      try {
+        this.validate = getValidationFunction(this.schema);
+      } catch (e) {
+        console.error('Failed to get validation function for schema', this.schema, e);
+        this.validate = null;
+        this.errors = [e.message];
+      }
     } else {
       this.validate = null;
       this.errors = [];
