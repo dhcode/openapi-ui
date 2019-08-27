@@ -2,6 +2,9 @@
   <header class="oav-header">
     <ng-content></ng-content>
   </header>
+  <div class="oav-menu-header">
+    <a href="javascript:" class="oav-menu-toggle" oavOpenable #openMenu="openable"></a>
+  </div>
   <div class="oav-content-container">
     <div *ngIf="loading">
       <span class="loading"></span>
@@ -25,7 +28,6 @@
       <section class="oav-view-container">
         <router-outlet></router-outlet>
       </section>
-      <a href="javascript:" class="oav-index-toggle toggle-button full-rotate" oavOpenable #openMenu="openable"></a>
     </ng-container>
   </div>
 </div>

@@ -34,30 +34,36 @@ $line-color: #ccc;
   display: flex;
   flex-direction: column;
 
+  .oav-menu-header {
+    border-bottom: 1px solid $line-color;
+
+    .oav-menu-toggle {
+      display: inline-block;
+      color: #000;
+      padding: 0.5rem;
+      text-decoration: none;
+      font-weight: bold;
+
+      &::before {
+        content: '☰';
+      }
+
+      &.open::before {
+      }
+    }
+  }
+
   .oav-content-container {
     flex: 1;
     display: flex;
     min-height: 0;
     position: relative;
 
-    .oav-index-toggle {
-      color: #000;
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1rem;
-      height: 1rem;
-      padding: 0.5rem;
-
-      &.open {
-        left: 16rem;
-      }
-    }
-
     .oav-index-container {
-      width: 2rem;
+      width: 0;
       overflow: auto;
       background: #f6f6fb;
+      transition: width ease-out 100ms;
     }
 
     .oav-index-container.open {
@@ -654,13 +660,20 @@ oav-method-header {
     }
   }
 
-  .oav-top-nav {
-    padding-left: 0;
+  .oav-top-nav,
+  .oav-bottom-nav {
+    border-bottom: 1px solid $line-color;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0;
 
     a {
       font-size: 1rem;
       padding-left: 1rem;
     }
+  }
+  .oav-bottom-nav {
+    border-bottom: 0;
+    border-top: 1px solid $line-color;
   }
 }
 
@@ -788,16 +801,12 @@ oav-tooltip {
   }
 
   .oav-layout {
+    .oav-menu-header {
+      display: none;
+    }
     .oav-content-container {
-      .oav-index-toggle {
-        left: 16rem;
-      }
-
       .oav-index-container {
         width: 18rem;
-      }
-
-      .oav-view-container {
       }
     }
   }
