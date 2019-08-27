@@ -1,21 +1,32 @@
 <div *ngFor="let model of models">
   <ng-container *ngIf="model.type === 'object'">
-    <div class="oav-json-schema-code">
-      <strong>{{ model.name }}</strong> {{ '{' }}
+    <div *ngIf="!model.open" class="oav-json-schema-code">
+      <a href="javascript:" (click)="toggleModel(model)" class="oav-json-schema-toggle">
+        {{ model.name }}
+      </a>
+      {{ '{' }} <a href="javascript:" (click)="toggleModel(model)" class="oav-json-schema-toggle">...</a> {{ '}' }}
     </div>
-    <div class="ml-3 json-schema-property" *ngFor="let prop of model.properties">
-      <div class="oav-json-schema-name oav-json-schema-code" [class.oav-json-schema-required]="prop.required">{{ prop.name }}:</div>
-      <div class="oav-json-schema-type" *ngIf="!prop.modelName">
-        <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
+    <ng-container *ngIf="model.open">
+      <div class="oav-json-schema-code">
+        <a href="javascript:" (click)="toggleModel(model)" class="oav-json-schema-toggle">
+          {{ model.name }}
+        </a>
+        {{ '{' }}
       </div>
-      <div class="oav-json-schema-type oav-json-schema-code" *ngIf="prop.modelName">
-        <strong>{{ prop.modelName }}</strong>
+      <div class="ml-3 json-schema-property" *ngFor="let prop of model.properties">
+        <div class="oav-json-schema-name oav-json-schema-code" [class.oav-json-schema-required]="prop.required">{{ prop.name }}:</div>
+        <div class="oav-json-schema-type" *ngIf="!prop.modelName">
+          <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
+        </div>
+        <div class="oav-json-schema-type oav-json-schema-code" *ngIf="prop.modelName">
+          <strong>{{ prop.modelName }}</strong>
+        </div>
+        <div class="oav-json-schema-description">
+          <markdown *ngIf="prop.schema?.description" [data]="prop.schema?.description"></markdown>
+        </div>
       </div>
-      <div class="oav-json-schema-description">
-        <markdown *ngIf="prop.schema?.description" [data]="prop.schema?.description"></markdown>
-      </div>
-    </div>
-    <div class="oav-json-schema-code">{{ '}' }}</div>
+      <div class="oav-json-schema-code">{{ '}' }}</div>
+    </ng-container>
   </ng-container>
   <ng-container *ngIf="model.type === 'array'">
     <ng-container *ngTemplateOutlet="arrayOutput; context: model"></ng-container>
@@ -28,7 +39,11 @@
 <ng-template #arrayOutput let-properties="properties">
   <ng-container *ngIf="properties?.length === 1 && properties[0] as prop; else multipleProps">
     <div class="oav-json-schema-code" *ngIf="prop.modelName">
-      [ <strong>{{ prop.modelName }}</strong> ]
+      [
+      <a href="javascript:" (click)="openModelByName(prop.modelName)" class="oav-json-schema-toggle">
+        {{ prop.modelName }}
+      </a>
+      ]
     </div>
     <div class="oav-json-schema-code" *ngIf="!prop.modelName">
       [ <span class="oav-json-schema-type-name">{{ prop.type }}</span> ]
@@ -42,7 +57,9 @@
         <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
       </div>
       <div class="oav-json-schema-type oav-json-schema-code" *ngIf="prop.modelName">
-        <strong>{{ prop.modelName }}</strong>
+        <a href="javascript:" (click)="openModelByName(prop.modelName)" class="oav-json-schema-toggle">
+          {{ prop.modelName }}
+        </a>
       </div>
       <div class="oav-json-schema-description">
         <markdown *ngIf="prop.schema?.description" [data]="prop.schema?.description"></markdown>

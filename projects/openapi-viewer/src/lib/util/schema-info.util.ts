@@ -5,6 +5,7 @@ export interface ModelInfo {
   type: string;
   schema: JSONSchema6;
   properties?: PropertyInfo[] | null;
+  open?: boolean;
 }
 
 export interface PropertyInfo extends ModelInfo {

@@ -19,11 +19,27 @@ export class JsonSchemaComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const info = identifySchemaInfo(this.defaultModelName, this.schema);
+    info.open = true;
     this.models = [info, ...info.additionalModels];
     console.log('models', this.models);
   }
 
   isPrimitive(type: string): boolean {
     return type === 'integer' || type === 'number' || type === 'string' || type === 'boolean' || type === 'null' || type === 'any';
+  }
+
+  toggleModel(model: ModelInfo) {
+    if (model.open) {
+      model.open = false;
+    } else {
+      model.open = true;
+    }
+  }
+
+  openModelByName(name) {
+    const modelInfo = this.models.find(m => m.name === name);
+    if (modelInfo) {
+      modelInfo.open = true;
+    }
   }
 }

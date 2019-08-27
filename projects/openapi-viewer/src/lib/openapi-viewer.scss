@@ -144,6 +144,11 @@ oav-json-schema {
   .oav-json-schema-name {
   }
 
+  .oav-json-schema-toggle {
+    font-weight: bold;
+    text-decoration: none;
+  }
+
   .json-schema-property {
     display: flex;
     align-items: flex-start;
