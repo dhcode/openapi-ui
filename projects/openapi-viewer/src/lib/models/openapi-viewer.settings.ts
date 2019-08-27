@@ -19,6 +19,12 @@ export class OavSettings {
   indexHoverLabel: ('summary' | 'operationId' | 'path')[] | null = ['path'];
 
   /**
+   * Which value of an operation is shown in the overview navigation, in which order.
+   * The first one is displayed if available, otherwise the nex one will be  chosen until a value is available.
+   */
+  overviewPrimaryLabel: ('summary' | 'operationId')[] = ['summary', 'operationId'];
+
+  /**
    * Whether to show the option to display the raw operation definition on the operation page.
    */
   showRawOperationDefinition = false;

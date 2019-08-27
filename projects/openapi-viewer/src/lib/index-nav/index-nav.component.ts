@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Optional,
+  SimpleChanges
+} from '@angular/core';
 import { OperationsItem, PathItem, TagIndex } from '../models/openapi-viewer.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -36,6 +46,9 @@ export class IndexNavComponent implements OnInit, OnDestroy {
       this.checkOpenTags(event.url);
       this.cd.markForCheck();
     });
+    if (this.index && this.index.length === 1) {
+      this.openTags.add(this.index[0].tag.name);
+    }
   }
 
   ngOnDestroy(): void {

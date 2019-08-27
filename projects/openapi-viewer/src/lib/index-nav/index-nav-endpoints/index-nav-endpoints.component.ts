@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, Optional } from '@angular/core';
 import { OavSettings } from '../../models/openapi-viewer.settings';
 import { OperationsItem, PathItem, TagIndex } from '../../models/openapi-viewer.model';
+import { getLabel } from '../../util/visualization.util';
 
 @Component({
   selector: 'oav-index-nav-endpoints',
@@ -26,16 +27,4 @@ export class IndexNavEndpointsComponent {
   getHoverLabel(op: OperationsItem, pathItem: PathItem): string {
     return getLabel(op, pathItem, this.oavSettings.indexHoverLabel);
   }
-}
-
-function getLabel(op: OperationsItem, pathItem: PathItem, fields: string[]): string {
-  for (const field of fields) {
-    if (field === 'path') {
-      return pathItem.path;
-    }
-    if (op.operation[field]) {
-      return op.operation[field];
-    }
-  }
-  return '';
 }
