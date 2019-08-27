@@ -19,12 +19,13 @@
     </div>
 
     <ng-container *ngIf="!loading && !error && index.length">
-      <aside class="oav-index-container">
+      <aside class="oav-index-container" [class.open]="openMenu.open">
         <oav-index-nav [index]="index"></oav-index-nav>
       </aside>
       <section class="oav-view-container">
         <router-outlet></router-outlet>
       </section>
+      <a href="javascript:" class="oav-index-toggle toggle-button full-rotate" oavOpenable #openMenu="openable"></a>
     </ng-container>
   </div>
 </div>

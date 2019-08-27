@@ -1,5 +1,5 @@
 <oav-openapi-viewer [specUrl]="specUrl">
-  <form class="d-flex align-items-center header-form" (submit)="loadSpec()">
+  <form class="d-md-flex align-items-center header-form" (submit)="loadSpec()">
     <span>Specification URL: </span>
     <div>
       <select name="urlPreset" class="spec-url-select" ngModel (ngModelChange)="updateUrl($event)">

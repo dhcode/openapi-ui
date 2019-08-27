@@ -39,11 +39,31 @@ $line-color: #ccc;
     display: flex;
     min-height: 0;
     position: relative;
+
+    .oav-index-toggle {
+      color: #000;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1rem;
+      height: 1rem;
+      padding: 0.5rem;
+
+      &.open {
+        left: 16rem;
+      }
+    }
+
     .oav-index-container {
-      width: 18rem;
+      width: 2rem;
       overflow: auto;
       background: #f6f6fb;
     }
+
+    .oav-index-container.open {
+      width: 18rem;
+    }
+
     .oav-view-container {
       flex: 1;
       overflow: scroll;
@@ -57,9 +77,11 @@ $line-color: #ccc;
   h1 {
     font-size: 1.5em;
   }
+
   h3 {
     font-size: 1.15em;
   }
+
   h4 {
     font-size: 1em;
   }
@@ -67,6 +89,7 @@ $line-color: #ccc;
   a {
     color: $active-color;
   }
+
   a:hover {
     color: $hover-color;
   }
@@ -95,58 +118,59 @@ $line-color: #ccc;
   .send-btn:hover {
     background-color: $primary-bg-hover;
   }
+
   .send-btn:disabled {
     background-color: $disabled-color;
   }
-
 
   pre {
     white-space: pre-wrap;
   }
 
   .oav-warning {
-    color: #fb9200
+    color: #fb9200;
   }
 
   .ace_editor {
     border: 1px solid $line-color;
   }
-
-
 }
 
 oav-json-schema {
   .oav-json-schema-code {
     font-family: monospace;
   }
-  .oav-json-schema-name {
 
+  .oav-json-schema-name {
   }
+
   .json-schema-property {
     display: flex;
     align-items: flex-start;
-
   }
+
   .oav-json-schema-name.oav-json-schema-required::after {
     content: '*';
     color: $required-star-color;
     padding-left: 0.1em;
   }
+
   .oav-json-schema-description {
     font-size: 0.9rem;
     margin-left: 0.5rem;
   }
+
   .oav-json-schema-description p {
     margin-top: 0;
   }
+
   .oav-json-schema-type {
     margin-left: 0.2rem;
-
   }
+
   .oav-json-schema-type-name {
     color: $type-color;
   }
-  
 }
 
 .oav-method {
@@ -167,6 +191,7 @@ a.oav-header-link {
   color: #000000;
   text-decoration: none;
 }
+
 a.oav-header-link:hover {
   color: $active-color;
 }
@@ -271,9 +296,11 @@ oav-method-header {
 
 .oav-operation-layout {
   display: flex;
+
   .oav-operation-details {
     flex: 1;
   }
+
   .oav-operation-requests {
     min-width: 30rem;
     margin-left: 1rem;
@@ -306,6 +333,10 @@ oav-method-header {
 
   &.open:before {
     transform: rotate(90deg);
+  }
+
+  &.full-rotate.open:before {
+    transform: rotate(180deg);
   }
 }
 
@@ -367,6 +398,7 @@ oav-method-header {
 
   .description {
     margin: 0.2rem 0;
+
     p {
       margin-top: 0;
     }
@@ -434,8 +466,6 @@ oav-method-header {
 }
 
 .oav-divided-container {
-  display: flex;
-
   .main {
     flex: 1;
   }
@@ -444,13 +474,16 @@ oav-method-header {
 .oav-auth-status {
   font-family: monospace;
   cursor: pointer;
+
   &::before {
     content: ' ';
   }
+
   &.required::before {
     content: '🔒\FE0E';
     color: $required-color;
   }
+
   &.ok::before {
     content: '🔓\FE0E';
     color: $success-color;
@@ -493,26 +526,44 @@ oav-method-header {
     min-height: 5rem;
   }
 
-  .status-200, .status-201, .status-202, .status-204 {
+  .status-200,
+  .status-201,
+  .status-202,
+  .status-204 {
     color: #25ac20;
   }
-  .status-400, .status-401, .status-402, .status-403, .status-404, .status-405, .status-406,
-  .status-500, .status-501, .status-503, .status-504, .status-505 {
+
+  .status-400,
+  .status-401,
+  .status-402,
+  .status-403,
+  .status-404,
+  .status-405,
+  .status-406,
+  .status-500,
+  .status-501,
+  .status-503,
+  .status-504,
+  .status-505 {
     color: #ac0003;
   }
 }
 
 .oav-tab-nav {
   border-bottom: 1px solid $line-color;
+
   a {
     color: #000000;
     display: inline-block;
     text-decoration: none;
     padding: 0.5rem 1rem;
   }
-  a:hover, a.active {
-    color: $active-color
+
+  a:hover,
+  a.active {
+    color: $active-color;
   }
+
   a.active {
     padding-bottom: 0.3rem;
     border-bottom: 0.2rem solid $active-color;
@@ -522,37 +573,44 @@ oav-method-header {
 .oav-index-nav {
   padding: 1rem 0;
   font-size: 0.8rem;
+
   .deprecated {
     text-decoration: line-through;
   }
+
   header {
     a {
       color: #000;
       text-decoration: none;
-      padding: .2em 1rem;
+      padding: 0.2em 1rem;
       font-size: 1rem;
       display: flex;
       justify-content: space-between;
       font-weight: bold;
     }
+
     a:hover {
       color: $active-color;
       background: $hover-bg;
     }
   }
+
   ol {
     padding-left: 1rem;
   }
+
   li {
     padding: 0;
     display: block;
+
     oav-method {
-      margin-right: .5em;
+      margin-right: 0.5em;
     }
+
     a {
       color: #000;
       text-decoration: none;
-      padding: .2em;
+      padding: 0.2em;
       box-sizing: border-box;
       display: block;
       position: relative;
@@ -562,7 +620,7 @@ oav-method-header {
       }
 
       .info-overlay {
-        padding: .2em;
+        padding: 0.2em;
         display: none;
         position: absolute;
         background: $hover-bg;
@@ -571,6 +629,7 @@ oav-method-header {
         white-space: nowrap;
       }
     }
+
     a:hover {
       background: $hover-bg;
       color: $active-color;
@@ -578,14 +637,18 @@ oav-method-header {
       .info-overlay {
         display: flex;
       }
+
       .label {
         visibility: hidden;
       }
     }
-    a:active, a.active {
+
+    a:active,
+    a.active {
       color: $active-color;
     }
   }
+
   .oav-top-nav {
     padding-left: 0;
 
@@ -596,30 +659,36 @@ oav-method-header {
   }
 }
 
-
 .m-0 {
   margin: 0;
 }
+
 .my-0 {
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .my-3 {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
 .mt-0 {
   margin-top: 0;
 }
+
 .ml-auto {
   margin-left: auto;
 }
+
 .ml-1 {
-  margin-left: .25rem;
+  margin-left: 0.25rem;
 }
+
 .ml-2 {
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
+
 .ml-3 {
   margin-left: 1rem;
 }
@@ -627,15 +696,19 @@ oav-method-header {
 .font-size-tiny {
   font-size: 0.5rem;
 }
+
 .font-size-smaller {
   font-size: 0.8rem;
 }
+
 .font-size-1 {
   font-size: 1rem;
 }
+
 .font-size-2 {
   font-size: 2rem;
 }
+
 .font-size-3 {
   font-size: 3rem;
 }
@@ -651,9 +724,11 @@ oav-method-header {
 .flex-grow-1 {
   flex: 1;
 }
+
 .justify-content-between {
   justify-content: space-between;
 }
+
 .normal-text {
   font-size: 1rem;
   font-weight: 400;
@@ -662,6 +737,7 @@ oav-method-header {
 .oav-error {
   color: #ac0003;
 }
+
 .openable {
   cursor: pointer;
 }
@@ -686,24 +762,6 @@ oav-tooltip {
   }
 }
 
-@media (min-width: 60rem) {
-  .oav-parameter {
-    display: flex;
-
-    .name {
-      width: 15rem;
-    }
-
-    .input {
-      width: 50%;
-    }
-
-    .description {
-      width: 50%;
-    }
-  }
-}
-
 .openapi-response {
   border-bottom: 1px solid $line-color;
   padding: 0.2rem 0;
@@ -720,6 +778,41 @@ oav-tooltip {
 }
 
 @media (min-width: 60rem) {
+  .d-md-flex {
+    display: flex;
+  }
+
+  .oav-layout {
+    .oav-content-container {
+      .oav-index-toggle {
+        left: 16rem;
+      }
+
+      .oav-index-container {
+        width: 18rem;
+      }
+
+      .oav-view-container {
+      }
+    }
+  }
+
+  .oav-parameter {
+    display: flex;
+
+    .name {
+      width: 15rem;
+    }
+
+    .input {
+      width: 50%;
+    }
+
+    .description {
+      width: 50%;
+    }
+  }
+
   .openapi-response {
     display: flex;
 
@@ -730,5 +823,9 @@ oav-tooltip {
     .description {
       min-width: 30rem;
     }
+  }
+
+  .oav-divided-container {
+    display: flex;
   }
 }

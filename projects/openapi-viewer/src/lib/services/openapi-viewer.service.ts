@@ -224,7 +224,6 @@ function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: Para
         operation.operationId = 'op-' + randomHex(8);
       }
       const parameters = [];
-      const responses = [];
       if (parentParameters) {
         parameters.push(...parentParameters);
       }
