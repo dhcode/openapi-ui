@@ -86,7 +86,9 @@ function updateModelsFromProperty(defaultName: string, schema: JSONSchema6, addi
     }
     const modelName = refName || defaultName;
     if (!additionalModels.find(m => m.name === modelName)) {
-      additionalModels.push(identifyModelInfo(modelName, schema, additionalModels));
+      const designatedIndex = additionalModels.length;
+      const modelInfo = identifyModelInfo(modelName, schema, additionalModels);
+      additionalModels.splice(designatedIndex, 0, modelInfo);
     }
     return modelName;
   }

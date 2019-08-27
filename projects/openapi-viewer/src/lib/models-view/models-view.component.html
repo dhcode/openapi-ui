@@ -6,14 +6,14 @@
 
     <div *ngFor="let def of cat.definitions">
       <h3>{{ def.name }}</h3>
-      <ng-container *ngIf="def.schema">
+      <div class="ml-3" *ngIf="def.schema">
         <oav-json-schema [schema]="def.schema" [defaultModelName]="def.name"></oav-json-schema>
 
         <ng-container *ngIf="showRaw">
           <h4 oavOpenable #rawOpenable="openable" class="toggle-button">Raw {{ def.name }} model definition</h4>
           <oav-code-input *ngIf="rawOpenable.open" mode="json" [ngModel]="def.schema | json" readonly></oav-code-input>
         </ng-container>
-      </ng-container>
+      </div>
     </div>
   </ng-container>
 </div>

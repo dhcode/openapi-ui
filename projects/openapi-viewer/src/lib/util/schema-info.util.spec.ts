@@ -47,7 +47,6 @@ describe('Schema Info Util', () => {
       }
     };
     const info = identifySchemaInfo('Status', testSpec);
-    console.log(info);
     expect(info.name).toBe('Status');
     expect(info.type).toBe('object');
     expect(info.schema).toBe(testSpec);
@@ -68,5 +67,41 @@ describe('Schema Info Util', () => {
     expect(execution.name).toBe('Execution');
     expect(execution.type).toBe('object');
     expect(execution.properties.length).toBe(1);
+  });
+
+  it('should identify schema in right order', () => {
+    const testSpec: any = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          },
+          info: {
+            type: 'object',
+            properties: {
+              message: {
+                type: 'string'
+              }
+            },
+            $$ref: '#/definitions/Info'
+          }
+        },
+        $$ref: '#/definitions/Item'
+      }
+    };
+    const info = identifySchemaInfo('List', testSpec);
+    expect(info.name).toBe('List');
+    expect(info.type).toBe('array');
+    expect(info.schema).toBe(testSpec);
+    expect(info.properties.length).toBe(1);
+    expect(info.additionalModels.length).toBe(2);
+
+    const item = info.additionalModels[0];
+    expect(item.name).toBe('Item');
+
+    const infoO = info.additionalModels[1];
+    expect(infoO.name).toBe('Info');
   });
 });
