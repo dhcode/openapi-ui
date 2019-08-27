@@ -1,0 +1,66 @@
+<div *ngFor="let model of models">
+  <ng-container *ngIf="model.type === 'object'">
+    <div class="code">
+      <strong>{{ model.name }}</strong> {{ '{' }}
+    </div>
+    <div class="ml-3 json-schema-property" *ngFor="let prop of model.properties">
+      <div class="name code" [class.required]="prop.required">{{ prop.name }}:</div>
+      <div class="type" *ngIf="!prop.modelName">
+        <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
+      </div>
+      <div class="type code" *ngIf="prop.modelName">
+        <strong>{{ prop.modelName }}</strong>
+      </div>
+      <div class="description">
+        <markdown *ngIf="prop.schema?.description" [data]="prop.schema?.description"></markdown>
+      </div>
+    </div>
+    <div class="code">{{ '}' }}</div>
+  </ng-container>
+  <ng-container *ngIf="model.type === 'array'">
+    <ng-container *ngTemplateOutlet="arrayOutput; context: model"></ng-container>
+  </ng-container>
+  <ng-container *ngIf="isPrimitive(model.type)">
+    <ng-container *ngTemplateOutlet="typeOutput; context: model"></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #arrayOutput let-properties="properties">
+  <ng-container *ngIf="properties?.length === 1 && properties[0] as prop; else multipleProps">
+    <div class="code" *ngIf="prop.modelName">
+      [ <strong>{{ prop.modelName }}</strong> ]
+    </div>
+    <div class="code" *ngIf="!prop.modelName">
+      [ <span class="type-name">{{ prop.type }}</span> ]
+    </div>
+  </ng-container>
+  <ng-template #multipleProps>
+    <div class="code">[</div>
+    <div class="ml-3 json-schema-property" *ngFor="let prop of properties">
+      <div class="name code" *ngIf="prop.name">{{ prop.name }}:</div>
+      <div class="type" *ngIf="!prop.modelName">
+        <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
+      </div>
+      <div class="type code" *ngIf="prop.modelName">
+        <strong>{{ prop.modelName }}</strong>
+      </div>
+      <div class="description">
+        <markdown *ngIf="prop.schema?.description" [data]="prop.schema?.description"></markdown>
+      </div>
+    </div>
+    <div class="code">]</div>
+  </ng-template>
+</ng-template>
+
+<ng-template #typeOutput let-type="type" let-schema="schema" let-properties="properties">
+  <ng-container *ngIf="type === 'array'">
+    <ng-container *ngTemplateOutlet="arrayOutput; context: { properties: properties }"></ng-container>
+  </ng-container>
+  <ng-container *ngIf="type !== 'array'">
+    <span class="type-name code">
+      {{ type }}
+    </span>
+    <span class="format code" *ngIf="schema?.format">({{ schema?.format }})</span>
+    <span *ngIf="schema?.enum" class="code">{{ schema?.enum | json }}</span>
+  </ng-container>
+</ng-template>

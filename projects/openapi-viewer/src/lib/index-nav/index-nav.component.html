@@ -6,6 +6,9 @@
     <li *ngIf="showAuthentication">
       <a routerLink="/auth" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Authentication</a>
     </li>
+    <li *ngIf="showModelsOverview">
+      <a routerLink="/models" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Models overview</a>
+    </li>
   </ol>
 
   <ng-container *ngFor="let tag of index">

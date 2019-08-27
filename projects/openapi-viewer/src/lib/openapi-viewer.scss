@@ -21,9 +21,12 @@ $primary-bg-hover: #31b1ff;
 $danger-bg: #ac0003;
 $danger-bg-hover: #f26767;
 
+$type-color: #8a8a8f;
+
 $required-color: #8a8a8f;
 $success-color: #25ac20;
 
+$required-star-color: #ac0003;
 $line-color: #ccc;
 
 .oav-layout {
@@ -107,6 +110,41 @@ $line-color: #ccc;
 
   .ace_editor {
     border: 1px solid $line-color;
+  }
+
+
+}
+
+oav-json-schema {
+  .code {
+    font-family: monospace;
+  }
+  .name {
+
+  }
+  .json-schema-property {
+    display: flex;
+    align-items: flex-start;
+
+  }
+  .name.required::after {
+    content: '*';
+    color: $required-star-color;
+    padding-left: 0.1em;
+  }
+  .description {
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+  }
+  .description p {
+    margin-top: 0;
+  }
+  .type {
+    margin-left: 0.2rem;
+
+  }
+  .type-name {
+    color: $type-color;
   }
 }
 

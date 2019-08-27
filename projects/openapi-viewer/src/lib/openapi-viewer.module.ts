@@ -32,6 +32,8 @@ import { AceModule } from 'ngx-ace-wrapper';
 import { CodeInputComponent } from './shared-components/code-input/code-input.component';
 import { IndexNavEndpointsComponent } from './index-nav/index-nav-endpoints/index-nav-endpoints.component';
 import { OverviewViewEndpointsComponent } from './overview-view/overview-view-endpoints/overview-view-endpoints.component';
+import { ModelsViewComponent } from './models-view/models-view.component';
+import { JsonSchemaComponent } from './shared-components/json-schema/json-schema.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { OverviewViewEndpointsComponent } from './overview-view/overview-view-en
     TooltipDirective,
     CodeInputComponent,
     IndexNavEndpointsComponent,
-    OverviewViewEndpointsComponent
+    OverviewViewEndpointsComponent,
+    ModelsViewComponent,
+    JsonSchemaComponent
   ],
   imports: [
     CommonModule,

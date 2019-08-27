@@ -24,10 +24,20 @@ export class OavSettings {
   showRawOperationDefinition = false;
 
   /**
+   * Show raw model definitions
+   */
+  showRawModelDefinition = false;
+
+  /**
    * Whether authentication is enabled.
    * - Status is shown at operations
    * - Authentication page is shown, where a user can enter credentials
    */
   enableAuthentication = true;
+
+  /**
+   * Show the models overview page
+   */
+  enableModelsOverview = true;
 }
 OavSettings.default = new OavSettings();

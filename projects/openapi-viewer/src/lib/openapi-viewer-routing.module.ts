@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OperationViewComponent } from './operation-view/operation-view.component';
 import { OverviewViewComponent } from './overview-view/overview-view.component';
 import { AuthenticationViewComponent } from './authentication-view/authentication-view.component';
+import { ModelsViewComponent } from './models-view/models-view.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'auth',
     component: AuthenticationViewComponent
+  },
+  {
+    path: 'models',
+    component: ModelsViewComponent
   },
   {
     path: ':tag/:opId',
