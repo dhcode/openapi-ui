@@ -19,7 +19,9 @@
           <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
         </div>
         <div class="oav-json-schema-type oav-json-schema-code" *ngIf="prop.modelName">
-          <strong>{{ prop.modelName }}</strong>
+          <a href="javascript:" (click)="toggleModelByName(prop.modelName)" class="oav-json-schema-toggle">
+            {{ prop.modelName }}
+          </a>
         </div>
         <div class="oav-json-schema-description">
           <markdown *ngIf="prop.schema?.description" [data]="prop.schema?.description"></markdown>
@@ -40,7 +42,7 @@
   <ng-container *ngIf="properties?.length === 1 && properties[0] as prop; else multipleProps">
     <div class="oav-json-schema-code" *ngIf="prop.modelName">
       [
-      <a href="javascript:" (click)="openModelByName(prop.modelName)" class="oav-json-schema-toggle">
+      <a href="javascript:" (click)="toggleModelByName(prop.modelName)" class="oav-json-schema-toggle">
         {{ prop.modelName }}
       </a>
       ]
@@ -57,7 +59,7 @@
         <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
       </div>
       <div class="oav-json-schema-type oav-json-schema-code" *ngIf="prop.modelName">
-        <a href="javascript:" (click)="openModelByName(prop.modelName)" class="oav-json-schema-toggle">
+        <a href="javascript:" (click)="toggleModelByName(prop.modelName)" class="oav-json-schema-toggle">
           {{ prop.modelName }}
         </a>
       </div>

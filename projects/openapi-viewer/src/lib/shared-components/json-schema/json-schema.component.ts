@@ -36,10 +36,10 @@ export class JsonSchemaComponent implements OnChanges {
     }
   }
 
-  openModelByName(name) {
+  toggleModelByName(name) {
     const modelInfo = this.models.find(m => m.name === name);
     if (modelInfo) {
-      modelInfo.open = true;
+      this.toggleModel(modelInfo);
     }
   }
 }
