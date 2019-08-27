@@ -49,5 +49,9 @@
   </div>
   <div class="description">
     <markdown [data]="parameter.description"></markdown>
+
+    <ng-container *ngIf="displayMode === 'object' || displayMode === 'array'">
+      <oav-json-schema [schema]="parameter.schema"></oav-json-schema>
+    </ng-container>
   </div>
 </div>

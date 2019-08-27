@@ -36,9 +36,13 @@
   <button class="send-btn" [disabled]="formGroup.invalid">Send request</button>
 </form>
 
-<h3>Responses</h3>
+<h3 oavOpenable #responseOpenable="openable" class="toggle-button">Responses</h3>
 
-<oav-responses [responses]="operationItem.operation.responses" [responseType]="responseType.value"></oav-responses>
+<oav-responses
+  *ngIf="responseOpenable.open"
+  [responses]="operationItem.operation.responses"
+  [responseType]="responseType.value"
+></oav-responses>
 
 <div class="oav-operation-requests" [hidden]="!requests.length">
   <h3>Requests</h3>

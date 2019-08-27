@@ -1,21 +1,21 @@
 <div *ngFor="let model of models">
   <ng-container *ngIf="model.type === 'object'">
-    <div class="code">
+    <div class="oav-json-schema-code">
       <strong>{{ model.name }}</strong> {{ '{' }}
     </div>
     <div class="ml-3 json-schema-property" *ngFor="let prop of model.properties">
-      <div class="name code" [class.required]="prop.required">{{ prop.name }}:</div>
-      <div class="type" *ngIf="!prop.modelName">
+      <div class="oav-json-schema-name oav-json-schema-code" [class.oav-json-schema-required]="prop.required">{{ prop.name }}:</div>
+      <div class="oav-json-schema-type" *ngIf="!prop.modelName">
         <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
       </div>
-      <div class="type code" *ngIf="prop.modelName">
+      <div class="oav-json-schema-type oav-json-schema-code" *ngIf="prop.modelName">
         <strong>{{ prop.modelName }}</strong>
       </div>
-      <div class="description">
+      <div class="oav-json-schema-description">
         <markdown *ngIf="prop.schema?.description" [data]="prop.schema?.description"></markdown>
       </div>
     </div>
-    <div class="code">{{ '}' }}</div>
+    <div class="oav-json-schema-code">{{ '}' }}</div>
   </ng-container>
   <ng-container *ngIf="model.type === 'array'">
     <ng-container *ngTemplateOutlet="arrayOutput; context: model"></ng-container>
@@ -27,28 +27,28 @@
 
 <ng-template #arrayOutput let-properties="properties">
   <ng-container *ngIf="properties?.length === 1 && properties[0] as prop; else multipleProps">
-    <div class="code" *ngIf="prop.modelName">
+    <div class="oav-json-schema-code" *ngIf="prop.modelName">
       [ <strong>{{ prop.modelName }}</strong> ]
     </div>
-    <div class="code" *ngIf="!prop.modelName">
-      [ <span class="type-name">{{ prop.type }}</span> ]
+    <div class="oav-json-schema-code" *ngIf="!prop.modelName">
+      [ <span class="oav-json-schema-type-name">{{ prop.type }}</span> ]
     </div>
   </ng-container>
   <ng-template #multipleProps>
-    <div class="code">[</div>
+    <div class="oav-json-schema-code">[</div>
     <div class="ml-3 json-schema-property" *ngFor="let prop of properties">
-      <div class="name code" *ngIf="prop.name">{{ prop.name }}:</div>
-      <div class="type" *ngIf="!prop.modelName">
+      <div class="oav-json-schema-name oav-json-schema-code" *ngIf="prop.name">{{ prop.name }}:</div>
+      <div class="oav-json-schema-type" *ngIf="!prop.modelName">
         <ng-container *ngTemplateOutlet="typeOutput; context: prop"></ng-container>
       </div>
-      <div class="type code" *ngIf="prop.modelName">
+      <div class="oav-json-schema-type oav-json-schema-code" *ngIf="prop.modelName">
         <strong>{{ prop.modelName }}</strong>
       </div>
-      <div class="description">
+      <div class="oav-json-schema-description">
         <markdown *ngIf="prop.schema?.description" [data]="prop.schema?.description"></markdown>
       </div>
     </div>
-    <div class="code">]</div>
+    <div class="oav-json-schema-code">]</div>
   </ng-template>
 </ng-template>
 
@@ -57,10 +57,10 @@
     <ng-container *ngTemplateOutlet="arrayOutput; context: { properties: properties }"></ng-container>
   </ng-container>
   <ng-container *ngIf="type !== 'array'">
-    <span class="type-name code">
+    <span class="oav-json-schema-type-name oav-json-schema-code">
       {{ type }}
     </span>
-    <span class="format code" *ngIf="schema?.format">({{ schema?.format }})</span>
-    <span *ngIf="schema?.enum" class="code">{{ schema?.enum | json }}</span>
+    <span class="oav-json-schema-format oav-json-schema-code" *ngIf="schema?.format">({{ schema?.format }})</span>
+    <span *ngIf="schema?.enum" class="oav-json-schema-code">{{ schema?.enum | json }}</span>
   </ng-container>
 </ng-template>

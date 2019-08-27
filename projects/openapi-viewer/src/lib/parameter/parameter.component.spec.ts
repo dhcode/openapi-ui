@@ -8,6 +8,7 @@ import { ParameterObject } from 'openapi3-ts';
 import { MarkdownModule } from 'ngx-markdown';
 import { CodeInputComponent } from '../shared-components/code-input/code-input.component';
 import { AceComponent, AceModule } from 'ngx-ace-wrapper';
+import { JsonSchemaComponent } from '../shared-components/json-schema/json-schema.component';
 
 describe('ParameterComponent', () => {
   let fixture: ComponentFixture<ParameterComponent>;
@@ -17,7 +18,7 @@ describe('ParameterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, MarkdownModule.forRoot(), AceModule],
-      declarations: [ParameterComponent, MultiItemsInputComponent, CodeInputComponent]
+      declarations: [ParameterComponent, MultiItemsInputComponent, CodeInputComponent, JsonSchemaComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(ParameterComponent);
     component = fixture.componentInstance;

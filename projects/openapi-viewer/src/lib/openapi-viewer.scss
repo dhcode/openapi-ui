@@ -116,10 +116,10 @@ $line-color: #ccc;
 }
 
 oav-json-schema {
-  .code {
+  .oav-json-schema-code {
     font-family: monospace;
   }
-  .name {
+  .oav-json-schema-name {
 
   }
   .json-schema-property {
@@ -127,25 +127,26 @@ oav-json-schema {
     align-items: flex-start;
 
   }
-  .name.required::after {
+  .oav-json-schema-name.oav-json-schema-required::after {
     content: '*';
     color: $required-star-color;
     padding-left: 0.1em;
   }
-  .description {
+  .oav-json-schema-description {
     font-size: 0.9rem;
     margin-left: 0.5rem;
   }
-  .description p {
+  .oav-json-schema-description p {
     margin-top: 0;
   }
-  .type {
+  .oav-json-schema-type {
     margin-left: 0.2rem;
 
   }
-  .type-name {
+  .oav-json-schema-type-name {
     color: $type-color;
   }
+  
 }
 
 .oav-method {

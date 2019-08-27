@@ -16,7 +16,14 @@
       </ng-container>
       <ng-container *ngIf="status.contents?.length === 1">
         <h4>Example Body</h4>
-        <oav-code-input readonly [ngModel]="status.contents[0].value" [mode]="mode"></oav-code-input>
+        <div class="oav-divided-container">
+          <div class="flex-grow-1">
+            <oav-code-input readonly [ngModel]="status.contents[0].value" [mode]="mode"></oav-code-input>
+          </div>
+          <div *ngIf="status.contents[0].schema" class="flex-grow-1 ml-3">
+            <oav-json-schema [schema]="status.contents[0].schema"></oav-json-schema>
+          </div>
+        </div>
       </ng-container>
       <ng-container *ngIf="status.contents?.length > 1">
         <oav-tab-nav>
@@ -24,13 +31,14 @@
             <div *oavTabNavItem="content.summary || content.name">
               <markdown *ngIf="content.description" [data]="content.description"></markdown>
               <a *ngIf="content.externalValueUrl" [href]="content.externalValueUrl" target="_blank">Example</a>
-              <oav-code-input
-                *ngIf="!content.externalValueUrl"
-                readonly
-                [ngModel]="content.value"
-                [mode]="mode"
-                [maxLines]="20"
-              ></oav-code-input>
+              <div class="oav-divided-container" *ngIf="!content.externalValueUrl">
+                <div class="flex-grow-1">
+                  <oav-code-input readonly [ngModel]="content.value" [mode]="mode" [maxLines]="20"></oav-code-input>
+                </div>
+                <div *ngIf="content.schema" class="flex-grow-1 ml-3">
+                  <oav-json-schema [schema]="content.schema"></oav-json-schema>
+                </div>
+              </div>
             </div>
           </ng-container>
         </oav-tab-nav>

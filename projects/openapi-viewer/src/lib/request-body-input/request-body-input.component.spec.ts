@@ -7,6 +7,7 @@ import { MultiItemsInputComponent } from '../parameter/multi-items-input/multi-i
 import { MarkdownModule } from 'ngx-markdown';
 import { CodeInputComponent } from '../shared-components/code-input/code-input.component';
 import { AceModule } from 'ngx-ace-wrapper';
+import { JsonSchemaComponent } from '../shared-components/json-schema/json-schema.component';
 
 describe('RequestBodyInputComponent', () => {
   let component: RequestBodyInputComponent;
@@ -16,7 +17,7 @@ describe('RequestBodyInputComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, MarkdownModule, AceModule],
-      declarations: [RequestBodyInputComponent, ParameterComponent, MultiItemsInputComponent, CodeInputComponent]
+      declarations: [RequestBodyInputComponent, ParameterComponent, MultiItemsInputComponent, CodeInputComponent, JsonSchemaComponent]
     }).compileComponents();
   }));
 
