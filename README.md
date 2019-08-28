@@ -3,13 +3,13 @@
 [![CircleCI](https://img.shields.io/circleci/build/gh/dhcode/openapi-ui.svg)](https://circleci.com/gh/dhcode/openapi-ui)
 [![Codecov](https://img.shields.io/codecov/c/github/dhcode/openapi-ui.svg)](https://codecov.io/gh/dhcode/openapi-ui)
 
-An documentation UI and API Console with focus on [Swagger v2 and OpenAPI v3 RESTful API specifications](https://swagger.io/specification/).
+A documentation UI and API Console with focus on [Swagger v2 and OpenAPI v3 RESTful API specifications](https://swagger.io/specification/).
 
 This UI is inspired by the [Swagger UI](https://github.com/swagger-api/swagger-ui) project, but is more focused on doing API requests.
 
-It is developed as Angular Library and Angular App.
-
 **[Demo](https://dhcode.github.io/openapi-ui/)**
+
+It is developed as Angular Library and Angular App.
 
 ## Current state
 
@@ -48,7 +48,8 @@ This project aims to support the most common browsers.
 ## TODO
 
 * Integrate OAuth authentication support
-* Show JSON Schema description
+* Integrate support for [links](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#linkObject)
+* Better use the [SchemaObject](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#schema-object) in schema-info.util and data-generator.util instead of original JSONSchema definitions.
 * Show generated commandline for curl
 * Show generated code for JavaScript and other languages
 * Increase test coverage
