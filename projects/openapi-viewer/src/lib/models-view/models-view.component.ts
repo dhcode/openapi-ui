@@ -105,42 +105,39 @@ function addToCategory(defItem: DefinitionItem, categories: DefinitionCategory[]
 
 function identifyModels(spec: OpenAPIObject): DefinitionCategory[] {
   const categories: DefinitionCategory[] = [];
+  // OASv2
   if (spec.definitions) {
-    // OASv2
     Object.keys(spec.definitions)
-      .map(name => getDefinitionItemV2(name, spec.definitions[name]))
+      .map(name => getDefinitionsItem('schema', name, spec.definitions[name]))
       .forEach(defItem => addToCategory(defItem, categories));
   }
+  if (spec.responses) {
+    Object.keys(spec.responses)
+      .map(name => getDefinitionsItem('response', name, spec.definitions[name]))
+      .forEach(defItem => addToCategory(defItem, categories));
+  }
+  if (spec.parameters) {
+    Object.keys(spec.parameters)
+      .map(name => getDefinitionsItem('parameter', name, spec.definitions[name]))
+      .forEach(defItem => addToCategory(defItem, categories));
+  }
+  // OASv3
   if (spec.components) {
-    // OASv3
     Object.keys(spec.components).forEach(categoryPlural => {
-      const category = categoryPlural.substr(0, categoryPlural.length - 1);
+      const category = categoryPlural.substr(0, categoryPlural.length - 1) as keyof DefinitionItem;
       const cat = getCategory(category, categories);
       Object.keys(spec.components[categoryPlural])
-        .map(name => getDefinitionsItemV3(category, name, spec.components[categoryPlural][name]))
+        .map(name => getDefinitionsItem(category, name, spec.components[categoryPlural][name]))
         .forEach(defItem => {
           cat.definitions.push(defItem);
         });
     });
-    return;
   }
   return categories;
 }
 
-function getDefinitionsItemV3(category: string, name: string, component: any): DefinitionItem {
+function getDefinitionsItem(category: keyof DefinitionItem, name: string, component: any): DefinitionItem {
   const item: DefinitionItem = { name };
   item[category] = component;
-  return item;
-}
-
-function getDefinitionItemV2(name: string, def: any): DefinitionItem {
-  const item: DefinitionItem = { name };
-  if (def.in) {
-    item.parameter = def;
-  } else if (def.type) {
-    item.schema = def;
-  } else if (def.description) {
-    item.response = def;
-  }
   return item;
 }
