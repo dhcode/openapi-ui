@@ -53,6 +53,7 @@ This project aims to support the most common browsers.
 * Show generated commandline for curl
 * Show generated code for JavaScript and other languages
 * Increase test coverage
+* Publish library to npm
 
 ## Other libraries used
 
