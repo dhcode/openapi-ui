@@ -25,7 +25,7 @@
       <aside class="oav-index-container" [class.open]="openMenu.open">
         <oav-index-nav [index]="index"></oav-index-nav>
       </aside>
-      <section class="oav-view-container">
+      <section class="oav-view-container" [class.open]="openMenu.open">
         <router-outlet></router-outlet>
       </section>
     </ng-container>

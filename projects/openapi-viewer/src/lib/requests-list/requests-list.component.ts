@@ -32,7 +32,7 @@ export class RequestsListComponent implements OnInit {
   }
 
   getShortUrl(req: OavRequest) {
-    if (req.request.url.match(/^.+?\/\/.+?(\/.*)$/)) {
+    if (req.request.url.match(/^.+?\/\/.+?(\/[^?]*)/)) {
       return RegExp.$1;
     }
     return req.request.url;

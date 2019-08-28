@@ -43,6 +43,7 @@ $line-color: #ccc;
       padding: 0.5rem;
       text-decoration: none;
       font-weight: bold;
+      font-size: 1.2rem;
 
       &::before {
         content: '☰';
@@ -60,19 +61,25 @@ $line-color: #ccc;
     position: relative;
 
     .oav-index-container {
-      width: 0;
+      width: 18rem;
+      margin-left: -18rem;
       overflow: auto;
       background: #f6f6fb;
-      transition: width ease-out 100ms;
+      transition: margin-left ease-out 100ms;
     }
 
     .oav-index-container.open {
-      width: 18rem;
+      margin-left: 0;
     }
 
     .oav-view-container {
       flex: 1;
       overflow: scroll;
+      margin-right: 0;
+      transition: margin-right ease-out 100ms;
+    }
+    .oav-view-container.open {
+      margin-right: -18rem;
     }
   }
 }
@@ -805,7 +812,10 @@ oav-tooltip {
     }
     .oav-content-container {
       .oav-index-container {
-        width: 18rem;
+        margin-left: 0;
+      }
+      .oav-view-container.open {
+        margin-right: 0;
       }
     }
   }

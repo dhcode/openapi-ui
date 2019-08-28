@@ -67,14 +67,27 @@ export class RequestViewComponent implements OnInit, OnDestroy {
 
   async setErrorBody(err: HttpErrorResponse) {
     if (err.error instanceof Blob) {
+      this.updateDisplayMode(err.error.type);
       this.body = await getTextFromBlob(err.error);
+    }
+  }
+
+  updateDisplayMode(mimeType: string) {
+    if (mimeType.startsWith('text')) {
+      this.displayMode = 'text';
+    } else if (mimeType.includes('json')) {
+      this.displayMode = 'json';
+    } else if (mimeType.includes('xml')) {
+      this.displayMode = 'xml';
+    } else {
+      this.displayMode = 'download';
     }
   }
 
   async setBody(response: HttpResponse<any>) {
     this.blob = response.body;
     const contentType = response.headers.get('content-type');
-    const textTypes = /^(application\/(json|xml)|text\/)/;
+    const textTypes = /^(application\/.{0,30}(json|xml)|text\/)/;
     if (contentType.match(textTypes) && this.displayLimitBytes > this.blob.size) {
       this.displayMode = 'text';
       const body = await getTextFromBlob(response.body);

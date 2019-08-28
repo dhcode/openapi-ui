@@ -15,7 +15,7 @@ export class OperationComponent implements OnChanges, OnDestroy {
   @Input() pathItem: PathItem;
   @Input() operationItem: OperationsItem;
 
-  responseType = new FormControl('application/json', { updateOn: 'change' });
+  responseType = new FormControl('application/json');
 
   formGroup: FormGroup;
 
@@ -54,7 +54,7 @@ export class OperationComponent implements OnChanges, OnDestroy {
       }
 
       this.requests = this.openApiService.getRequestsByOperationId(this.operationItem.operation.operationId).reverse();
-      this.formGroup = new FormGroup({ __responseType: this.responseType }, { updateOn: 'blur' });
+      this.formGroup = new FormGroup({ __responseType: this.responseType });
       this.responseType.patchValue(this.operationItem.responseTypes[0] || 'application/json');
       this.authStatus = this.authService.getAuthStatus(this.operationItem.operation.security);
       const savedParams = this.openApiService.loadOperationParameters(this.operation.operationId);
