@@ -33,6 +33,7 @@ jobs:
     docker:
         - image: circleci/node:12-browsers
     steps:
+      - checkout
       - attach_workspace:
           at: dist
       - add_ssh_keys:
