@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { exampleFromSchema, getJsonString, getStarMatcher } from '../util/data-generator.util';
 import { ExampleObject, HeaderObject, ResponseObject, ResponsesObject, SchemaObject } from 'openapi3-ts';
-import { JSONSchema6Definition } from 'json-schema';
 import { HeadersObject, MediaTypeObject } from 'openapi3-ts/src/model/OpenApi';
 import { getDisplayMode, getExampleValue } from '../util/parameter-input.util';
 
@@ -110,7 +109,7 @@ function getExampleContents(res: ResponseObject, contentType: string): ResponseC
   if (content.schema) {
     return [
       {
-        value: JSON.stringify(exampleFromSchema(content.schema as JSONSchema6Definition), null, 2),
+        value: JSON.stringify(exampleFromSchema(content.schema), null, 2),
         schema: content.schema
       }
     ];

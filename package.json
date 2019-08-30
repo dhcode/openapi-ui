@@ -62,7 +62,6 @@
     "@angular/language-service": "~8.2.3",
     "@types/jasmine": "^3.4.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/json-schema": "^7.0.3",
     "codelyzer": "^5.0.0",
     "gh-pages": "^2.1.1",
     "jasmine-core": "~3.4.0",

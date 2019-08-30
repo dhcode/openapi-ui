@@ -1,4 +1,4 @@
-import { JSONSchema6, JSONSchema6Definition } from 'json-schema';
+import { SchemaObject } from 'openapi3-ts';
 
 export const formatExampleDate = new Date();
 formatExampleDate.setMilliseconds(0);
@@ -22,7 +22,7 @@ const formatExamples = {
   any: () => null
 };
 
-export function examplePrimitive(schema: JSONSchema6) {
+export function examplePrimitive(schema: SchemaObject) {
   const type = Array.isArray(schema.type) ? schema.type[0] : schema.type;
   const formatFunc = formatExamples[`${type}_${schema.format}`] || formatExamples[type];
   if (typeof formatFunc === 'function') {
@@ -31,10 +31,7 @@ export function examplePrimitive(schema: JSONSchema6) {
   return `Unknown: ` + type;
 }
 
-export function exampleFromSchema(schema: JSONSchema6Definition): any {
-  if (schema === true || schema === false) {
-    return schema;
-  }
+export function exampleFromSchema(schema: SchemaObject): any {
   const type = Array.isArray(schema.type) ? schema.type[0] : schema.type;
   if ('const' in schema) {
     return schema.const;

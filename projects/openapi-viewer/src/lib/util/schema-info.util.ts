@@ -1,9 +1,9 @@
-import { JSONSchema6, JSONSchema6Definition } from 'json-schema';
+import { SchemaObject } from 'openapi3-ts';
 
 export interface ModelInfo {
   name: string;
   type: string;
-  schema: JSONSchema6;
+  schema: SchemaObject;
   properties?: PropertyInfo[] | null;
   open?: boolean;
 }
@@ -17,7 +17,7 @@ export interface SchemaInfo extends ModelInfo {
   additionalModels: ModelInfo[];
 }
 
-export function identifySchemaInfo(defaultName: string, schema: JSONSchema6Definition): SchemaInfo {
+export function identifySchemaInfo(defaultName: string, schema: SchemaObject): SchemaInfo {
   const additionalModels: ModelInfo[] = [];
   const modelInfo = identifyModelInfo(defaultName, readSchema(schema), additionalModels);
   return {
@@ -26,7 +26,7 @@ export function identifySchemaInfo(defaultName: string, schema: JSONSchema6Defin
   };
 }
 
-export function identifyModelInfo(defaultName: string, schema: JSONSchema6, additionalModels: ModelInfo[]): ModelInfo {
+export function identifyModelInfo(defaultName: string, schema: SchemaObject, additionalModels: ModelInfo[]): ModelInfo {
   const info: ModelInfo = {
     name: defaultName,
     type: readType(schema),
@@ -43,17 +43,17 @@ export function identifyModelInfo(defaultName: string, schema: JSONSchema6, addi
   return info;
 }
 
-function readProperties(schema: JSONSchema6, additionalModels: ModelInfo[]): PropertyInfo[] {
+function readProperties(schema: SchemaObject, additionalModels: ModelInfo[]): PropertyInfo[] {
   const properties: PropertyInfo[] = [];
   if (schema.properties) {
     properties.push(...readPropertiesOfObject(schema));
   }
   if (schema.additionalProperties) {
-    properties.push(readProperty('...', schema.additionalProperties));
+    properties.push(readProperty('...', schema.additionalProperties as SchemaObject));
   }
   if (Array.isArray(schema.items)) {
     for (let i = 0; i < schema.items.length; i++) {
-      properties.push(readProperty(i.toString(), schema.additionalProperties));
+      properties.push(readProperty(i.toString(), schema.items[i]));
     }
   } else if (schema.items) {
     properties.push(readProperty('', schema.items));
@@ -73,7 +73,7 @@ function readProperties(schema: JSONSchema6, additionalModels: ModelInfo[]): Pro
   return properties;
 }
 
-function updateModelsFromProperty(defaultName: string, schema: JSONSchema6, additionalModels: ModelInfo[]): string {
+function updateModelsFromProperty(defaultName: string, schema: SchemaObject, additionalModels: ModelInfo[]): string {
   if (schema.$ref) {
     // Unknown schema, probably did not resolved because of recursive structure
     const parts = schema.$ref.split('/');
@@ -95,14 +95,14 @@ function updateModelsFromProperty(defaultName: string, schema: JSONSchema6, addi
   return null;
 }
 
-function readSchema(schema: JSONSchema6Definition): JSONSchema6 {
+function readSchema(schema: SchemaObject): SchemaObject {
   if (typeof schema === 'boolean') {
     return { type: 'boolean' };
   }
   return schema;
 }
 
-function readType(schema: JSONSchema6Definition): string {
+function readType(schema: SchemaObject): string {
   if (schema && typeof schema === 'object' && schema.type) {
     return Array.isArray(schema.type) ? schema.type[0] : schema.type;
   }
@@ -112,21 +112,21 @@ function readType(schema: JSONSchema6Definition): string {
   return null;
 }
 
-function readModelName(schema: JSONSchema6): string {
+function readModelName(schema: SchemaObject): string {
   if ((schema as any).$$ref) {
     const refParts = (schema as any).$$ref.split('/');
     return refParts.pop();
   }
   return undefined;
 }
-function readPropertiesOfObject(schema: JSONSchema6): PropertyInfo[] {
+function readPropertiesOfObject(schema: SchemaObject): PropertyInfo[] {
   if (schema.properties) {
     const requiredFields = schema.required || [];
     return Object.keys(schema.properties).map(name => readProperty(name, schema.properties[name], requiredFields.includes(name)));
   }
   return [];
 }
-function readProperty(name: string, schema: JSONSchema6Definition, required = false): PropertyInfo {
+function readProperty(name: string, schema: SchemaObject, required = false): PropertyInfo {
   const s = readSchema(schema);
   const type = Array.isArray(s.type) ? s.type[0] : s.type;
   return { name, type, schema: s, required };

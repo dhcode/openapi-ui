@@ -1,6 +1,5 @@
-import { BaseParameterObject, ExampleObject, ParameterObject, ReferenceObject, SchemaObject } from 'openapi3-ts';
+import { BaseParameterObject, ExampleObject, SchemaObject } from 'openapi3-ts';
 import { exampleFromSchema } from './data-generator.util';
-import { JSONSchema6Definition } from 'json-schema';
 
 interface DisplayMode {
   mode: string;
@@ -90,7 +89,7 @@ function getExample(param: BaseParameterObject, mediaType: string): any {
     return (param.examples[mediaType] as ExampleObject).value;
   }
   if (param.schema) {
-    return exampleFromSchema(param.schema as JSONSchema6Definition);
+    return exampleFromSchema(param.schema);
   }
   if (param.type === 'array' && param.items && 'default' in param.items) {
     return [param.items.default];

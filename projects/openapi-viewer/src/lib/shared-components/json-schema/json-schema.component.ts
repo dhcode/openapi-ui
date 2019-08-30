@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { JSONSchema6Definition } from 'json-schema';
 import { identifySchemaInfo, ModelInfo } from '../../util/schema-info.util';
+import { SchemaObject } from 'openapi3-ts';
 
 @Component({
   selector: 'oav-json-schema',
@@ -9,7 +9,7 @@ import { identifySchemaInfo, ModelInfo } from '../../util/schema-info.util';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsonSchemaComponent implements OnChanges {
-  @Input() schema: JSONSchema6Definition;
+  @Input() schema: SchemaObject;
 
   @Input() defaultModelName: string;
 
@@ -21,7 +21,6 @@ export class JsonSchemaComponent implements OnChanges {
     const info = identifySchemaInfo(this.defaultModelName, this.schema);
     info.open = true;
     this.models = [info, ...info.additionalModels];
-    console.log('models', this.models);
   }
 
   isPrimitive(type: string): boolean {

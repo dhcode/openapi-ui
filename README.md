@@ -49,7 +49,6 @@ This project aims to support the most common browsers.
 
 * Integrate OAuth authentication support
 * Integrate support for [links](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#linkObject)
-* Better use the [SchemaObject](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#schema-object) in schema-info.util and data-generator.util instead of original JSONSchema definitions.
 * Show generated commandline for curl
 * Show generated code for JavaScript and other languages
 * Increase test coverage
