@@ -182,6 +182,8 @@ export class OpenapiViewerService {
     this.spec.next(null);
     this.tagIndex.next([]);
     this.loadErrors.next([]);
+    this.requests = [];
+    this.operationParameterCache = {};
   }
 }
 
