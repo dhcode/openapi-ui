@@ -31,10 +31,11 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
   }
 
   checkScheme() {
-    if (this.securityScheme.securityScheme.type === 'apiKey') {
+    const type: string = this.securityScheme.securityScheme.type;
+    if (type === 'apiKey') {
       this.displayMode = 'apiKey';
       this.readApiKey();
-    } else if (this.securityScheme.securityScheme.type === 'http') {
+    } else if (type === 'http' || type === 'basic') {
       this.displayMode = 'usernamePassword';
       this.readHttpCredentials();
     } else {
@@ -59,12 +60,12 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
     const credentials = this.securityScheme.credentials as BasicAuthCredentials;
     if (typeof credentials === 'object' && credentials) {
       if (typeof credentials.username === 'string') {
-        this.username.patchValue(credentials);
+        this.username.patchValue(credentials.username);
       } else {
         this.username.patchValue('');
       }
       if (typeof credentials.password === 'string') {
-        this.password.patchValue(credentials);
+        this.password.patchValue(credentials.password);
       } else {
         this.password.patchValue('');
       }
