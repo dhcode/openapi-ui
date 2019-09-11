@@ -1,4 +1,4 @@
-import { ResponseObject, TagObject, ServerObject, OperationObject, ParameterObject, SecuritySchemeObject } from 'openapi3-ts';
+import { OperationObject, ParameterObject, ResponseObject, SecuritySchemeObject, ServerObject, TagObject } from 'openapi3-ts';
 import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -34,10 +34,16 @@ export interface BasicAuthCredentials {
 export interface OAuthToken {
   access_token: string;
   token_type: string;
+  expires_at?: number;
 }
+export type OAuthFlow = 'implicit' | 'password' | 'clientCredentials' | 'authorizationCode';
 export interface OAuthCredentials {
   token: OAuthToken;
+  flow: 'implicit' | 'password' | 'clientCredentials' | 'authorizationCode';
+  clientId: string;
+  clientSecret?: string;
   scopes: string[];
+  nonce: string;
 }
 export type SecurityCredentials = BasicAuthCredentials | OAuthCredentials | string;
 
@@ -84,4 +90,14 @@ export interface SwaggerRequest {
   headers: Record<string, string>;
   cookies: Record<string, string>;
   body?: FormData | string;
+}
+
+export interface ScopesInfo {
+  scope: string;
+  description: string;
+}
+
+export interface FlowInfo {
+  flow: OAuthFlow;
+  scopes: ScopesInfo[];
 }

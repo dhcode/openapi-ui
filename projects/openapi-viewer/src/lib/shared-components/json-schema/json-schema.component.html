@@ -80,6 +80,6 @@
       {{ type }}
     </span>
     <span class="oav-json-schema-format oav-json-schema-code" *ngIf="schema?.format">({{ schema?.format }})</span>
-    <span *ngIf="schema?.enum" class="oav-json-schema-code">{{ schema?.enum | json }}</span>
+    <span *ngIf="schema?.enum?.length" class="oav-json-schema-code">({{ schema.enum.join(' | ') }})</span>
   </ng-container>
 </ng-template>

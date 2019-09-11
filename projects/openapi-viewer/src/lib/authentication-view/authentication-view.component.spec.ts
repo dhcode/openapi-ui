@@ -5,6 +5,7 @@ import { AuthCredentialsComponent } from './auth-credentials/auth-credentials.co
 import { OpenapiAuthService } from '../services/openapi-auth.service';
 import { MarkdownModule } from 'ngx-markdown';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthenticationViewComponent', () => {
   let component: AuthenticationViewComponent;
@@ -12,7 +13,7 @@ describe('AuthenticationViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MarkdownModule.forRoot(), ReactiveFormsModule],
+      imports: [MarkdownModule.forRoot(), ReactiveFormsModule, RouterTestingModule],
       declarations: [AuthenticationViewComponent, AuthCredentialsComponent],
       providers: [OpenapiAuthService]
     }).compileComponents();

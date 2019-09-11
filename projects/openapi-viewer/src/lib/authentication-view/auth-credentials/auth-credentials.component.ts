@@ -1,33 +1,65 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { BasicAuthCredentials, SecuritySchemeItem } from '../../models/openapi-viewer.model';
-import { FormControl, FormGroup } from '@angular/forms';
-import { OpenapiAuthService } from '../../services/openapi-auth.service';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+  BasicAuthCredentials,
+  FlowInfo,
+  OAuthCredentials,
+  OAuthFlow,
+  ScopesInfo,
+  SecuritySchemeItem
+} from '../../models/openapi-viewer.model';
+import { Location } from '@angular/common';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { identifyFlows, OpenapiAuthService } from '../../services/openapi-auth.service';
+import { Subscription } from 'rxjs';
+import { randomHex } from '../../util/data-generator.util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'oav-auth-credentials',
   templateUrl: './auth-credentials.component.html',
   styles: []
 })
-export class AuthCredentialsComponent implements OnInit, OnChanges {
-  displayMode: 'unknown' | 'apiKey' | 'usernamePassword' | 'scopes' = 'unknown';
+export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
+  displayMode: 'unknown' | 'apiKey' | 'usernamePassword' | 'oauth' = 'unknown';
 
   username = new FormControl('');
   password = new FormControl('');
   apiKey = new FormControl('');
+  clientId = new FormControl('');
+  scopes = new FormArray([]);
+  flow = new FormControl('');
   remember = new FormControl(false);
+
+  scopesInfo: ScopesInfo[] = [];
+
+  /**
+   * The available flows
+   */
+  flows: FlowInfo[] = [];
+  currentFlow: FlowInfo;
 
   formGroup: FormGroup;
 
   @Input() securityScheme: SecuritySchemeItem;
 
+  private sub: Subscription;
+
   constructor(private authService: OpenapiAuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.sub = this.flow.valueChanges.subscribe(flow => {
+      this.readOAuthCredentials(flow);
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.securityScheme && this.securityScheme) {
       this.checkScheme();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   checkScheme() {
@@ -38,6 +70,9 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
     } else if (type === 'http' || type === 'basic') {
       this.displayMode = 'usernamePassword';
       this.readHttpCredentials();
+    } else if (type === 'oauth2' || type === 'openIdConnect') {
+      this.displayMode = 'oauth';
+      this.readOAuthCredentials();
     } else {
       this.displayMode = 'unknown';
     }
@@ -75,6 +110,38 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
     }
   }
 
+  readOAuthCredentials(flow?: OAuthFlow) {
+    const credentials = this.securityScheme.credentials as OAuthCredentials;
+    if (!flow && credentials && credentials.flow) {
+      flow = credentials.flow;
+    }
+
+    this.flows = identifyFlows(this.securityScheme.securityScheme);
+    const currentFlow: FlowInfo = flow ? this.flows.find(f => f.flow === flow) : this.flows[0];
+    if (!currentFlow) {
+      return;
+    }
+    this.currentFlow = currentFlow;
+    this.scopesInfo = currentFlow.scopes;
+
+    this.formGroup = new FormGroup({ clientId: this.clientId, scopes: this.scopes, remember: this.remember });
+    this.scopes.clear();
+    this.remember.patchValue(true);
+    this.flow.patchValue(currentFlow.flow);
+
+    if (typeof credentials === 'object' && credentials) {
+      this.clientId.patchValue(credentials.clientId);
+      for (const scope of this.scopesInfo) {
+        this.scopes.push(new FormControl(credentials.scopes.includes(scope.scope)));
+      }
+    } else {
+      this.clientId.patchValue('');
+      for (const scope of this.scopesInfo) {
+        this.scopes.push(new FormControl(true));
+      }
+    }
+  }
+
   save() {
     if (this.displayMode === 'apiKey') {
       this.authService.updateCredentials(this.securityScheme.name, this.apiKey.value, this.apiKey.value.length > 0, this.remember.value);
@@ -90,6 +157,30 @@ export class AuthCredentialsComponent implements OnInit, OnChanges {
         this.remember.value
       );
     }
+    if (this.displayMode === 'oauth') {
+      const scopes = this.scopesInfo.map((s, i) => (this.scopes.value[i] ? s.scope : null)).filter(s => !!s);
+      const credentials: OAuthCredentials = {
+        clientId: this.clientId.value,
+        flow: this.flow.value,
+        scopes,
+        token: null,
+        nonce: randomHex(16)
+      };
+      this.authService.runOAuthAuthorization(this.securityScheme.name, credentials, getCurrentUrl());
+    }
     this.formGroup.markAsPristine();
   }
+
+  removeToken() {
+    this.authService.removeToken(this.securityScheme.name);
+  }
+}
+
+function getCurrentUrl(): string {
+  const url = window.location.href;
+  const idx = url.indexOf('?');
+  if (idx !== -1) {
+    return url.slice(0, idx);
+  }
+  return url;
 }

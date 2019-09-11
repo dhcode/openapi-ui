@@ -87,3 +87,27 @@ export function getJsonString(input: any): string {
   }
   return JSON.stringify(input, null, 2);
 }
+
+export function serializeQueryParams(queryParams: Record<string, string>) {
+  if (!queryParams) {
+    return '';
+  }
+  return Object.keys(queryParams)
+    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+    .join('&');
+}
+
+export function parseQueryString(queryParams: string): Record<string, string> {
+  if (typeof queryParams !== 'string' || !queryParams.length) {
+    return {};
+  }
+  const paramsList = queryParams.split('&');
+  const params: Record<string, string> = {};
+  if (paramsList.length) {
+    for (const line of paramsList) {
+      const [key, value] = line.split('=');
+      params[decodeURIComponent(key)] = decodeURIComponent(value);
+    }
+  }
+  return params;
+}

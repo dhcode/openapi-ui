@@ -1,4 +1,12 @@
-import { exampleFromSchema, formatExampleDate, getJsonString, getStarMatcher, randomHex } from './data-generator.util';
+import {
+  exampleFromSchema,
+  formatExampleDate,
+  getJsonString,
+  getStarMatcher,
+  parseQueryString,
+  randomHex,
+  serializeQueryParams
+} from './data-generator.util';
 
 describe('Data Generator', () => {
   it('should generate random hex', () => {
@@ -41,5 +49,23 @@ describe('Data Generator', () => {
   it('should get data as json string', () => {
     expect(getJsonString({ a: 3 })).toBe('{\n  "a": 3\n}');
     expect(getJsonString('{"a":3}')).toBe('{"a":3}');
+  });
+
+  it('should serialize query string', () => {
+    const params = {
+      'a&b': 'c=6',
+      test: '4533'
+    };
+    const str = serializeQueryParams(params);
+    expect(str).toBe('a%26b=c%3D6&test=4533');
+  });
+
+  it('should parse query string', () => {
+    const str = 'a%26b=c%3D6&test=4533';
+    const queryParams = parseQueryString(str);
+    expect(queryParams).toEqual({
+      'a&b': 'c=6',
+      test: '4533'
+    });
   });
 });

@@ -16,7 +16,6 @@ import { OavSettings } from '../../models/openapi-viewer.settings';
 import { OpenapiAuthService } from '../../services/openapi-auth.service';
 import { AuthStatus, SecurityRequirementStatus } from '../../models/openapi-viewer.model';
 import { CdkPortal } from '@angular/cdk/portal';
-import { Overlay } from '@angular/cdk/overlay';
 import { Subscription } from 'rxjs';
 
 @Component({

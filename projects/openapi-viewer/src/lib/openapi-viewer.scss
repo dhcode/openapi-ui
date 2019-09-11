@@ -400,7 +400,7 @@ oav-method-header {
   .input {
     margin: 0.2rem 0;
 
-    input,
+    input:not([type='checkbox']),
     textarea,
     select {
       width: 100%;
@@ -422,6 +422,9 @@ oav-method-header {
 
     p {
       margin-top: 0;
+    }
+    p:last-child {
+      margin-bottom: 0;
     }
   }
 

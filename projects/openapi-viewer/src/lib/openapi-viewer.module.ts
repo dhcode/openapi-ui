@@ -5,7 +5,7 @@ import { OperationComponent } from './operation/operation.component';
 import { ParameterComponent } from './parameter/parameter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResponsesComponent } from './responses/responses.component';
-import { MultiItemsInputComponent } from './parameter/multi-items-input/multi-items-input.component';
+import { MultiItemsInputComponent } from './shared-components/multi-items-input/multi-items-input.component';
 import { RequestsListComponent } from './requests-list/requests-list.component';
 import { RequestViewComponent } from './requests-list/request-view/request-view.component';
 import { OpenableDirective } from './directives/openable.directive';

@@ -1,9 +1,5 @@
-import { Component, forwardRef, Host, Input, OnDestroy, OnInit, SkipSelf } from '@angular/core';
-import { ControlContainer, ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-
-export function getControlContainer(controlContainer: ControlContainer) {
-  return controlContainer;
-}
+import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'oav-multi-items-input',

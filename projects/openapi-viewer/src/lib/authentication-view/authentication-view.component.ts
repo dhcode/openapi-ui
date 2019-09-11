@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OpenapiAuthService } from '../services/openapi-auth.service';
 import { SecuritySchemeItem } from '../models/openapi-viewer.model';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'oav-authentication-view',
@@ -13,10 +14,15 @@ export class AuthenticationViewComponent implements OnInit, OnDestroy {
 
   private sub: Subscription = null;
 
-  constructor(private authService: OpenapiAuthService) {}
+  constructor(private authService: OpenapiAuthService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.sub = this.authService.securitySchemes.subscribe(schemas => (this.schemes = schemas));
+    this.route.fragment.subscribe(fragment => {
+      if (fragment) {
+        this.authService.handleOAuthCallback(fragment);
+      }
+    });
   }
 
   ngOnDestroy(): void {

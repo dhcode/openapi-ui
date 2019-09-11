@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RequestBodyInputComponent } from './request-body-input.component';
 import { ParameterComponent } from '../parameter/parameter.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MultiItemsInputComponent } from '../parameter/multi-items-input/multi-items-input.component';
+import { MultiItemsInputComponent } from '../shared-components/multi-items-input/multi-items-input.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { CodeInputComponent } from '../shared-components/code-input/code-input.component';
 import { AceModule } from 'ngx-ace-wrapper';

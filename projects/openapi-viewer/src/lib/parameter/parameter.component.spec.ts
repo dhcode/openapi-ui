@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ParameterComponent } from './parameter.component';
-import { MultiItemsInputComponent } from './multi-items-input/multi-items-input.component';
+import { MultiItemsInputComponent } from '../shared-components/multi-items-input/multi-items-input.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ParameterObject } from 'openapi3-ts';
