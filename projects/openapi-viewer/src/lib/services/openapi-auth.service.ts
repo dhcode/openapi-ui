@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Optional } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   AuthStatus,
@@ -27,7 +27,7 @@ export class OpenapiAuthService {
 
   private globalRequirements: SecurityRequirementObject[] = [];
 
-  constructor(private zone: NgZone, private http: HttpClient) {}
+  constructor(private zone: NgZone, @Optional() private http: HttpClient) {}
 
   identifySchemes(spec: OpenAPIObject) {
     this.securitySchemes.next(getSecurityInformation(spec));
@@ -242,7 +242,9 @@ export class OpenapiAuthService {
       tokenRequest.username = credentials.username;
       tokenRequest.password = credentials.password;
     }
-
+    if (!this.http) {
+      throw new Error('No http client provider available.');
+    }
     return this.http
       .post<Record<string, string>>(tokenUrl, serializeQueryParams(tokenRequest), {
         headers: {
