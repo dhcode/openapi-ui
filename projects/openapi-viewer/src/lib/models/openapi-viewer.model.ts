@@ -34,6 +34,8 @@ export interface BasicAuthCredentials {
 export interface OAuthToken {
   access_token: string;
   token_type: string;
+  refresh_token?: string;
+  id_token?: string;
   expires_at?: number;
 }
 export type OAuthFlow = 'implicit' | 'password' | 'clientCredentials' | 'authorizationCode';
@@ -42,8 +44,11 @@ export interface OAuthCredentials {
   flow: 'implicit' | 'password' | 'clientCredentials' | 'authorizationCode';
   clientId: string;
   clientSecret?: string;
+  username?: string;
+  password?: string;
   scopes: string[];
   nonce: string;
+  redirectUri?: string;
 }
 export type SecurityCredentials = BasicAuthCredentials | OAuthCredentials | string;
 

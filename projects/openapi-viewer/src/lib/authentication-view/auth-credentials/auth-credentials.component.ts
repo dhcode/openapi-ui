@@ -7,12 +7,10 @@ import {
   ScopesInfo,
   SecuritySchemeItem
 } from '../../models/openapi-viewer.model';
-import { Location } from '@angular/common';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { identifyFlows, OpenapiAuthService } from '../../services/openapi-auth.service';
 import { Subscription } from 'rxjs';
 import { randomHex } from '../../util/data-generator.util';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'oav-auth-credentials',
@@ -26,11 +24,15 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
   password = new FormControl('');
   apiKey = new FormControl('');
   clientId = new FormControl('');
+  clientSecret = new FormControl('');
   scopes = new FormArray([]);
   flow = new FormControl('');
   remember = new FormControl(false);
 
   scopesInfo: ScopesInfo[] = [];
+
+  loading = false;
+  error = null;
 
   /**
    * The available flows
@@ -124,13 +126,23 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
     this.currentFlow = currentFlow;
     this.scopesInfo = currentFlow.scopes;
 
-    this.formGroup = new FormGroup({ clientId: this.clientId, scopes: this.scopes, remember: this.remember });
+    this.formGroup = new FormGroup({
+      clientId: this.clientId,
+      clientSecret: this.clientSecret,
+      username: this.username,
+      password: this.password,
+      scopes: this.scopes,
+      remember: this.remember
+    });
     this.scopes.clear();
     this.remember.patchValue(true);
     this.flow.patchValue(currentFlow.flow);
 
     if (typeof credentials === 'object' && credentials) {
       this.clientId.patchValue(credentials.clientId);
+      this.clientSecret.patchValue(credentials.clientSecret);
+      this.username.patchValue(credentials.username || '');
+      this.password.patchValue(credentials.password || '');
       for (const scope of this.scopesInfo) {
         this.scopes.push(new FormControl(credentials.scopes.includes(scope.scope)));
       }
@@ -161,12 +173,26 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
       const scopes = this.scopesInfo.map((s, i) => (this.scopes.value[i] ? s.scope : null)).filter(s => !!s);
       const credentials: OAuthCredentials = {
         clientId: this.clientId.value,
+        clientSecret: this.clientSecret.value,
+        username: this.username.value,
+        password: this.password.value,
         flow: this.flow.value,
         scopes,
         token: null,
-        nonce: randomHex(16)
+        nonce: randomHex(16),
+        redirectUri: getCurrentUrl()
       };
-      this.authService.runOAuthAuthorization(this.securityScheme.name, credentials, getCurrentUrl());
+      this.loading = true;
+      this.error = null;
+      this.authService.runOAuthAuthorization(this.securityScheme.name, credentials).subscribe(
+        () => {
+          this.loading = false;
+        },
+        err => {
+          this.loading = false;
+          this.error = err;
+        }
+      );
     }
     this.formGroup.markAsPristine();
   }
