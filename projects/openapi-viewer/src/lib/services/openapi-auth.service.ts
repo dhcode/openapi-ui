@@ -1,5 +1,5 @@
 import { Injectable, NgZone, Optional } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import {
   AuthStatus,
   FlowInfo,
@@ -26,6 +26,8 @@ export class OpenapiAuthService {
   readonly updatedCredentials = new Subject<string>();
 
   private globalRequirements: SecurityRequirementObject[] = [];
+
+  currentWindow = window;
 
   constructor(private zone: NgZone, @Optional() private http: HttpClient) {}
 
@@ -129,7 +131,7 @@ export class OpenapiAuthService {
   runOAuthAuthorization(name: string, credentials: OAuthCredentials): Observable<boolean> {
     const scheme = this.getSchema(name);
     if (!scheme || !credentials) {
-      return null;
+      return throwError(new Error('Unknown scheme or no credentials given'));
     }
     scheme.credentials = credentials;
     scheme.remember = true;
@@ -138,21 +140,22 @@ export class OpenapiAuthService {
     if (credentials.flow === 'implicit' || credentials.flow === 'authorizationCode') {
       return new Observable<boolean>(subscriber => {
         const url = buildAuthorizationUrl(scheme.securityScheme, credentials, name);
-        console.log('authorization url', url);
         const service = this;
-        (window as any).handleOAuthCallback = fragment => {
+        (this.currentWindow as any).handleOAuthCallback = fragment => {
           // called from other window
-          service.zone.run(() =>
+          return service.zone.run(() =>
             service.handleOAuthCallback(fragment).then(
               () => {
                 subscriber.next(true);
                 subscriber.complete();
               },
-              err => subscriber.error(err)
+              err => {
+                subscriber.error(err);
+              }
             )
           );
         };
-        window.open(url, '_blank');
+        this.currentWindow.open(url, '_blank');
       });
     }
     if (credentials.flow === 'clientCredentials') {
@@ -160,7 +163,6 @@ export class OpenapiAuthService {
       return this.requestToken(tokenUrl, 'client_credentials', credentials).pipe(
         map(token => {
           credentials.token = token;
-          console.log('updated credentials', credentials);
           this.updateCredentials(name, credentials, true, true);
           return true;
         })
@@ -171,12 +173,12 @@ export class OpenapiAuthService {
       return this.requestToken(tokenUrl, 'password', credentials).pipe(
         map(token => {
           credentials.token = token;
-          console.log('updated credentials', credentials);
           this.updateCredentials(name, credentials, true, true);
           return true;
         })
       );
     }
+    return throwError(new Error('Unknown flow'));
   }
 
   /**
@@ -184,9 +186,9 @@ export class OpenapiAuthService {
    * eg. access_token=8c665834-6a43-4704-81d3-42d311a1ab91&token_type=bearer&expires_in=20&scope=read%20write:pets%20write%20read:pets
    */
   async handleOAuthCallback(params: Record<string, string>) {
-    if (window.opener && window.opener.handleOAuthCallback) {
-      await window.opener.handleOAuthCallback(params);
-      window.close();
+    if (this.currentWindow.opener && this.currentWindow.opener.handleOAuthCallback) {
+      await this.currentWindow.opener.handleOAuthCallback(params);
+      this.currentWindow.close();
       return;
     }
     if (!params.state) {
@@ -198,10 +200,10 @@ export class OpenapiAuthService {
     }
     const credentials = scheme.credentials as OAuthCredentials;
     if (params.access_token) {
-      this.updateByImplicitFlow(scheme.name, credentials, params);
+      return this.updateByImplicitFlow(scheme.name, credentials, params);
     }
     if (params.code) {
-      return this.updateByCodeFlow(scheme, credentials, params);
+      return await this.updateByCodeFlow(scheme, credentials, params);
     }
   }
 
@@ -213,8 +215,6 @@ export class OpenapiAuthService {
     if (params.expires_in) {
       credentials.token.expires_at = new Date().getTime() + parseInt(params.expires_in, 10) * 1000;
     }
-    console.log('updated credentials', credentials);
-
     this.updateCredentials(name, credentials, true, true);
   }
 

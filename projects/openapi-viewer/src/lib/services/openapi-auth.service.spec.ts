@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { OpenapiAuthService } from './openapi-auth.service';
+import { OAuthCredentials } from '../models/openapi-viewer.model';
 
 describe('OpenapiAuthService', () => {
   const spec = require('../../../assets/swagger.json');
@@ -80,7 +81,7 @@ describe('OpenapiAuthService', () => {
     expect(schema2.remember).toBe(false);
   });
 
-  it('should should get auth status', () => {
+  it('should get auth status', () => {
     service.identifySchemes(spec);
 
     expect(service.getAuthStatus(undefined)).toBe('none');
@@ -112,5 +113,52 @@ describe('OpenapiAuthService', () => {
     expect(requiredSchemes[0][0].authenticated).toBe(false);
     expect(requiredSchemes[0][0].scopes).toEqual([]);
     expect(requiredSchemes[0][0].securityScheme).toEqual(spec.securityDefinitions.api_key);
+  });
+
+  it('should run implicit oauth', async () => {
+    service.identifySchemes(spec);
+    expect(service.securitySchemes.value.length).toBe(2);
+
+    const openCalls: string[] = [];
+    const mockWindow: any = {
+      open(url) {
+        openCalls.push(url);
+      }
+    };
+    service.currentWindow = mockWindow;
+
+    const credentials: OAuthCredentials = {
+      flow: 'implicit',
+      clientId: 'myClientId',
+      nonce: 'NONCE',
+      token: null,
+      scopes: ['write:pets', 'read:pets'],
+      redirectUri: 'here'
+    };
+    const authUrl = 'https://petstore.swagger.io/oauth/authorize';
+    let done = 0;
+    service.runOAuthAuthorization('petstore_auth', credentials).subscribe(() => done++);
+
+    expect(openCalls.length).toBe(1);
+    expect(openCalls[0]).toBe(authUrl + '?client_id=myClientId&redirect_uri=here&response_type=token&nonce=NONCE&state=petstore_auth');
+
+    await mockWindow.handleOAuthCallback({
+      state: 'petstore_auth',
+      access_token: 'superToken',
+      token_type: 'Bearer'
+    });
+
+    expect(done).toBe(1);
+
+    const schema = service.getSchema('petstore_auth');
+    expect(schema).toBeTruthy();
+    expect(schema.credentials).toBeTruthy();
+    expect(schema.authenticated).toBe(true);
+
+    const credentials2 = schema.credentials as OAuthCredentials;
+    expect(credentials2.token).toBeTruthy();
+    expect(credentials2.token).toBeTruthy();
+    expect(credentials2.token.token_type).toBe('Bearer');
+    expect(credentials2.token.access_token).toBe('superToken');
   });
 });
