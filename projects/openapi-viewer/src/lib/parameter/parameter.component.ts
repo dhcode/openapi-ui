@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { ParameterObject } from 'openapi3-ts';
+import { ParameterObject, SchemaObject } from 'openapi3-ts';
 import { getDisplayMode, getExampleValue } from '../util/parameter-input.util';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -19,6 +19,8 @@ export class ParameterComponent implements OnChanges, OnDestroy {
   value: any;
 
   control: FormControl;
+
+  enum: any[] = null;
 
   constructor() {}
 
@@ -41,6 +43,9 @@ export class ParameterComponent implements OnChanges, OnDestroy {
     if (this.formGroup) {
       this.formGroup.addControl(this.parameter.name, this.control);
     }
+
+    this.enum =
+      (this.parameter.items && this.parameter.items.enum) || (this.parameter.schema && (this.parameter.schema as SchemaObject).enum);
   }
 
   ngOnDestroy(): void {

@@ -13,7 +13,7 @@ import {
   SchemaObject,
   SecuritySchemeObject
 } from 'openapi3-ts';
-import { OavSettings } from '../models/openapi-viewer.settings';
+import { defaultOavSettings, OavSettings } from '../models/openapi-viewer.settings';
 
 interface DefinitionCategory {
   name: string;
@@ -59,7 +59,7 @@ export class ModelsViewComponent implements OnInit, OnDestroy {
 
   constructor(private openApiService: OpenapiViewerService, @Optional() private oavSettings: OavSettings, private cd: ChangeDetectorRef) {
     if (!this.oavSettings) {
-      this.oavSettings = OavSettings.default;
+      this.oavSettings = defaultOavSettings;
     }
   }
 

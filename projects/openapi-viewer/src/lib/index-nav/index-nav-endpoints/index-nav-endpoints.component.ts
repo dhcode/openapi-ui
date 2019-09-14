@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Optional } from '@angular/core';
-import { OavSettings } from '../../models/openapi-viewer.settings';
+import { defaultOavSettings, OavSettings } from '../../models/openapi-viewer.settings';
 import { OperationsItem, PathItem, TagIndex } from '../../models/openapi-viewer.model';
 import { getLabel } from '../../util/visualization.util';
 
@@ -15,7 +15,7 @@ export class IndexNavEndpointsComponent {
 
   constructor(@Optional() private oavSettings: OavSettings) {
     if (!this.oavSettings) {
-      this.oavSettings = OavSettings.default;
+      this.oavSettings = defaultOavSettings;
     }
     this.showHoverLabel = !!this.oavSettings.indexHoverLabel;
   }

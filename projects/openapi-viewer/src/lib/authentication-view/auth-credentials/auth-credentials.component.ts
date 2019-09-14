@@ -4,6 +4,7 @@ import {
   FlowInfo,
   OAuthCredentials,
   OAuthFlow,
+  OAuthToken,
   ScopesInfo,
   SecuritySchemeItem
 } from '../../models/openapi-viewer.model';
@@ -33,6 +34,8 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
 
   loading = false;
   error = null;
+
+  token: OAuthToken;
 
   /**
    * The available flows
@@ -117,6 +120,8 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
     if (!flow && credentials && credentials.flow) {
       flow = credentials.flow;
     }
+
+    this.token = credentials.token;
 
     this.flows = identifyFlows(this.securityScheme.securityScheme);
     const currentFlow: FlowInfo = flow ? this.flows.find(f => f.flow === flow) : this.flows[0];

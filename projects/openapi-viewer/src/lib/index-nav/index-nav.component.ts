@@ -13,7 +13,7 @@ import { OperationsItem, PathItem, TagIndex } from '../models/openapi-viewer.mod
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { OavSettings } from '../models/openapi-viewer.settings';
+import { defaultOavSettings, OavSettings } from '../models/openapi-viewer.settings';
 
 @Component({
   selector: 'oav-index-nav',
@@ -33,7 +33,7 @@ export class IndexNavComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, @Optional() private oavSettings: OavSettings, private cd: ChangeDetectorRef) {
     if (!this.oavSettings) {
-      this.oavSettings = OavSettings.default;
+      this.oavSettings = defaultOavSettings;
     }
     this.showHoverLabel = !!this.oavSettings.indexHoverLabel;
     this.showAuthentication = this.oavSettings.enableAuthentication;

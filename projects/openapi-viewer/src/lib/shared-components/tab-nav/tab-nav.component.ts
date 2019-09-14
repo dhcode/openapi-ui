@@ -63,7 +63,7 @@ export class TabNavComponent implements OnDestroy, OnChanges {
     return this.tabs.find(tab => tab.id === id);
   }
 
-  private showTab(id: string, notify = false) {
+  showTab(id: string, notify = false) {
     for (const tab of this.tabs) {
       if (tab.active && tab.id !== id) {
         tab.active = false;

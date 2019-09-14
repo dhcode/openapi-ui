@@ -3,7 +3,7 @@ import { OpenapiViewerService } from '../services/openapi-viewer.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { OperationObject } from 'openapi3-ts';
 import { AuthStatus, OavRequest, OperationsItem, PathItem } from '../models/openapi-viewer.model';
-import { OavSettings } from '../models/openapi-viewer.settings';
+import { defaultOavSettings, OavSettings } from '../models/openapi-viewer.settings';
 import { OpenapiAuthService } from '../services/openapi-auth.service';
 
 @Component({
@@ -36,7 +36,7 @@ export class OperationComponent implements OnChanges, OnDestroy {
     private cd: ChangeDetectorRef
   ) {
     if (!this.oavSettings) {
-      this.oavSettings = OavSettings.default;
+      this.oavSettings = defaultOavSettings;
     }
     this.showRawOperationDefinition = this.oavSettings.showRawOperationDefinition;
     this.showAuthentication = this.oavSettings.enableAuthentication;

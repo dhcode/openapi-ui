@@ -12,7 +12,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { OperationObject } from 'openapi3-ts';
-import { OavSettings } from '../../models/openapi-viewer.settings';
+import { defaultOavSettings, OavSettings } from '../../models/openapi-viewer.settings';
 import { OpenapiAuthService } from '../../services/openapi-auth.service';
 import { AuthStatus, SecurityRequirementStatus } from '../../models/openapi-viewer.model';
 import { CdkPortal } from '@angular/cdk/portal';
@@ -41,7 +41,7 @@ export class AuthStatusComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(@Optional() private oavSettings: OavSettings, private authService: OpenapiAuthService, private cd: ChangeDetectorRef) {
     if (!this.oavSettings) {
-      this.oavSettings = OavSettings.default;
+      this.oavSettings = defaultOavSettings;
     }
     this.showAuthentication = this.oavSettings.enableAuthentication;
   }

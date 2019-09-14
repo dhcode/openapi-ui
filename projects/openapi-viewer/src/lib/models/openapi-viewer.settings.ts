@@ -1,6 +1,4 @@
 export class OavSettings {
-  static default: OavSettings;
-
   constructor(overwriteSettings?: Partial<OavSettings>) {
     if (overwriteSettings) {
       Object.assign(this, overwriteSettings);
@@ -46,4 +44,4 @@ export class OavSettings {
    */
   enableModelsOverview = true;
 }
-OavSettings.default = new OavSettings();
+export const defaultOavSettings = new OavSettings();

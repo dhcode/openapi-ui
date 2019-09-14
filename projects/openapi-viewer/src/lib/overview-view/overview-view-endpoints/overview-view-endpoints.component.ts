@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, Optional } from '@angular/core';
 import { OperationsItem, PathItem, TagIndex } from '../../models/openapi-viewer.model';
 import { getLabel } from '../../util/visualization.util';
-import { OavSettings } from '../../models/openapi-viewer.settings';
+import { defaultOavSettings, OavSettings } from '../../models/openapi-viewer.settings';
 
 @Component({
   selector: 'oav-overview-view-endpoints',
@@ -13,7 +13,7 @@ export class OverviewViewEndpointsComponent {
 
   constructor(@Optional() private oavSettings: OavSettings) {
     if (!this.oavSettings) {
-      this.oavSettings = OavSettings.default;
+      this.oavSettings = defaultOavSettings;
     }
   }
 

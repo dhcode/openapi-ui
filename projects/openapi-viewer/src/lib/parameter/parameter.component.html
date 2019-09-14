@@ -13,7 +13,7 @@
   <div class="input">
     <ng-container *ngIf="displayMode === 'textSelect'">
       <select [formControlName]="parameter.name" [name]="parameter.name">
-        <option *ngFor="let opt of parameter.items?.enum || parameter.schema?.enum" [value]="opt">{{ opt }}</option>
+        <option *ngFor="let opt of enum" [value]="opt">{{ opt }}</option>
       </select>
     </ng-container>
 
@@ -39,7 +39,7 @@
 
     <ng-container *ngIf="displayMode === 'arrayWithSelection'">
       <select [formControlName]="parameter.name" [name]="parameter.name" multiple>
-        <option *ngFor="let opt of parameter.items?.enum || parameter.schema?.enum" [ngValue]="opt">{{ opt }}</option>
+        <option *ngFor="let opt of enum" [ngValue]="opt">{{ opt }}</option>
       </select>
     </ng-container>
 
