@@ -121,12 +121,13 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
       flow = credentials.flow;
     }
 
-    this.token = credentials.token;
-
     this.flows = identifyFlows(this.securityScheme.securityScheme);
     const currentFlow: FlowInfo = flow ? this.flows.find(f => f.flow === flow) : this.flows[0];
     if (!currentFlow) {
       return;
+    }
+    if (credentials) {
+      this.token = credentials.token;
     }
     this.currentFlow = currentFlow;
     this.scopesInfo = currentFlow.scopes;

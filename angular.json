@@ -63,7 +63,7 @@
               ]
             },
             "es5": {
-              "tsConfig": "./tsconfig-es5.app.json"
+              "tsConfig": "./tsconfig.es5.app.json"
             }
           }
         },
@@ -168,6 +168,137 @@
             "exclude": [
               "**/node_modules/**"
             ]
+          }
+        }
+      }
+    },
+    "openapi-viewer-page": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/openapi-viewer-page",
+      "sourceRoot": "projects/openapi-viewer-page/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/openapi-viewer-page",
+            "index": "projects/openapi-viewer-page/src/index.html",
+            "main": "projects/openapi-viewer-page/src/main.ts",
+            "polyfills": "projects/openapi-viewer-page/src/polyfills.ts",
+            "tsConfig": "projects/openapi-viewer-page/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/openapi-viewer-page/src/assets",
+              {
+                "input": "projects/openapi-viewer-page",
+                "glob": "package.json",
+                "output": "./"
+              }
+            ],
+            "styles": [
+              "projects/openapi-viewer-page/src/styles.scss"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/openapi-viewer-page/src/environments/environment.ts",
+                  "with": "projects/openapi-viewer-page/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "es5": {
+              "tsConfig": "projects/openapi-viewer-page/tsconfig.es5.app.json"
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "openapi-viewer-page:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "openapi-viewer-page:build:production"
+            },
+            "es5": {
+              "browserTarget": "openapi-viewer-page:build:es5"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "openapi-viewer-page:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/openapi-viewer-page/src/test.ts",
+            "polyfills": "projects/openapi-viewer-page/src/polyfills.ts",
+            "tsConfig": "projects/openapi-viewer-page/tsconfig.spec.json",
+            "karmaConfig": "projects/openapi-viewer-page/karma.conf.js",
+            "assets": [
+              "projects/openapi-viewer-page/src/favicon.ico",
+              "projects/openapi-viewer-page/src/assets"
+            ],
+            "styles": [
+              "projects/openapi-viewer-page/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/openapi-viewer-page/tsconfig.app.json",
+              "projects/openapi-viewer-page/tsconfig.spec.json",
+              "projects/openapi-viewer-page/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/openapi-viewer-page/e2e/protractor.conf.js",
+            "devServerTarget": "openapi-viewer-page:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "openapi-viewer-page:serve:production"
+            }
           }
         }
       }

@@ -1,7 +1,7 @@
 {
-  "name": "openapi-viewer",
+  "name": "@dhcode/openapi-viewer",
   "version": "0.0.1",
-  "description": "UI Components to display Swagger and OpenAPI RESTful API specifications.",
+  "description": "Angular Library to display Swagger and OpenAPI RESTful API specifications.",
   "keywords": [
     "OpenAPI",
     "JavaScript",
@@ -10,8 +10,7 @@
     "JSON",
     "viewer",
     "API Console",
-    "Swagger",
-    "Angular"
+    "Swagger"
   ],
   "author": "Dominik Herbst",
   "license": "MIT",

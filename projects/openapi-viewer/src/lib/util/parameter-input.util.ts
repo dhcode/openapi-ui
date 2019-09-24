@@ -78,7 +78,7 @@ function itemsType(obj: { items?: any } | any) {
   } else if (obj && obj.items) {
     return obj.items.type;
   }
-  console.log('items type not found', obj);
+  console.warn('items type not found', obj);
 }
 
 function getExample(param: BaseParameterObject, mediaType: string): any {

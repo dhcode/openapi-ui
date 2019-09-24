@@ -90,7 +90,6 @@ export class OperationComponent implements OnChanges, OnDestroy {
         this.responseType.value
       );
       const reqInfo = this.openApiService.runRequest(this.pathItem, this.operationItem, req);
-      console.log('request', req);
       this.requests.unshift(reqInfo);
       this.openRequest = reqInfo;
     } catch (e) {

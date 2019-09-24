@@ -56,7 +56,6 @@ export class IndexNavComponent implements OnInit, OnDestroy {
   }
 
   checkOpenTags(url: string) {
-    console.log('nav url', url);
     if (url.match(/\/(.+)\/(.+)/)) {
       const tag = RegExp.$1;
       this.openTags.add(tag);

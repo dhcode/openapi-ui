@@ -44,7 +44,6 @@ export class OpenapiViewerService {
       return null;
     }
 
-    console.log('loaded spec', resolveResult);
     this.spec.next(resolveResult.spec);
     this.tagIndex.next(getTagIndex(resolveResult.spec));
     this.authService.identifySchemes(resolveResult.spec);

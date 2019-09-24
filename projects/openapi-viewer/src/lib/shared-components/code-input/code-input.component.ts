@@ -137,7 +137,6 @@ export class CodeInputComponent implements OnChanges, ControlValueAccessor, OnIn
         const text = JSON.parse(this.value);
         if (!this.validate(text)) {
           this.errors = this.validate.errors.map(e => `${e.dataPath}: ${e.keyword} ${e.message}`);
-          console.log(this.validate.errors);
         }
       } catch (e) {
         this.errors = [e.message];

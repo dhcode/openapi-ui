@@ -1,4 +1,4 @@
-import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { OpenapiViewerComponent } from './openapi-viewer.component';
 import { CommonModule } from '@angular/common';
 import { OperationComponent } from './operation/operation.component';
@@ -34,7 +34,6 @@ import { IndexNavEndpointsComponent } from './index-nav/index-nav-endpoints/inde
 import { OverviewViewEndpointsComponent } from './overview-view/overview-view-endpoints/overview-view-endpoints.component';
 import { ModelsViewComponent } from './models-view/models-view.component';
 import { JsonSchemaComponent } from './shared-components/json-schema/json-schema.component';
-import { createCustomElement } from '@angular/elements';
 
 @NgModule({
   declarations: [
@@ -79,11 +78,4 @@ import { createCustomElement } from '@angular/elements';
   ],
   exports: [OpenapiViewerComponent, OperationComponent]
 })
-export class OpenapiViewerModule implements DoBootstrap {
-  constructor(private injector: Injector) {}
-
-  ngDoBootstrap(appRef: ApplicationRef): void {
-    const OpenapiViewerElement = createCustomElement(OpenapiViewerComponent, { injector: this.injector });
-    customElements.define('oav-openapi-viewer', OpenapiViewerElement);
-  }
-}
+export class OpenapiViewerModule {}

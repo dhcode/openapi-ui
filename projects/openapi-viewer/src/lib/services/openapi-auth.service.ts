@@ -221,7 +221,6 @@ export class OpenapiAuthService {
   private async updateByCodeFlow(scheme: SecuritySchemeItem, credentials: OAuthCredentials, params: Record<string, string>) {
     const tokenUrl = getTokenBaseUrl(scheme.securityScheme, 'authorizationCode');
     credentials.token = await this.requestToken(tokenUrl, 'authorization_code', credentials, params.code).toPromise();
-    console.log('updated credentials', credentials);
     this.updateCredentials(name, credentials, true, true);
   }
 

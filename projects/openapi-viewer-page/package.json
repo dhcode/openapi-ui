@@ -1,0 +1,20 @@
+{
+  "name": "@dhcode/openapi-viewer-element",
+  "version": "0.0.1",
+  "description": "Webcomponent to display Swagger and OpenAPI RESTful API specifications.",
+  "keywords": [
+    "OpenAPI",
+    "JavaScript",
+    "JSON",
+    "viewer",
+    "API Console",
+    "Swagger"
+  ],
+  "author": "Dominik Herbst",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dhcode/openapi-ui.git"
+  },
+  "main": ""
+}

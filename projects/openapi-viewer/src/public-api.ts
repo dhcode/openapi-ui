@@ -7,4 +7,4 @@ export * from './lib/services/openapi-auth.service';
 export * from './lib/openapi-viewer.component';
 export * from './lib/openapi-viewer.module';
 export * from './lib/models/openapi-viewer.model';
-export { httpMethods } from './lib/openapi-viewer.constants';
+export * from './lib/models/openapi-viewer.settings';

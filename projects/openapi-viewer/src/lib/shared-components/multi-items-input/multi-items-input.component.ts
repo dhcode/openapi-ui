@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'oav-multi-items-input',
@@ -46,7 +46,7 @@ export class MultiItemsInputComponent implements OnInit, OnDestroy, ControlValue
     return typeof this.required !== 'undefined' || this.required === true;
   }
 
-  get controls() {
+  get controls(): AbstractControl[] {
     return this.values.controls;
   }
 

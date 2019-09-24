@@ -47,7 +47,6 @@ export class RequestViewComponent implements OnInit, OnDestroy {
 
     this.request.httpEvents.pipe(takeUntil(this.destroy)).subscribe(
       status => {
-        console.log('request status', status);
         if (status.type === HttpEventType.ResponseHeader || status.type === HttpEventType.Response) {
           this.setHeaders(status.headers);
         }
