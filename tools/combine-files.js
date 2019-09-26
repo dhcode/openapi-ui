@@ -10,9 +10,26 @@ if(!targetName || !basePath) {
   console.log(`Combine files in ${basePath} to ${targetName}-es2015.js and ${targetName}-es5.js`);
 }
 
-
+const fileOrder = [
+  /polyfills/,
+  /runtime/,
+  /main/
+];
 
 const files = fs.readdirSync(basePath);
+files.sort((a, b) => {
+  let iA = 0;
+  let iB = 0;
+  for(let i = 0; i<fileOrder.length; i++) {
+    if(fileOrder[i].test(a)) {
+      iA = i;
+    }
+    if(fileOrder[i].test(b)) {
+      iB = i;
+    }
+  }
+  return iA < iB ? -1 : iA > iB ? 1 : 0;
+});
 checkFiles(basePath, files, targetName).then(() => process.exit(0), error => {
   console.error(error);
   process.exit(1);

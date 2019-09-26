@@ -1,4 +1,4 @@
-# OpenAPI Viewer Components
+# OpenAPI Viewer Angular Component Library
 
 This Angular library contains components to show API documentation based on [Swagger v2 and OpenAPI v3 RESTful API specifications](https://swagger.io/specification/).
 
@@ -8,7 +8,27 @@ This UI is inspired by the [Swagger UI](https://github.com/swagger-api/swagger-u
 
 ## Usage
 
-Coming soon
+    npm install @dhcode/openapi-viewer
+    
+Add the `OpenapiViewerModule` to your module `imports`.
+
+Add the `oav-openapi-viewer` component to your template.
+
+    <oav-openapi-viewer specUrl="https://petstore.swagger.io/v2/swagger.json">
+
+You can use any Swagger v2 json file or OpenAPI v3 json or yaml file to load a specification.
+
+## Provide configuration
+
+To supply custom settings, you can provide them in your module `providers`.
+
+    {
+      provide: OavSettings,
+      useValue: new OavSettings({
+        showRawOperationDefinition: true,
+        showRawModelDefinition: true
+      })
+    }
 
 ## License
 

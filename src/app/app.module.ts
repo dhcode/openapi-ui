@@ -11,7 +11,15 @@ import { OavSettings } from '../../projects/openapi-viewer/src/lib/models/openap
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, OpenapiViewerModule, HttpClientModule, FormsModule],
-  providers: [{ provide: OavSettings, useValue: new OavSettings({ showRawOperationDefinition: true, showRawModelDefinition: true }) }],
+  providers: [
+    {
+      provide: OavSettings,
+      useValue: new OavSettings({
+        showRawOperationDefinition: true,
+        showRawModelDefinition: true
+      })
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

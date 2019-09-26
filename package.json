@@ -9,16 +9,19 @@
     "start:es5": "ng serve --configuration es5",
     "start:element": "ng serve openapi-viewer-page",
     "start:element:es5": "ng serve openapi-viewer-page --configuration es5",
-    "build": "ng build openapi-ui --prod --baseHref=/openapi-ui/",
-    "build:element": "ng build openapi-viewer-page --prod",
-    "package": "cd dist/openapi-viewer && npm pack",
+    "build": "npm run build:ui && npm run build:lib && npm run build:element",
+    "build:ui": "ng build openapi-ui --prod --baseHref=/openapi-ui/",
     "build:lib": "ng build openapi-viewer",
+    "build:stats": "ng build openapi-ui --prod --baseHref=/openapi-ui/ --statsJson=true",
+    "build:element": "ng build openapi-viewer-element --prod && node tools/combine-files.js dist/openapi-viewer-element openapi-viewer-element",
+    "package": "cd dist/openapi-viewer && npm pack",
     "test": "ng test",
     "test:lib": "ng test openapi-viewer",
     "test:lib:ci": "ng test openapi-viewer --watch=false --no-progress --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "gh-pages -d dist/openapi-ui -m 'auto commit [ci skip]'"
+    "deploy": "gh-pages -d dist/openapi-ui -m 'auto commit [ci skip]'",
+    "bundle-report": "webpack-bundle-analyzer dist/openapi-ui/stats-es2015.json"
   },
   "keywords": [
     "OpenAPI",
@@ -87,6 +90,7 @@
     "tsickle": "^0.35.0",
     "tslint": "~5.15.0",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "webpack-bundle-analyzer": "^3.5.1"
   }
 }

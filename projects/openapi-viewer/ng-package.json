@@ -3,5 +3,13 @@
   "dest": "../../dist/openapi-viewer",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "ajv",
+    "brace",
+    "ngx-ace-wrapper",
+    "ngx-markdown",
+    "openapi3-ts",
+    "swagger-client"
+  ]
 }

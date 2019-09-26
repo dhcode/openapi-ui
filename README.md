@@ -28,7 +28,13 @@ Open [localhost:4200](http://localhost:4200)
 
 ## Usage of the Angular Library
 
-Coming soon
+See [Angular library README](projects/openapi-viewer/README.md)
+
+## Usage of the Web component (custom element)
+
+See [Angular library README](projects/openapi-viewer-element/)
+
+
 
 
 ## Browser Compatibility
