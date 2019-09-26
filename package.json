@@ -11,7 +11,7 @@
     "start:element:es5": "ng serve openapi-viewer-page --configuration es5",
     "build": "npm run build:ui && npm run build:lib && npm run build:element",
     "build:ui": "ng build openapi-ui --prod --baseHref=/openapi-ui/",
-    "build:lib": "ng build openapi-viewer",
+    "build:lib": "node tools/patch-dependencies.js && ng build openapi-viewer",
     "build:stats": "ng build openapi-ui --prod --baseHref=/openapi-ui/ --statsJson=true",
     "build:element": "ng build openapi-viewer-element --prod && node tools/combine-files.js dist/openapi-viewer-element openapi-viewer-element",
     "package": "cd dist/openapi-viewer && npm pack",
