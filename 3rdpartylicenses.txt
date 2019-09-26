@@ -89,6 +89,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+@dhcode/openapi-viewer
+MIT
+
 @kyleshockey/object-assign-deep
 MIT
 
@@ -946,8 +949,6 @@ THE SOFTWARE.
 
 ngx-markdown
 MIT
-
-openapi-viewer
 
 punycode
 MIT
