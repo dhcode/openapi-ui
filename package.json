@@ -22,9 +22,9 @@
     "e2e": "ng e2e",
     "deploy": "gh-pages -d dist/openapi-ui -m 'auto commit [ci skip]'",
     "bundle-report": "webpack-bundle-analyzer dist/openapi-ui/stats-es2015.json",
-    "preversion": "npm run test:lib:ci && npm build",
+    "preversion": "npm run test:lib:ci",
     "version": "node tools/update-project-versions.js",
-    "postversion": "git push origin --tags",
+    "postversion": "npm run build && git push origin --tags",
     "release:patch": "npm version patch && node tools/publish-projects.js",
     "release:minor": "npm version minor && node tools/publish-projects.js"
   },

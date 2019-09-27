@@ -13,6 +13,6 @@ for (const projectName of fs.readdirSync(projectsDir)) {
   if (stat.isDirectory() && fs.existsSync(packageJson)) {
     console.log(`publish ${projectPath}`);
 
-    spawn(npmCmd, ['publish', '--access', 'public', projectPath], { cwd: projectPath, stdio: 'inherit' });
+    spawn(npmCmd, ['publish', '--access', 'public', '.'], { cwd: projectPath, stdio: 'inherit' });
   }
 }
