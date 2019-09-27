@@ -32,7 +32,7 @@ See [Angular library README](projects/openapi-viewer/README.md)
 
 ## Usage of the Web component (custom element)
 
-See [Angular library README](projects/openapi-viewer-element/)
+See [Web component README](projects/openapi-viewer-element/README.md)
 
 
 
