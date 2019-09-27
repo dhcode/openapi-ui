@@ -196,7 +196,7 @@
               "projects/openapi-viewer-element/src/assets",
               {
                 "input": "projects/openapi-viewer-element",
-                "glob": "package.json",
+                "glob": "@(package.json|README.md)",
                 "output": "./"
               }
             ],

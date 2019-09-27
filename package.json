@@ -9,7 +9,7 @@
     "start:es5": "ng serve --configuration es5",
     "start:element": "ng serve openapi-viewer-page",
     "start:element:es5": "ng serve openapi-viewer-page --configuration es5",
-    "build": "npm run build:ui && npm run build:lib && npm run build:element",
+    "build": "npm run build:lib && npm run build:ui && npm run build:element",
     "build:ui": "ng build openapi-ui --prod --baseHref=/openapi-ui/",
     "build:lib": "node tools/patch-dependencies.js && ng build openapi-viewer",
     "build:stats": "ng build openapi-ui --prod --baseHref=/openapi-ui/ --statsJson=true",
@@ -21,7 +21,12 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "gh-pages -d dist/openapi-ui -m 'auto commit [ci skip]'",
-    "bundle-report": "webpack-bundle-analyzer dist/openapi-ui/stats-es2015.json"
+    "bundle-report": "webpack-bundle-analyzer dist/openapi-ui/stats-es2015.json",
+    "preversion": "npm run test:lib:ci && npm build",
+    "version": "node tools/update-project-versions.js",
+    "postversion": "git push origin --tags",
+    "release:patch": "npm version patch && node tools/publish-projects.js",
+    "release:minor": "npm version minor && node tools/publish-projects.js"
   },
   "keywords": [
     "OpenAPI",
