@@ -10,7 +10,7 @@ $method-colors: (
   'trace': #87ac89
 );
 
-$hover-bg: #ebebeb;
+$hover-bg: #ffffff;
 $hover-color: #31b1ff;
 $active-color: #2681ac;
 $disabled-color: #ccc;
@@ -619,7 +619,7 @@ oav-method-header {
   }
 
   ol {
-    padding-left: 1rem;
+    padding-left: 0;
   }
 
   li {
@@ -633,7 +633,7 @@ oav-method-header {
     a {
       color: #000;
       text-decoration: none;
-      padding: 0.2em;
+      padding: 0.2em 0.2em 0.2em 1rem;
       box-sizing: border-box;
       display: block;
       position: relative;
@@ -643,7 +643,7 @@ oav-method-header {
       }
 
       .info-overlay {
-        padding: 0.2em;
+        padding: 0.2em 0.2em 0.2em 1rem;
         display: none;
         position: absolute;
         background: $hover-bg;
@@ -668,6 +668,8 @@ oav-method-header {
 
     a:active,
     a.active {
+      background: $hover-bg;
+      font-weight: bold;
       color: $active-color;
     }
   }
