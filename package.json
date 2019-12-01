@@ -96,6 +96,7 @@
     "tslint": "~5.15.0",
     "tslint-config-prettier": "1.18.0",
     "typescript": "~3.5.3",
+    "webdriver-manager": "^12.1.7",
     "webpack-bundle-analyzer": "^3.5.1"
   }
 }

@@ -1,15 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Optional,
-  SimpleChanges
-} from '@angular/core';
-import { OperationsItem, PathItem, TagIndex } from '../models/openapi-viewer.model';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { TagIndex } from '../models/openapi-viewer.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';

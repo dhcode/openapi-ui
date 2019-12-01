@@ -80,7 +80,8 @@ function updateModelsFromProperty(defaultName: string, schema: SchemaObject, add
     return parts.pop();
   }
   const refName = readModelName(schema);
-  if (schema.type === 'object') {
+  const type = readType(schema);
+  if (type === 'object') {
     if (!schema.properties && !schema.additionalProperties) {
       return null;
     }
@@ -109,6 +110,12 @@ function readType(schema: SchemaObject): string {
   if (typeof schema === 'boolean') {
     return 'boolean';
   }
+  if (schema.properties || schema.additionalProperties) {
+    return 'object';
+  }
+  if (schema.items || schema.additionalItems) {
+    return 'array';
+  }
   return null;
 }
 
@@ -119,6 +126,7 @@ function readModelName(schema: SchemaObject): string {
   }
   return undefined;
 }
+
 function readPropertiesOfObject(schema: SchemaObject): PropertyInfo[] {
   if (schema.properties) {
     const requiredFields = schema.required || [];
@@ -126,8 +134,8 @@ function readPropertiesOfObject(schema: SchemaObject): PropertyInfo[] {
   }
   return [];
 }
+
 function readProperty(name: string, schema: SchemaObject, required = false): PropertyInfo {
   const s = readSchema(schema);
-  const type = Array.isArray(s.type) ? s.type[0] : s.type;
-  return { name, type, schema: s, required };
+  return { name, type: readType(s), schema: s, required };
 }

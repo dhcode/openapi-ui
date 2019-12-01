@@ -1,3 +1,6 @@
+<div class="oav-json-schema-description ml-0" *ngIf="schema?.description">
+  <markdown [data]="schema?.description"></markdown>
+</div>
 <div *ngFor="let model of models">
   <ng-container *ngIf="model.type === 'object'">
     <div *ngIf="!model.open" class="oav-json-schema-code">
