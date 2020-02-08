@@ -1,2 +1,5 @@
 package.json
 dist
+coverage
+.idea
+node_modules

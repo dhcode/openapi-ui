@@ -23,14 +23,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/404.html"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets", "src/404.html"],
+            "styles": ["src/styles.scss"],
             "scripts": [
               {
                 "input": "node_modules/document-register-element/build/document-register-element.js"
@@ -50,7 +44,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -59,10 +52,20 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             },
             "es5": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "tsConfig": "./tsconfig.es5.app.json"
             }
           }
@@ -94,27 +97,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json", "e2e/tsconfig.json"],
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -147,6 +139,11 @@
           "options": {
             "tsConfig": "projects/openapi-viewer/tsconfig.lib.json",
             "project": "projects/openapi-viewer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openapi-viewer/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -161,13 +158,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "projects/openapi-viewer/tsconfig.lib.json",
-              "projects/openapi-viewer/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["projects/openapi-viewer/tsconfig.lib.json", "projects/openapi-viewer/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -191,7 +183,7 @@
             "main": "projects/openapi-viewer-element/src/main.ts",
             "polyfills": "projects/openapi-viewer-element/src/polyfills.ts",
             "tsConfig": "projects/openapi-viewer-element/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "projects/openapi-viewer-element/src/assets",
               {
@@ -200,9 +192,7 @@
                 "output": "./"
               }
             ],
-            "styles": [
-              "projects/openapi-viewer-element/src/styles.scss"
-            ]
+            "styles": ["projects/openapi-viewer-element/src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -217,7 +207,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -235,6 +224,12 @@
               ]
             },
             "es5": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "tsConfig": "projects/openapi-viewer-element/tsconfig.es5.app.json"
             }
           }
@@ -266,30 +261,23 @@
             "polyfills": "projects/openapi-viewer-element/src/polyfills.ts",
             "tsConfig": "projects/openapi-viewer-element/tsconfig.spec.json",
             "karmaConfig": "projects/openapi-viewer-element/karma.conf.js",
-            "assets": [
-              "projects/openapi-viewer-element/src/favicon.ico",
-              "projects/openapi-viewer-element/src/assets"
-            ],
-            "styles": [
-              "projects/openapi-viewer-element/src/styles.scss"
-            ],
+            "assets": ["projects/openapi-viewer-element/src/favicon.ico", "projects/openapi-viewer-element/src/assets"],
+            "styles": ["projects/openapi-viewer-element/src/styles.scss"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "projects/openapi-viewer-element/tsconfig.app.json",
-              "projects/openapi-viewer-element/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["projects/openapi-viewer-element/tsconfig.app.json", "projects/openapi-viewer-element/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
     }
   },
-  "defaultProject": "openapi-ui"
+  "defaultProject": "openapi-ui",
+  "cli": {
+    "analytics": "0f97ae6f-d627-472f-bd24-1a80532718e5"
+  }
 }

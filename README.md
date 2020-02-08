@@ -34,38 +34,34 @@ See [Angular library README](projects/openapi-viewer/README.md)
 
 See [Web component README](projects/openapi-viewer-element/README.md)
 
-
-
-
 ## Browser Compatibility
 
 This project aims to support the most common browsers.
 
-* Chrome
-* Firefox
-* Safari
-* Internet Explorer 11
-* Microsoft Edge
+- Chrome
+- Firefox
+- Safari
+- Internet Explorer 11
+- Microsoft Edge
 
 ## Not supported features
 
-* Example values for XML
+- Example values for XML
 
 ## TODO
 
-* Integrate OAuth authentication support
-* Integrate support for [links](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#linkObject)
-* Show generated commandline for curl
-* Show generated code for JavaScript and other languages
-* Increase test coverage
-* Publish library to npm
+- Integrate support for [links](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#linkObject)
+- Show generated commandline for curl
+- Show generated code for JavaScript and other languages
+- Increase test coverage
+- Publish library to npm
 
 ## Other libraries used
 
-* [ngx-ace-wrapper](https://github.com/zefoy/ngx-ace-wrapper) + [brace](https://github.com/thlorenz/brace) + [ace](https://github.com/ajaxorg/ace) to show nicely formatted code
-* [ngx-markdown](https://github.com/jfcere/ngx-markdown) + [marked](https://github.com/markedjs/marked) to show nicely formatted descriptions, if markdown was used in a specification
-* [swagger-client](https://github.com/swagger-api/swagger-js) to parse specifications and to create HTTP requests based on parameters
-* [openapi3-ts](https://github.com/metadevpro/openapi3-ts) for OpenAPI specification typings
+- [ngx-ace-wrapper](https://github.com/zefoy/ngx-ace-wrapper) + [brace](https://github.com/thlorenz/brace) + [ace](https://github.com/ajaxorg/ace) to show nicely formatted code
+- [ngx-markdown](https://github.com/jfcere/ngx-markdown) + [marked](https://github.com/markedjs/marked) to show nicely formatted descriptions, if markdown was used in a specification
+- [swagger-client](https://github.com/swagger-api/swagger-js) to parse specifications and to create HTTP requests based on parameters
+- [openapi3-ts](https://github.com/metadevpro/openapi3-ts) for OpenAPI specification typings
 
 ## License
 

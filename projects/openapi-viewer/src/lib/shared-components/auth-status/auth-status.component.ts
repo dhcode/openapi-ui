@@ -27,7 +27,7 @@ export class AuthStatusComponent implements OnChanges, OnInit, OnDestroy {
   @Input() operation: OperationObject;
 
   @ViewChild(CdkPortal, { static: true }) portal: CdkPortal;
-  @ViewChild('statusIcon', { static: false }) statusIcon: ElementRef;
+  @ViewChild('statusIcon') statusIcon: ElementRef;
 
   authStatus: AuthStatus;
 

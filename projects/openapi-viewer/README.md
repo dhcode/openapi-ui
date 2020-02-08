@@ -11,7 +11,7 @@ This UI is inspired by the [Swagger UI](https://github.com/swagger-api/swagger-u
 ## Usage
 
     npm install @dhcode/openapi-viewer
-    
+
 Add the `OpenapiViewerModule` to your module `imports`.
 
 Add the `oav-openapi-viewer` component to your template.

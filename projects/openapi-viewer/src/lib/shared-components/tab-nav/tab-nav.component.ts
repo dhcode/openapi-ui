@@ -31,7 +31,7 @@ export class TabNavComponent implements OnDestroy, OnChanges {
 
   constructor() {}
 
-  @ContentChildren(TabNavItemDirective)
+  @ContentChildren(TabNavItemDirective, { descendants: true })
   set tabList(tabs: QueryList<TabNavItemDirective>) {
     if (tabs) {
       this.tabs = tabs.toArray();
