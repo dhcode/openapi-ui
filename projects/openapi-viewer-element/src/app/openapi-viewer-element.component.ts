@@ -23,7 +23,9 @@ export class OpenapiViewerElementComponent implements OnInit {
   constructor(private router: Router, private settingsService: OavSettings) {}
 
   ngOnInit(): void {
-    if (this.settings && typeof this.settings === 'object') {
+    if (this.settings && typeof this.settings === 'string') {
+      Object.assign(this.settingsService, JSON.parse(this.settings));
+    } else if (this.settings && typeof this.settings === 'object') {
       Object.assign(this.settingsService, this.settings);
     }
     this.router.initialNavigation();

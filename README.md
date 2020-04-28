@@ -13,12 +13,30 @@ It is developed as Angular Library and Angular App.
 
 ## Current state
 
-This project is currently **in development**. It is not intended for production use.
-But you can try it out and see if it works with your API specification.
+This project is in its early stages. You can try it out and see if it works with your API specification.
 
 If you find any issues please report them. Thank you.
 
-## Usage of the Angular App
+## Usage of the Web component (custom element)
+
+See [Web component README](projects/openapi-viewer-element/README.md)
+
+```html
+<oav-openapi-viewer-element
+  specurl="https://petstore.swagger.io/v2/swagger.json"
+  settings='{"showRawOperationDefinition":true}'
+></oav-openapi-viewer-element>
+<script src="//unpkg.com/@dhcode/openapi-viewer-element/openapi-viewer-element-es2015.js" type="module"></script>
+<script src="//unpkg.com/@dhcode/openapi-viewer-element/openapi-viewer-element-es5.js" nomodule defer></script>
+```
+
+
+## Usage of the Angular Library
+
+See [Angular library README](projects/openapi-viewer/README.md)
+
+
+## Usage of the Angular App (for development)
 
     git clone https://github.com/dhcode/openapi-ui.git
     npm install
@@ -26,13 +44,6 @@ If you find any issues please report them. Thank you.
 
 Open [localhost:4200](http://localhost:4200)
 
-## Usage of the Angular Library
-
-See [Angular library README](projects/openapi-viewer/README.md)
-
-## Usage of the Web component (custom element)
-
-See [Web component README](projects/openapi-viewer-element/README.md)
 
 ## Browser Compatibility
 
