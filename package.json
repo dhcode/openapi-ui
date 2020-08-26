@@ -63,9 +63,9 @@
     "document-register-element": "^1.7.2",
     "ngx-ace-wrapper": "^8.0.0",
     "ngx-markdown": "^8.2.2",
-    "openapi3-ts": "^1.3.0",
+    "openapi3-ts": "^1.4.0",
     "rxjs": "^6.5.5",
-    "swagger-client": "^3.10.0",
+    "swagger-client": "^3.10.12",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.3"
   },

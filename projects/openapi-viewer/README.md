@@ -10,6 +10,9 @@ This UI is inspired by the [Swagger UI](https://github.com/swagger-api/swagger-u
 
 ## Usage
 
+The Angular CDK is required as a peer dependency.
+
+    npm install @angular/cdk
     npm install @dhcode/openapi-viewer
 
 Add the `OpenapiViewerModule` to your module `imports`.
