@@ -1,4 +1,6 @@
 @import '~@angular/cdk/overlay-prebuilt.css';
+@import '~codemirror/lib/codemirror.css';
+@import '~codemirror/theme/eclipse.css';
 
 $method-colors: (
   'get': #2681ac,
@@ -144,7 +146,7 @@ $line-color: #ccc;
     color: #fb9200;
   }
 
-  .ace_editor {
+  .CodeMirror {
     border: 1px solid $line-color;
   }
 }

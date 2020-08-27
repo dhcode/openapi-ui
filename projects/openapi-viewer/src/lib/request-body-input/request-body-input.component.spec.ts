@@ -6,8 +6,8 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MultiItemsInputComponent } from '../shared-components/multi-items-input/multi-items-input.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { CodeInputComponent } from '../shared-components/code-input/code-input.component';
-import { AceModule } from 'ngx-ace-wrapper';
 import { JsonSchemaComponent } from '../shared-components/json-schema/json-schema.component';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 describe('RequestBodyInputComponent', () => {
   let component: RequestBodyInputComponent;
@@ -16,7 +16,7 @@ describe('RequestBodyInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, MarkdownModule, AceModule],
+      imports: [FormsModule, ReactiveFormsModule, MarkdownModule, CodemirrorModule],
       declarations: [RequestBodyInputComponent, ParameterComponent, MultiItemsInputComponent, CodeInputComponent, JsonSchemaComponent]
     }).compileComponents();
   }));

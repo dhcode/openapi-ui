@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { ParameterComponent } from './parameter.component';
 import { MultiItemsInputComponent } from '../shared-components/multi-items-input/multi-items-input.component';
 import { DebugElement } from '@angular/core';
@@ -7,8 +7,8 @@ import { By } from '@angular/platform-browser';
 import { ParameterObject } from 'openapi3-ts';
 import { MarkdownModule } from 'ngx-markdown';
 import { CodeInputComponent } from '../shared-components/code-input/code-input.component';
-import { AceComponent, AceModule } from 'ngx-ace-wrapper';
 import { JsonSchemaComponent } from '../shared-components/json-schema/json-schema.component';
+import { CodemirrorComponent, CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 describe('ParameterComponent', () => {
   let fixture: ComponentFixture<ParameterComponent>;
@@ -17,7 +17,7 @@ describe('ParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, MarkdownModule.forRoot(), AceModule],
+      imports: [FormsModule, ReactiveFormsModule, MarkdownModule.forRoot(), CodemirrorModule],
       declarations: [ParameterComponent, MultiItemsInputComponent, CodeInputComponent, JsonSchemaComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(ParameterComponent);
@@ -115,9 +115,9 @@ describe('ParameterComponent', () => {
     expect(component.formGroup.get('body')).toBeDefined();
     expect(component.formGroup.get('body').value).toEqual(JSON.stringify({ name: '', tag: '' }, null, 2));
 
-    const input = element.query(By.directive(AceComponent));
-    const ace: AceComponent = input.componentInstance;
-    input.componentInstance.valueChange.next('{}');
+    const input = element.query(By.directive(CodemirrorComponent));
+    const dir = input.injector.get(NgModel);
+    dir.control.setValue('{}');
     expect(component.formGroup.get('body').value).toEqual('{}');
   });
 });

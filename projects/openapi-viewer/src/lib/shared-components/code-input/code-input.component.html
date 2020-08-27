@@ -1,4 +1,4 @@
 <div>
-  <ace [config]="config" [mode]="mode" [value]="value" (valueChange)="updateValue($event)"></ace>
+  <ngx-codemirror [ngModel]="value" (ngModelChange)="updateValue($event)" [options]="config"></ngx-codemirror>
 </div>
 <div *ngFor="let err of errors" class="oav-error">{{ err }}</div>

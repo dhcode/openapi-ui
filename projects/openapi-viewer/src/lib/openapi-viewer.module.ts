@@ -28,12 +28,12 @@ import { PortalModule } from '@angular/cdk/portal';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { TooltipComponent } from './shared-components/tooltip/tooltip.component';
 import { TooltipDirective } from './shared-components/tooltip/tooltip.directive';
-import { AceModule } from 'ngx-ace-wrapper';
 import { CodeInputComponent } from './shared-components/code-input/code-input.component';
 import { IndexNavEndpointsComponent } from './index-nav/index-nav-endpoints/index-nav-endpoints.component';
 import { OverviewViewEndpointsComponent } from './overview-view/overview-view-endpoints/overview-view-endpoints.component';
 import { ModelsViewComponent } from './models-view/models-view.component';
 import { JsonSchemaComponent } from './shared-components/json-schema/json-schema.component';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 @NgModule({
   declarations: [
@@ -74,7 +74,7 @@ import { JsonSchemaComponent } from './shared-components/json-schema/json-schema
     MarkdownModule.forRoot(),
     PortalModule,
     OverlayModule,
-    AceModule
+    CodemirrorModule
   ],
   exports: [OpenapiViewerComponent, OperationComponent]
 })

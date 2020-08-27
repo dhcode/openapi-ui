@@ -10,10 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AceConfigInterface } from 'ngx-ace-wrapper';
-import 'brace';
-import 'brace/mode/json';
-import 'brace/mode/xml';
+import 'codemirror/mode/javascript/javascript';
 import { ValidateFunction } from 'ajv';
 import { getValidationFunction } from '../../util/validation.util';
 import { Subject } from 'rxjs';
@@ -33,7 +30,7 @@ import { debounceTime } from 'rxjs/operators';
   ]
 })
 export class CodeInputComponent implements OnChanges, ControlValueAccessor, OnInit, OnDestroy {
-  config: AceConfigInterface = {};
+  config: Record<string, any> = {};
 
   disabled = false;
 
@@ -84,10 +81,11 @@ export class CodeInputComponent implements OnChanges, ControlValueAccessor, OnIn
 
   updateConfig() {
     this.config = {
-      minLines: this.minLines,
-      maxLines: this.maxLines,
-      wrap: true,
-      tabSize: 2
+      lineNumbers: true,
+      theme: 'eclipse',
+      mode: 'javascript',
+      tabSize: 2,
+      lineWrapping: true
     };
     if (this.readonly || this.readonly === '') {
       this.config.readOnly = true;
