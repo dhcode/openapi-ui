@@ -24,7 +24,8 @@
     "codemirror": "^5.57.0",
     "ngx-markdown": "^8.1.0",
     "openapi3-ts": "^1.4.0",
-    "swagger-client": "^3.10.12"
+    "swagger-client": "^3.10.12",
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/common": ">8.0.0",
