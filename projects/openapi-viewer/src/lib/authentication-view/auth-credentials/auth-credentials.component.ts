@@ -19,11 +19,12 @@ import { randomHex } from '../../util/data-generator.util';
   styles: []
 })
 export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
-  displayMode: 'unknown' | 'apiKey' | 'usernamePassword' | 'oauth' = 'unknown';
+  displayMode: 'unknown' | 'apiKey' | 'usernamePassword' | 'bearerToken' | 'oauth' = 'unknown';
 
   username = new FormControl('');
   password = new FormControl('');
   apiKey = new FormControl('');
+  bearerToken = new FormControl('');
   clientId = new FormControl('');
   clientSecret = new FormControl('');
   scopes = new FormArray([]);
@@ -69,9 +70,13 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
 
   checkScheme() {
     const type: string = this.securityScheme.securityScheme.type;
+    const scheme: string = this.securityScheme.securityScheme.scheme;
     if (type === 'apiKey') {
       this.displayMode = 'apiKey';
       this.readApiKey();
+    } else if (type === 'http' && scheme === 'bearer') {
+      this.displayMode = 'bearerToken';
+      this.readBearerToken();
     } else if (type === 'http' || type === 'basic') {
       this.displayMode = 'usernamePassword';
       this.readHttpCredentials();
@@ -92,6 +97,15 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
       this.apiKey.patchValue(this.securityScheme.credentials);
     } else {
       this.apiKey.patchValue('');
+    }
+  }
+
+  readBearerToken() {
+    this.formGroup = new FormGroup({ apiKey: this.bearerToken, remember: this.remember });
+    if (typeof this.securityScheme.credentials === 'string') {
+      this.bearerToken.patchValue(this.securityScheme.credentials);
+    } else {
+      this.bearerToken.patchValue('');
     }
   }
 
@@ -163,6 +177,14 @@ export class AuthCredentialsComponent implements OnInit, OnChanges, OnDestroy {
   save() {
     if (this.displayMode === 'apiKey') {
       this.authService.updateCredentials(this.securityScheme.name, this.apiKey.value, this.apiKey.value.length > 0, this.remember.value);
+    }
+    if (this.displayMode === 'bearerToken') {
+      this.authService.updateCredentials(
+        this.securityScheme.name,
+        this.bearerToken.value,
+        this.bearerToken.value.length > 0,
+        this.remember.value
+      );
     }
     if (this.displayMode === 'usernamePassword') {
       this.authService.updateCredentials(
