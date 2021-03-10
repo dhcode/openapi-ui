@@ -1,6 +1,6 @@
-@import '~@angular/cdk/overlay-prebuilt.css';
-@import '~codemirror/lib/codemirror.css';
-@import '~codemirror/theme/eclipse.css';
+@import '../../../../node_modules/@angular/cdk/overlay-prebuilt.css';
+@import '../../../../node_modules/codemirror/lib/codemirror.css';
+@import '../../../../node_modules/codemirror/theme/eclipse.css';
 
 $method-colors: (
   'get': #2681ac,

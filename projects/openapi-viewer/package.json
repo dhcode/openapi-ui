@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "ajv": "^6.10.2",
-    "@ctrl/ngx-codemirror": "^4.0.0",
+    "@ctrl/ngx-codemirror": "^4.1.0",
     "codemirror": "^5.57.0",
-    "ngx-markdown": "^8.1.0",
+    "ngx-markdown": "^11.1.2",
     "openapi3-ts": "^1.4.0",
     "swagger-client": "^3.10.12",
     "tslib": "^2.0.0"
