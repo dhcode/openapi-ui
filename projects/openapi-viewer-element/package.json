@@ -1,6 +1,6 @@
 {
   "name": "@dhcode/openapi-viewer-element",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Webcomponent to display Swagger and OpenAPI RESTful API specifications.",
   "keywords": [
     "OpenAPI",
