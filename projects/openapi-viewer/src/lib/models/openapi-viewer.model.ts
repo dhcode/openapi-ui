@@ -2,7 +2,7 @@ import { OperationObject, ParameterObject, ResponseObject, SecuritySchemeObject,
 import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'trace';
+export type HttpMethod = 'get' | 'put' | 'patch' | 'post' | 'delete' | 'options' | 'head' | 'trace';
 
 export type AuthStatus = 'none' | 'required' | 'ok';
 
