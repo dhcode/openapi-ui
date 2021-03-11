@@ -1,11 +1,12 @@
-@use '~@angular/cdk/overlay-prebuilt.css';
-@use '~codemirror/lib/codemirror.css';
-@use '~codemirror/theme/eclipse.css';
+@use '@angular/cdk/overlay-prebuilt.css';
+@use 'codemirror/lib/codemirror.css';
+@use 'codemirror/theme/eclipse.css';
 
 $method-colors: (
   'get': #2681ac,
   'post': #25ac20,
   'put': #ac700e,
+  'patch': #0eacac,
   'delete': #ac0003,
   'options': #ac03a6,
   'head': #87aaac,
