@@ -2,11 +2,11 @@
   <h1>Authentication schemes</h1>
 
   <div *ngFor="let scheme of schemes">
-    <h3>
+    <h2>
       {{ scheme.name }}
       <span class="oav-auth-status ml-1" [class.required]="!scheme.authenticated" [class.ok]="scheme.authenticated"></span>
       <span class="ml-1 normal-text">({{ scheme.securityScheme.type }})</span>
-    </h3>
+    </h2>
 
     <markdown *ngIf="scheme.securityScheme.description" [data]="scheme.securityScheme.description"></markdown>
 

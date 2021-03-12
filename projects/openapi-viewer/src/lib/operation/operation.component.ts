@@ -78,8 +78,7 @@ export class OperationComponent implements OnChanges, OnDestroy {
       let contentType = '';
       if (parameters.requestBody) {
         contentType = parameters.requestBody.contentType;
-        requestBody = { ...parameters.requestBody };
-        delete requestBody.contentType;
+        requestBody = parameters.requestBody.requestBody;
         delete parameters.requestBody;
       }
       const req = this.openApiService.createRequest(

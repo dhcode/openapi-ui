@@ -117,7 +117,12 @@ export class OpenapiViewerService {
     };
 
     this.requests.push(reqInfo);
-    const headers = new HttpHeaders(request.headers);
+    let headers = new HttpHeaders();
+    for (const [name, value] of Object.entries(request.headers)) {
+      if (value !== '') {
+        headers = headers.append(name, value);
+      }
+    }
 
     const sub = this.http
       .request(
