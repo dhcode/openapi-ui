@@ -35,10 +35,15 @@ export class OpenapiAuthService {
     this.securitySchemes.next(getSecurityInformation(spec));
     if (Array.isArray(spec.security)) {
       this.globalRequirements = spec.security;
+    } else {
+      this.globalRequirements = [];
     }
   }
 
   getAllRequirements(requirement?: SecurityRequirementObject[]): SecurityRequirementObject[] {
+    if (JSON.stringify(this.globalRequirements) === JSON.stringify(requirement)) {
+      return this.globalRequirements.filter(reqObject => Object.keys(reqObject).length > 0);
+    }
     return [...this.globalRequirements, ...(requirement || [])].filter(reqObject => Object.keys(reqObject).length > 0);
   }
 
@@ -46,15 +51,20 @@ export class OpenapiAuthService {
     const result: SecurityRequirementStatus[][] = [];
     for (const reqs of this.getAllRequirements(requirement)) {
       result.push(
-        Object.keys(reqs).map(reqName => {
-          const schemaItem = this.getSchema(reqName);
-          return {
-            name: reqName,
-            scopes: reqs[reqName],
-            securityScheme: schemaItem.securityScheme,
-            authenticated: schemaItem.authenticated
-          };
-        })
+        Object.keys(reqs)
+          .map(reqName => {
+            const schemaItem = this.getSchema(reqName);
+            if (schemaItem) {
+              return {
+                name: reqName,
+                scopes: reqs[reqName],
+                securityScheme: schemaItem.securityScheme,
+                authenticated: schemaItem.authenticated
+              };
+            }
+            return null;
+          })
+          .filter(s => !!s)
       );
     }
     return result;

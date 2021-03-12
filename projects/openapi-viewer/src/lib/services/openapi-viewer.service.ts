@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OpenAPIObject, OperationObject, ParameterObject, PathItemObject } from 'openapi3-ts';
+import { OpenAPIObject, OperationObject, ParameterObject, PathItemObject, ServerObject } from 'openapi3-ts';
 import Swagger from 'swagger-client';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { OavRequest, OperationsItem, PathItem, SecurityCredentials, SwaggerRequest, TagIndex } from '../models/openapi-viewer.model';
@@ -12,9 +12,11 @@ import { OpenapiAuthService } from './openapi-auth.service';
 export class OpenapiViewerService {
   readonly spec = new BehaviorSubject<OpenAPIObject>(null);
   readonly tagIndex = new BehaviorSubject<TagIndex[]>([]);
+  readonly servers = new BehaviorSubject<ServerObject[]>([]);
   readonly loadErrors = new BehaviorSubject([]);
 
   private operationParameterCache: Record<string, any> = {};
+  public currentServer: ServerObject = null;
 
   private requests: OavRequest[] = [];
 
@@ -45,8 +47,11 @@ export class OpenapiViewerService {
     }
 
     this.spec.next(resolveResult.spec);
+    this.servers.next(getServers(resolveResult.spec));
     this.tagIndex.next(getTagIndex(resolveResult.spec));
     this.authService.identifySchemes(resolveResult.spec);
+
+    this.currentServer = this.servers.value[0];
     this.operationParameterCache = {};
     if (resolveResult.errors && resolveResult.errors.length) {
       this.loadErrors.next(resolveResult.errors);
@@ -84,8 +89,8 @@ export class OpenapiViewerService {
       contextUrl: undefined,
       userFetch: undefined,
       requestBody,
-      server: undefined,
-      serverVariables: undefined,
+      server: this.currentServer?.url,
+      serverVariables: this.currentServer?.variables,
       http: undefined
     };
 
@@ -179,6 +184,8 @@ export class OpenapiViewerService {
 
   resetSpec() {
     this.spec.next(null);
+    this.servers.next([]);
+    this.currentServer = null;
     this.tagIndex.next([]);
     this.loadErrors.next([]);
     this.requests = [];
@@ -186,8 +193,33 @@ export class OpenapiViewerService {
   }
 }
 
+function getServers(spec: OpenAPIObject): ServerObject[] {
+  if (spec.servers) {
+    return spec.servers;
+  }
+  return [];
+}
+
 function getTagIndex(spec: OpenAPIObject): TagIndex[] {
-  return (spec.tags || [{ name: 'untagged' }]).map(tag => ({
+  if (spec.tags) {
+    return spec.tags.map(tag => ({
+      tag,
+      paths: getPathsByTag(spec, tag.name)
+    }));
+  }
+  const tags = new Set<string>();
+  for (const methods of Object.values(spec.paths)) {
+    for (const op of Object.values(methods)) {
+      const obj = op as OperationObject;
+      if (obj.tags && obj.tags.length) {
+        obj.tags.forEach(t => tags.add(t));
+      }
+    }
+  }
+
+  const tagsArr = tags.size ? [...tags].map(t => ({ name: t })) : [{ name: 'untagged' }];
+
+  return tagsArr.map(tag => ({
     tag,
     paths: getPathsByTag(spec, tag.name)
   }));
@@ -209,20 +241,20 @@ function getPathsByTag(spec: OpenAPIObject, tag: string): PathItem[] {
         servers: pathObject.servers,
         operations: null
       };
-      pathItem.operations = getOperationsOfPath(pathObject, pathItem.parameters);
+      pathItem.operations = getOperationsOfPath(pathObject, path, pathItem.parameters);
       result.push(pathItem);
     }
   }
   return result;
 }
 
-function getOperationsOfPath(pathObject: PathItemObject, parentParameters?: ParameterObject[]): OperationsItem[] {
+function getOperationsOfPath(pathObject: PathItemObject, path: string, parentParameters?: ParameterObject[]): OperationsItem[] {
   const ops: OperationsItem[] = [];
   for (const method of httpMethods) {
     const operation: OperationObject = pathObject[method];
     if (operation) {
       if (!operation.operationId) {
-        operation.operationId = 'op-' + randomHex(8);
+        operation.operationId = `${method}_${path.replace(/\W/g, '_')}`;
       }
       const parameters = [];
       if (parentParameters) {

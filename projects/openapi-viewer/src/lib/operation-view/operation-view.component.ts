@@ -36,6 +36,7 @@ export class OperationViewComponent implements OnInit, OnDestroy {
     this.pathItem = null;
     this.operationItem = null;
     this.tag = tag;
+    this.error = null;
     const tagIndex = index.find(idx => idx.tag.name === tag);
     if (!tagIndex) {
       this.error = 'noTagFound';

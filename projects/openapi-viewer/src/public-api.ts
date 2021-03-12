@@ -9,3 +9,4 @@ export * from './lib/openapi-viewer.module';
 export * from './lib/models/openapi-viewer.model';
 export * from './lib/models/openapi-viewer.settings';
 export * from './lib/operation/operation.component';
+export * from 'openapi3-ts';

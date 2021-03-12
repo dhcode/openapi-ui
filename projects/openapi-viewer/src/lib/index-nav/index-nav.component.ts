@@ -46,13 +46,13 @@ export class IndexNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
   checkOpenTags(url: string) {
-    if (url.match(/\/(.+)\/(.+)/)) {
+    if (url.match(/\/([^\/]+)\/([^\/]+)$/)) {
       const tag = RegExp.$1;
-      this.openTags.add(tag);
+      this.openTags.add(decodeURIComponent(tag));
     }
   }
 }

@@ -23,6 +23,9 @@
 
     <ng-container *ngIf="!loading && !error && index.length">
       <aside class="oav-index-container" [class.open]="openMenu.open">
+        <select class="oav-server-select" *ngIf="servers.length > 1" [ngModel]="currentServerUrl" (ngModelChange)="switchServer($event)">
+          <option *ngFor="let s of servers" [value]="s.url">{{ s.description || s.url }}</option>
+        </select>
         <oav-index-nav [index]="index"></oav-index-nav>
       </aside>
       <section class="oav-view-container" [class.open]="openMenu.open">

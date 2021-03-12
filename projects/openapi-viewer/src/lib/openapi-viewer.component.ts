@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { OpenapiViewerService } from './services/openapi-viewer.service';
-import { OpenAPIObject } from 'openapi3-ts';
+import { OpenAPIObject, ServerObject } from 'openapi3-ts';
 import { TagIndex } from './models/openapi-viewer.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -24,6 +24,7 @@ export class OpenapiViewerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() specUrl: string;
 
   index: TagIndex[] = [];
+  servers: ServerObject[] = [];
 
   loading = false;
 
@@ -35,13 +36,24 @@ export class OpenapiViewerComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private openApiService: OpenapiViewerService) {}
 
+  get currentServerUrl(): string {
+    return this.openApiService.currentServer?.url;
+  }
+
   ngOnInit(): void {
     this.openApiService.tagIndex.pipe(takeUntil(this.destroy)).subscribe(tagIndex => {
       this.index = tagIndex;
     });
+    this.openApiService.servers.pipe(takeUntil(this.destroy)).subscribe(servers => {
+      this.servers = servers;
+    });
     this.openApiService.loadErrors.pipe(takeUntil(this.destroy)).subscribe(errors => {
       this.loadErrors = errors;
     });
+  }
+
+  switchServer(url: string): void {
+    this.openApiService.currentServer = this.servers.find(s => s.url === url);
   }
 
   loadSpec(promise: Promise<OpenAPIObject>) {

@@ -1,10 +1,19 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  Renderer2,
+  SimpleChanges
+} from '@angular/core';
 
 @Directive({
   selector: '[oavOpenable]',
   exportAs: 'openable'
 })
-export class OpenableDirective implements AfterViewInit {
+export class OpenableDirective implements AfterViewInit, OnChanges {
   @Input() oavOpenable = true;
 
   @Input() open = false;
@@ -17,11 +26,19 @@ export class OpenableDirective implements AfterViewInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.updateClass();
+  }
+
   @HostListener('click') onClick() {
     if (this.oavOpenable === false) {
       return;
     }
     this.open = !this.open;
+    this.updateClass();
+  }
+
+  private updateClass() {
     if (this.open) {
       this.renderer.addClass(this.element.nativeElement, 'open');
     } else {
