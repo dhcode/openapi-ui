@@ -8,7 +8,7 @@ import { httpMethods } from '../openapi-viewer.constants';
 import { randomHex } from '../util/data-generator.util';
 import { OpenapiAuthService } from './openapi-auth.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class OpenapiViewerService {
   readonly spec = new BehaviorSubject<OpenAPIObject>(null);
   readonly tagIndex = new BehaviorSubject<TagIndex[]>([]);
