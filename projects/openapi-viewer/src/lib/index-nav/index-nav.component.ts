@@ -30,6 +30,10 @@ export class IndexNavComponent implements OnInit, OnDestroy {
     this.showModelsOverview = this.oavSettings.enableModelsOverview;
   }
 
+  get overviewPath(): string {
+    return this.oavSettings.overviewPath;
+  }
+
   ngOnInit() {
     this.checkOpenTags(this.router.routerState.snapshot.url);
     this.sub = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {

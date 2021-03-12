@@ -17,7 +17,7 @@ import { serializeQueryParams } from '../util/data-generator.util';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class OpenapiAuthService {
   readonly securitySchemes = new BehaviorSubject<SecuritySchemeItem[]>([]);
   /**

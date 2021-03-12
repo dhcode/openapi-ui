@@ -4,13 +4,12 @@ import { OpenAPIObject } from 'openapi3-ts';
 import { TagIndex } from './models/openapi-viewer.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { OpenapiAuthService } from './services/openapi-auth.service';
 
 @Component({
   selector: 'oav-openapi-viewer',
   templateUrl: './openapi-viewer.component.html',
   styleUrls: ['./openapi-viewer.scss'],
-  providers: [OpenapiAuthService, OpenapiViewerService],
+  providers: [],
   encapsulation: ViewEncapsulation.None
 })
 export class OpenapiViewerComponent implements OnInit, OnChanges, OnDestroy {

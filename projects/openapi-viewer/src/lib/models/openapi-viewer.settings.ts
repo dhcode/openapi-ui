@@ -43,5 +43,7 @@ export class OavSettings {
    * Show the models overview page
    */
   enableModelsOverview = true;
+
+  overviewPath = '';
 }
 export const defaultOavSettings = new OavSettings();

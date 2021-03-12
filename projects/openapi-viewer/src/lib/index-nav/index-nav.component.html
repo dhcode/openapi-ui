@@ -1,13 +1,13 @@
 <nav class="oav-index-nav">
   <ol class="oav-top-nav">
     <li>
-      <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
+      <a [routerLink]="overviewPath" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
     </li>
     <li *ngIf="showAuthentication">
-      <a routerLink="/auth" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Authentication</a>
+      <a routerLink="auth" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Authentication</a>
     </li>
     <li *ngIf="showModelsOverview">
-      <a routerLink="/models" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Models overview</a>
+      <a routerLink="models" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Models overview</a>
     </li>
   </ol>
 

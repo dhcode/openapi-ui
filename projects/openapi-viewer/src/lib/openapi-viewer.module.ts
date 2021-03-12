@@ -76,6 +76,6 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
     OverlayModule,
     CodemirrorModule
   ],
-  exports: [OpenapiViewerComponent, OperationComponent]
+  exports: [OpenapiViewerComponent, OperationComponent, IndexNavComponent, OpenableDirective, TooltipDirective]
 })
 export class OpenapiViewerModule {}
