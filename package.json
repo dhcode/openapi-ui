@@ -1,6 +1,6 @@
 {
   "name": "openapi-ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "UI to display Swagger and OpenAPI RESTful API specifications.",
   "scripts": {
     "ng": "ng",
