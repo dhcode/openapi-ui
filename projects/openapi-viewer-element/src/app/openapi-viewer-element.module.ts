@@ -3,7 +3,7 @@ import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
 
 import { OpenapiViewerElementComponent } from './openapi-viewer-element.component';
 import { createCustomElement } from '@angular/elements';
-import { OpenapiViewerModule } from '../../../openapi-viewer/src/lib/openapi-viewer.module';
+import { OpenapiViewerModule } from '@dhcode/openapi-viewer';
 import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({

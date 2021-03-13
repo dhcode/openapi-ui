@@ -16,8 +16,8 @@
     "types": ["node"],
     "lib": ["es2018", "dom"],
     "paths": {
-      "openapi-viewer": ["dist/openapi-viewer"],
-      "openapi-viewer/*": ["dist/openapi-viewer/*"]
+      "@dhcode/openapi-viewer": ["dist/openapi-viewer"],
+      "@dhcode/openapi-viewer/*": ["dist/openapi-viewer/*"]
     }
   }
 }

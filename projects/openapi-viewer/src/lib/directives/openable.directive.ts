@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-  OnChanges,
-  Renderer2,
-  SimpleChanges
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[oavOpenable]',

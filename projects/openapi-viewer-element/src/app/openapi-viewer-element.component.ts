@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OpenAPIObject } from 'openapi3-ts';
 import { Router } from '@angular/router';
-import { defaultOavSettings, OavSettings } from '../../../openapi-viewer/src/lib/models/openapi-viewer.settings';
+import { defaultOavSettings, OavSettings } from '@dhcode/openapi-viewer';
 
 @Component({
   templateUrl: './openapi-viewer-element.component.html',
