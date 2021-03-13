@@ -30,6 +30,12 @@ const displayModes = [
     getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
   },
   {
+    mode: 'boolean',
+    checkV2: (param: BaseParameterObject) => param.type === 'boolean',
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'boolean',
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
+  },
+  {
     mode: 'object',
     checkV2: (param: BaseParameterObject) => param.type === 'object',
     checkV3: (param: BaseParameterObject) => schemaType(param) === 'object' || (param.schema && (param.schema as SchemaObject).properties),
@@ -46,6 +52,12 @@ const displayModes = [
     checkV2: (param: BaseParameterObject) => param.type === 'array' && primitiveTypes.includes(itemsType(param)),
     checkV3: (param: BaseParameterObject) => schemaType(param) === 'array' && primitiveTypes.includes(itemsType(param.schema)),
     getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType)
+  },
+  {
+    mode: 'arrayWithObject',
+    checkV2: (param: BaseParameterObject) => param.type === 'array' && itemsType(param) === 'object',
+    checkV3: (param: BaseParameterObject) => schemaType(param) === 'array' && itemsType(param.schema) === 'object',
+    getDefault: (param: BaseParameterObject, mediaType: string) => getExample(param, mediaType, true)
   },
   {
     mode: 'array',
@@ -81,7 +93,17 @@ function itemsType(obj: { items?: any } | any) {
   console.warn('items type not found', obj);
 }
 
-function getExample(param: BaseParameterObject, mediaType: string): any {
+function getExample(param: BaseParameterObject, mediaType: string, onlyDefault = false): any {
+  if (param.type === 'array' && param.items && 'default' in param.items) {
+    return [param.items.default];
+  }
+  if (isPrimitiveType(param.type) && param.items && 'default' in param.items) {
+    return param.items.default;
+  }
+  if (onlyDefault) {
+    return;
+  }
+
   if (param.example !== undefined) {
     return param.example;
   }
@@ -90,12 +112,6 @@ function getExample(param: BaseParameterObject, mediaType: string): any {
   }
   if (param.schema) {
     return exampleFromSchema(param.schema);
-  }
-  if (param.type === 'array' && param.items && 'default' in param.items) {
-    return [param.items.default];
-  }
-  if (isPrimitiveType(param.type) && param.items && 'default' in param.items) {
-    return param.items.default;
   }
   return exampleFromSchema(param as any);
 }

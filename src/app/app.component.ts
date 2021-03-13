@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OpenAPIObject } from 'openapi3-ts';
 import { ActivatedRoute } from '@angular/router';
-import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-root',

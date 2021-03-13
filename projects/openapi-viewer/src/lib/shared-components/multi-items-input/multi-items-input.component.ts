@@ -15,6 +15,8 @@ import { AbstractControl, ControlValueAccessor, FormArray, FormControl, FormGrou
 export class MultiItemsInputComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() name: string;
 
+  @Input() type: string;
+
   @Input() required;
 
   disabled = false;

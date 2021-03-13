@@ -460,6 +460,10 @@ oav-method-header {
     box-sizing: border-box;
   }
 
+  oav-code-input {
+    flex-grow: 1;
+  }
+
   button {
     color: #fff;
     background-color: #a7a7ac;
@@ -473,6 +477,10 @@ oav-method-header {
   button:hover {
     background-color: #d4d4d9;
   }
+}
+
+.small-editor .CodeMirror {
+  height: 50px;
 }
 
 .oav-add-btn {

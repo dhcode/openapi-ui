@@ -1,7 +1,12 @@
 <ng-container [formGroup]="formGroup">
   <div [formArrayName]="name">
     <div class="multi-item-entry" *ngFor="let control of controls; let i = index">
-      <input type="text" [formControlName]="i.toString()" (blur)="onTouched()" />
+      <ng-container *ngIf="type === 'object'">
+        <oav-code-input [formControlName]="i.toString()" mode="json" class="small-editor"></oav-code-input>
+      </ng-container>
+      <ng-container *ngIf="type !== 'object'">
+        <input type="text" [formControlName]="i.toString()" (blur)="onTouched()" />
+      </ng-container>
       <button type="button" (click)="removeValue(i)" [disabled]="disabled">-</button>
     </div>
   </div>

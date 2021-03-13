@@ -22,6 +22,8 @@ export class ParameterComponent implements OnChanges, OnDestroy {
 
   enum: any[] = null;
 
+  itemType: string;
+
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -31,6 +33,9 @@ export class ParameterComponent implements OnChanges, OnDestroy {
 
     if (this.displayMode === 'object' || this.displayMode === 'array') {
       this.value = JSON.stringify(this.value, null, 2);
+    }
+    if (this.displayMode === 'arrayWithObject') {
+      this.itemType = 'object';
     }
 
     const validators = [];

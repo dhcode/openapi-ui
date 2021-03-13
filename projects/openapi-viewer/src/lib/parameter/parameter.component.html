@@ -29,6 +29,10 @@
       <input type="number" [formControlName]="parameter.name" [placeholder]="parameter.name" [name]="parameter.name" />
     </ng-container>
 
+    <ng-container *ngIf="displayMode === 'boolean'">
+      <input type="checkbox" [formControlName]="parameter.name" [name]="parameter.name" />
+    </ng-container>
+
     <ng-container *ngIf="displayMode === 'file'">
       <input type="file" [formControlName]="parameter.name" [placeholder]="parameter.name" [name]="parameter.name" />
     </ng-container>
@@ -43,14 +47,14 @@
       </select>
     </ng-container>
 
-    <ng-container *ngIf="displayMode === 'arrayWithPrimitive'">
-      <oav-multi-items-input [formControlName]="parameter.name"></oav-multi-items-input>
+    <ng-container *ngIf="displayMode === 'arrayWithPrimitive' || displayMode === 'arrayWithObject'">
+      <oav-multi-items-input [formControlName]="parameter.name" [type]="itemType"></oav-multi-items-input>
     </ng-container>
   </div>
   <div class="description">
     <markdown [data]="parameter.description"></markdown>
 
-    <ng-container *ngIf="displayMode === 'object' || displayMode === 'array'">
+    <ng-container *ngIf="displayMode === 'object' || displayMode === 'array' || displayMode === 'arrayWithObject'">
       <oav-json-schema [schema]="parameter.schema"></oav-json-schema>
     </ng-container>
   </div>
